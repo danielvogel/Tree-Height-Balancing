@@ -1,0 +1,6 @@
+void balance() {
+}
+
+void flatten() {
+}
+//...
