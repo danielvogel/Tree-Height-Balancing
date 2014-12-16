@@ -7,16 +7,16 @@
 
 .PHONY: all clean
 
-all : MQTTv3
+all : DEMO
 
-MQTTv3 : main.o 
+DEMO : main.o 
 	${CXX} $^ -o $@ ${LDFLAGS}
 
 
-main.o : main.cpp
+main.o : main.c
 	${CXX} -c $^ -o $@ ${CFLAGS}
 
 
 
 clean : 
-	#-rm -f *.o m MQTTv3
+	-rm -f *.o m DEMO
