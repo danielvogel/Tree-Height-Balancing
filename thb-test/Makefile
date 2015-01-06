@@ -5,7 +5,7 @@
 #CFLAGS=
 #LDFLAGS=
 CC=gcc
-CFLAGS=-c -Wall -ggdb -I/usr/local/include 
+CFLAGS=-c -Wall -ggdb -I/usr/local/include -I/../thb/src
 SOURCES= src/main.c src/thb_test.c
 DISTDIR= bin/
 ODIR= obj
