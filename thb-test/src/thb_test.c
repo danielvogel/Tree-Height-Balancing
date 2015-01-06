@@ -1,6 +1,6 @@
 #include "thb_test.h"
 
-int isBalanced(struct node *root, int* height)
+int isBalanced(Node *root, int* height)
 {
   /* lh --> Height of left subtree 
      rh --> Height of right subtree */   
