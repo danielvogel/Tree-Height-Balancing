@@ -1,21 +1,19 @@
 #ifndef THB_H
 #define	THB_H
 
-struct node{
+typedef struct node{
     char *data;
     struct node *left;
     struct node *right;
     int isRoot;
-};
-typedef struct node Node;
+} Node;
 
-struct list_item {
+
+typedef struct list_item {
     struct list_item *left;
     struct list_item *right;
     Node *data;
-};
-
-typedef struct list_item ListItem;
+} ListItem;
 
 
 /* functions for tree nodes*/
