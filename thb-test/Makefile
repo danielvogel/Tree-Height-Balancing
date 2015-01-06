@@ -6,7 +6,7 @@
 #LDFLAGS=
 CC=gcc
 CFLAGS=-c -Wall -ggdb -I/usr/local/include 
-SOURCES= src/main.c 
+SOURCES= src/main.c src/thb_test.c
 DISTDIR= bin/
 ODIR= obj
 SDIR= src
