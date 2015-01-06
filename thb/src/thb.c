@@ -35,6 +35,7 @@ Node *newNodeWithChildren(char *data, Node *left, Node *right){
 
 
 /* Functions for lists */
+/* source: http://perlgeek.de/de/artikel/doppelt-verkettete-listen */
 ListItem * new_list(){
 	struct list_item *new = (struct list_item*) malloc(sizeof(struct list_item));
 	new->data  = NULL;
