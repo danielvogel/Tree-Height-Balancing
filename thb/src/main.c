@@ -29,34 +29,37 @@ void print_all(ListItem* list){
 
 ListItem* initTrees(){
            
-    struct node* t3 = newNodeWithChildren("t3", 
-            newNodeWithChildren("t2", 
-                    newNodeWithChildren("t1",
+    Operation* add = newOp("+", 1, 1);
+    Operation* mul = newOp("*", 1, 1);
+    
+    Node* t3 = newNodeWithChildren("t3", add,
+            newNodeWithChildren("t2", add, 
+                    newNodeWithChildren("t1", add,
                         newNode("13"),
                         newNode("a")), 
                     newNode("b")),
             newNode("4"));
     
-    struct node* t6 = newNodeWithChildren("t6",
+    Node* t6 = newNodeWithChildren("t6", mul,
             newNode("d"),
-            newNodeWithChildren("t5",
+            newNodeWithChildren("t5", mul,
                 newNode("3"),
-                newNodeWithChildren("t4",
+                newNodeWithChildren("t4", mul,
                     t3,
                     newNode("c"))));
     
-    struct node* t7 = newNodeWithChildren("t7",
+    Node* t7 = newNodeWithChildren("t7", add,
             newNode("e"),
             newNode("f"));
     
-    struct node* t10 = newNodeWithChildren("t10",
+    Node* t10 = newNodeWithChildren("t10", mul,
             t3, 
             t7);
     
-    struct node* t11 = newNodeWithChildren("t11",
+    Node* t11 = newNodeWithChildren("t11", add,
             t3,
-            newNodeWithChildren("t9",
-                newNodeWithChildren("t8",
+            newNodeWithChildren("t9", add,
+                newNodeWithChildren("t8", add,
                     t7,
                     newNode("g")),
                 newNode("h"))); 
@@ -71,7 +74,6 @@ ListItem* initTrees(){
                 t10),
             t11);
     
-   
     return forest;
 }
 

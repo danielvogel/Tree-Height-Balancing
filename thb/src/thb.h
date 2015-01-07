@@ -1,11 +1,18 @@
 #ifndef THB_H
 #define	THB_H
 
-typedef struct node{
+typedef struct operation{
+    char *sign;
+    int isCommunitative;
+    int isAssociative;
+} Operation;
+
+typedef struct Node{
     char *data;
-    struct node *left;
-    struct node *right;
-    int isRoot;
+    Operation *op;
+    struct Node *left;
+    struct Node *right;
+    
 } Node;
 
 
@@ -17,8 +24,9 @@ typedef struct list_item {
 
 
 /* functions for tree nodes*/
+Operation *newOp(char *sign, int com, int ass);
 Node *newNode(char *data);
-Node *newNodeWithChildren(char *data, Node *left, Node *right);
+Node *newNodeWithChildren(char *data, Operation *op, Node *left, Node *right);
 
 /* functions for lists */
 ListItem * new_list();

@@ -12,22 +12,32 @@ void flatten() {
 
 /* functions for tree nodes */
 
+Operation *newOp(char *sign, int com, int ass){
+    Operation* op = (Operation*) malloc(sizeof(Operation));
+    op->sign = sign;
+    op->isAssociative = ass;
+    op->isCommunitative = com;
+    
+    return op;
+}
+
+
 Node * newNode(char *data){
     
-    Node* node = (struct node*) malloc(sizeof(struct node));
+    Node* node = (Node*) malloc(sizeof(Node));
     node->data = data;
     node->left = NULL;
     node->right = NULL;
+    node->op = NULL;
  
     return node;
 }
 
-Node *newNodeWithChildren(char *data, Node *left, Node *right){
-    struct node* node = newNode(data);
+Node *newNodeWithChildren(char *data, Operation *op, Node *left, Node *right){
+    Node* node = newNode(data);
     node->left = left;
-    
     node->right = right;
-    
+    node->op = op;
     
     return node;
 }
