@@ -1,6 +1,9 @@
 #ifndef THB_H
 #define	THB_H
 
+#define TRUE 1
+#define FALSE 0
+
 typedef struct operation{
     char *sign;
     int isCommunitative;

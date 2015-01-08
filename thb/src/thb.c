@@ -70,13 +70,36 @@ Node * getUser(ListItem * forest, char * name){
 }
 
 
+// Create balanced tree from its root, Ti in "Ti <- Li Opi Ri"
+void balance(Node *root) {
+	if (root->rank >= 0)
+	{
+		return; // have already processed this tree
+	}
 
-void balance() {
+	NameQueue *q = new_queue(); // First, flatten the tree
+	root->rank = flatten(root->left, q) + flatten(root->right, q);
+	rebuild(root, root->op); // Then, rebuild a balanced tree
 }
 
-void flatten() {
+int flatten(Node *var, NameQueue *q) { // Flatten computes a rank for var & builds the queue
+	if (var->op == NULL) // Cannot recur further
+	{
+		var->rank = 0;
+		enqueue(q, var, var->rank);
+	} else if (/* TODO var element UEVar(b)*/) { // Cannot recur past top of block
+		var->rank = 1;
+		enqueue(q, var, var->rank);
+	} else if (var->isRoot == TRUE) { // New queue for new root
+		balance(var); // Recur to find its rank
+		enqueue(q, var, var->rank);
+	} else { // var is Tj in jth op in block
+		flatten(var->left, q); // Recur on left operand
+		flatten(var->right, q); // Recur on right operand
+	}
+
+	return var->rank;
 }
-//...
 
 
 
