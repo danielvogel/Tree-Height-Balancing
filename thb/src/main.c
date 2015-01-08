@@ -12,11 +12,9 @@ void printRoots(NameQueue * Roots);
 int main(int argc, char** argv) {
 
     ListItem* forest = initCode();
-
     NameQueue * Roots = roots(forest);
     
     printRoots(Roots);
-    
     return (EXIT_SUCCESS);
 }
 

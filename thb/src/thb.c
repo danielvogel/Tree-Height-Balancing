@@ -12,6 +12,8 @@ NameQueue * roots(ListItem *forest){
     
     do{
        
+        current->data->rank = -1;
+        
         if(current->data->op->isAssociative 
                 && current->data->op->isCommunitative){
         
