@@ -63,6 +63,9 @@ NameQueue * new_queue();
 void enqueue(NameQueue *queue, char *name);
 NameQueue * dequeue(NameQueue *queue);
 
+void balance(Node *root);
+int flatten(Node *var, NameQueue *q);
+int inUEVar(Node *var);
 
 NameQueue * roots(ListItem *forest);
 int uses(ListItem * forest, char * name);

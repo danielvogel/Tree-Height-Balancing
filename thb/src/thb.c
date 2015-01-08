@@ -70,6 +70,7 @@ Node * getUser(ListItem * forest, char * name){
 }
 
 
+
 // Create balanced tree from its root, Ti in "Ti <- Li Opi Ri"
 void balance(Node *root) {
 	if (root->rank >= 0)
@@ -99,6 +100,11 @@ int flatten(Node *var, NameQueue *q) { // Flatten computes a rank for var & buil
 	}
 
 	return var->rank;
+}
+
+// check if UEVar(b) contains var
+int inUEVar(Node *var) { // TODO
+	return FALSE;
 }
 
 
