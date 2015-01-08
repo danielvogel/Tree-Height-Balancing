@@ -8,11 +8,11 @@ typedef struct operation{
 } Operation;
 
 typedef struct Node{
-    char *data;
+    char *name;
     Operation *op;
     struct Node *left;
     struct Node *right;
-    
+    int isRoot;
 } Node;
 
 
@@ -22,6 +22,28 @@ typedef struct list_item {
     Node *data;
 } ListItem;
 
+typedef struct name_queue {
+    struct name_queue *next;
+    struct name_queue *before;
+    char *name;
+    int precedence;
+} NameQueue;
+
+
+typedef struct vertexTag {
+ char* element;
+ int isVisited;
+ struct edgeTag {
+ 	struct vertexTag *connectsTo;
+ 	struct edgeTag *next;
+  } *edge;
+ struct vertexTag *next;
+} vertex;
+
+
+typedef struct graphTag{
+    vertex *vertices;
+}graph;
 
 /* functions for tree nodes*/
 Operation *newOp(char *sign, int com, int ass);
@@ -33,7 +55,12 @@ ListItem * new_list();
 ListItem * insert_right(struct list_item *list, Node* data);
 ListItem * delete(struct list_item *list);
 
+NameQueue * new_queue();
+void enqueue(NameQueue *queue, char *name);
+NameQueue * dequeue(NameQueue *queue);
 
 
-
+NameQueue * roots(ListItem *forest);
+int uses(ListItem * forest, char * name);
+Node * getUser(ListItem * forest, char * name);
 #endif	/* THB_H */
