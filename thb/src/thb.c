@@ -1,72 +1,72 @@
 #include "thb.h"
 #include <stdlib.h>
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
+
 
 
 NameQueue * roots(ListItem *forest){
     NameQueue *queue = new_queue();
-    
-    ListItem * head = forest;
+
     ListItem * current = forest;
     
     do{
-       
         current->data->rank = -1;
         
         if(current->data->op->isAssociative 
                 && current->data->op->isCommunitative){
         
-            int use = uses(forest, current->data->name);
-            int isOpForeign = 1;
-
-            if(use == 1){
-                isOpForeign = getUser(forest, current->data->name)->op != current->data->op;
+            Uses * use = uses(forest, current->data->name);
+            int isOpForeign = 1;          
+                
+            if(use->count == 1){
+                isOpForeign = use->user[0]->op != current->data->op;
             }
 
-            if(use > 1 || (use == 1 && isOpForeign)){               
+            if(use->count > 1 || (use->count == 1 && isOpForeign) 
+                    || use->count == 0 /*in our case. because enviroment-code is missed.*/){               
                 current->data->isRoot = 1;
-                enqueue(queue, current->data->name);
+                enqueue(queue, current->data->name, current->data->op->precedence);
             }
         }
-    } while(head != (current = current->right));
+    } while(NULL != (current = current->right));
+    
+    quickSort(queue);
     
     return queue;
 }
 
-int uses(ListItem * forest, char * name){
-    int result = 0;
+Uses * uses(ListItem * forest, char * name){
     
-    ListItem * head = forest;
+    Uses * result = (Uses*) malloc(sizeof(Uses));
     ListItem * current = forest;
+    int i;
     
-    do{
-        if(!strcmp(name, current->data->left->name)){
-            result++;
-        }
-        
-        if(!strcmp(name, current->data->right->name)){
-            result++;
-        }
-        
-    } while(head != (current = current->right));
-        
-    return result;
-}
-
-Node * getUser(ListItem * forest, char * name){
-    ListItem * head = forest;
-    ListItem * current = forest;
-    
+    result->count = 0;
+    //loop 1: get size
     do{
         if(!strcmp(name, current->data->left->name) 
                 || !strcmp(name, current->data->right->name)){
-            return current->data;
+            result->count++;
         }
-
-    } while(head != (current = current->right));
+        
+        
+    } while(NULL != (current = current->right));
     
-    return NULL;
+    current = forest;
+    result->user = (Node**) malloc(sizeof(Node*) * result->count);
+    
+    
+    i = 0;
+    //loop 2, put users in Uses struct
+    do{
+        if(!strcmp(name, current->data->left->name) 
+                || !strcmp(name, current->data->right->name)){
+            result->user[i++] = current->data;
+        }
+    } while(NULL != (current = current->right));
+        
+    return result;
 }
 
 
@@ -80,70 +80,7 @@ void flatten() {
 
 
 
-/* functions for tree nodes */
 
-Operation *newOp(char *sign, int com, int ass){
-    Operation* op = (Operation*) malloc(sizeof(Operation));
-    op->sign = sign;
-    op->isAssociative = ass;
-    op->isCommunitative = com;
-    
-    return op;
-}
-
-
-Node * newNode(char *data){
-    
-    Node* node = (Node*) malloc(sizeof(Node));
-    node->name = data;
-    node->left = NULL;
-    node->right = NULL;
-    node->op = NULL;
- 
-    return node;
-}
-
-Node *newNodeWithChildren(char *data, Operation *op, Node *left, Node *right){
-    Node* node = newNode(data);
-    node->left = left;
-    node->right = right;
-    node->op = op;
-    
-    return node;
-}
-
-
-
-/* Functions for lists */
-/* source: http://perlgeek.de/de/artikel/doppelt-verkettete-listen */
-ListItem * new_list(){
-    ListItem *new = (ListItem*) malloc(sizeof(ListItem));
-    new->data  = NULL;
-    new->right = new;
-    new->left  = new;
-    return new;
-}
-
-ListItem * insert_right(ListItem *list, Node* data){
-    ListItem *new = (ListItem *) malloc(sizeof(ListItem));
-    new->data        = data;
-    new->left        = list;
-    new->right       = list->right;
-    list->right      = new;
-    new->right->left = new;
-    return new;
-}
-
-ListItem * delete(ListItem *list){
-    
-    ListItem *left =  list->left;
-    list->right->left = list->left;
-    list->left->right = list->right;
-    
-    free(list);
-    
-    return left;
-}
 
 NameQueue * new_queue(){
     NameQueue *new = (NameQueue*) malloc(sizeof(NameQueue));
@@ -153,7 +90,7 @@ NameQueue * new_queue(){
     return new; 
 }
 
-void enqueue(NameQueue *queue, char *name){
+void enqueue(NameQueue *queue, char *name, int precedence){
    
     NameQueue * current = queue;
     
@@ -163,11 +100,13 @@ void enqueue(NameQueue *queue, char *name){
     
     if(current->name == NULL){ //empty queue
         current->name = name;
+        current->precedence = precedence;
     } else {
         NameQueue *new = new_queue();
         new->name = name;
         new->before = current;
         current->next = new;
+        new->precedence = precedence;
     }
 }
 
@@ -177,4 +116,75 @@ NameQueue * dequeue(NameQueue *queue){
         queue->next->before = NULL; 
     }
     return queue->next;
+}
+
+
+
+
+
+
+
+
+/* quicksort for NameQueue 
+ source: http://www.geeksforgeeks.org/quicksort-for-linked-list/ */
+void swap ( int * p_a, int * p_b, char ** n_a, char ** n_b )
+{  
+    int  p_t = *p_a;
+    *p_a = *p_b;
+    *p_b = p_t; 
+    
+    char * n_t = *n_a;
+    *n_a = *n_b;
+    *n_b = n_t;
+}
+ 
+NameQueue *lastNode(NameQueue *root)
+{
+    while (root && root->next)
+        root = root->next;
+    return root;
+}
+ 
+NameQueue * partition(NameQueue * l, NameQueue * h)
+{
+    // set pivot as h element
+    int x  = h->precedence;
+ 
+    // similar to i = l-1 for array implementation
+    NameQueue * i = l->before;
+    NameQueue *j = l;
+    
+    while ( j != h )
+    {
+        if (j->precedence <= x)
+        {
+            // Similar to i++ for array
+            i = (i == NULL)? l : i->next;
+ 
+            swap(&(i->precedence), &(j->precedence),
+                    &(i->name), &(j->name));
+        }
+        j = j->next;
+    }
+    i = (i == NULL)? l : i->next; // Similar to i++
+    swap(&(i->precedence), &(h->precedence),
+                &(i->name), &(h->name));
+    return i;
+}
+ 
+void _quickSort(NameQueue *  l, NameQueue * h)
+{
+    if (h != NULL && l != h && l != h->next)
+    {
+        NameQueue *p = partition(l, h);
+        _quickSort(l, p->before);
+        _quickSort(p->next, h);
+    }
+}
+ 
+void quickSort(NameQueue * head)
+{
+    NameQueue * h = lastNode(head);
+ 
+    _quickSort(head, h);
 }

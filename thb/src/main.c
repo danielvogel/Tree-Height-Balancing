@@ -4,6 +4,7 @@
 
 
 
+
 ListItem* initCode();
 void printRoots(NameQueue * Roots);
 
@@ -32,10 +33,11 @@ void printRoots(NameQueue * Roots){
 
 ListItem* initCode() {
 
-    Operation* add = newOp("+", 1, 1);
-    Operation* mul = newOp("*", 1, 1);
+    Operation* add = newOp("+", 1, 1, 1);
+    Operation* mul = newOp("*", 1, 1, 2);
 
     ListItem* forest = new_list();
+    ListItem* head = forest;
     
     Node* t1 = newNodeWithChildren("t1", add,
             newNode("13"),
@@ -57,7 +59,7 @@ ListItem* initCode() {
 
     Node* t5 = newNodeWithChildren("t5", mul,
             newNode("3"),
-            t3);
+            t4);
 
     Node* t6 = newNodeWithChildren("t6", mul,
             newNode("d"),
@@ -97,7 +99,7 @@ ListItem* initCode() {
     forest = insert_right(forest, t11);
 
 
-    return forest->right;
-}
+    return head;
+ }
 
 
