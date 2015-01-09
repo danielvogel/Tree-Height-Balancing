@@ -71,11 +71,43 @@ Uses * uses(ListItem * forest, char * name){
 
 
 
-void balance() {
+// Create balanced tree from its root, Ti in "Ti <- Li Opi Ri"
+void balance(Node *root) {
+	if (root->rank >= 0)
+	{
+		return; // have already processed this tree
+	}
+
+	NameQueue *q = new_queue(); // First, flatten the tree
+	root->rank = flatten(root->left, q) + flatten(root->right, q);
+	rebuild(root, root->op); // Then, rebuild a balanced tree
 }
 
-void flatten() {
+int flatten(Node *var, NameQueue *q) { // Flatten computes a rank for var & builds the queue
+	if (var->op == NULL) // Cannot recur further
+	{
+		var->rank = 0;
+		enqueue(q, var->name, var->rank);
+	} else if (1/* TODO var element UEVar(b)*/) { // Cannot recur past top of block
+		var->rank = 1;
+		enqueue(q, var->name, var->rank);
+	} else if (var->isRoot == TRUE) { // New queue for new root
+		balance(var); // Recur to find its rank
+		enqueue(q, var->name, var->rank);
+	} else { // var is Tj in jth op in block
+		flatten(var->left, q); // Recur on left operand
+		flatten(var->right, q); // Recur on right operand
+	}
+
+	return var->rank;
 }
-//...
+
+// check if UEVar(b) contains var
+int inUEVar(Node *var) { // TODO
+	return FALSE;
+}
 
 
+void rebuild(Node * root, Operation * op){
+    
+}
