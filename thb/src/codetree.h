@@ -27,7 +27,6 @@ typedef struct list_item {
 } ListItem;
 
 
-
 /* functions for tree nodes*/
 Operation *newOp(char *sign, int com, int ass, int precedence);
 Node *newNode(char *data);
