@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "thb.h"
 #include "graph.h"
+#include "codetree.h"
 
 
 
@@ -13,7 +14,13 @@ void printRoots(NameQueue * Roots);
 int main(int argc, char** argv) {
 
     ListItem* forest = initCode();
-    NameQueue * Roots = roots(forest);
+    NameQueue *Roots = roots(forest);
+    Node *node;
+    
+    while (Roots->next != NULL && (node = nodeByName(forest, Roots->next->name) != NULL)) {
+    	balance(node);
+    }
+    
     graph* g = GraphCreate();
  
     

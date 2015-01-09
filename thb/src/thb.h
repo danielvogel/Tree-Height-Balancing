@@ -19,6 +19,6 @@ Uses * uses(ListItem * forest, char * name);
 void balance(Node *root);
 int flatten(Node *var, NameQueue *q);
 int inUEVar(Node *var);
-void rebuild(Node * root, Operation * op);
+void rebuild(NameQueue *q, Operation *op);
 
 #endif	/* THB_H */

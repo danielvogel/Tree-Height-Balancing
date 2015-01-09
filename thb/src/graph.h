@@ -1,3 +1,5 @@
+#ifndef GRAPH_H
+#define GRAPH_H
 
 /**
   A graph is yet another data structure that you can use to store information. 
@@ -55,3 +57,5 @@ void printGraph(graph*);
 Insert a new edge 
 */
 void insertEdge(edge* head, vertex* v1);
+
+#endif // GRAPH_H

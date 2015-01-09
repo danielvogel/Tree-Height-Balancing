@@ -1,3 +1,5 @@
+#ifndef CODETREE_H
+#define	CODETREE_H
 
 typedef struct operation{
     char *sign;
@@ -33,4 +35,6 @@ ListItem * new_list();
 ListItem * insert_right(struct list_item *list, Node* data);
 ListItem * delete(struct list_item *list);
 
-Node * nodeByName(ListItem* forest, char * name);
+Node *nodeByName(ListItem* forest, char * name);
+
+#endif	/* CODETREE_H */

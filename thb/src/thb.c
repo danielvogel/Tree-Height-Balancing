@@ -107,7 +107,8 @@ int inUEVar(Node *var) { // TODO
 	return FALSE;
 }
 
-
-void rebuild(Node * root, Operation * op){
-    
+void rebuild(NameQueue *q, Operation *op) {
+	//Node nl,nr;
+	while(q->next != NULL && q->next->next != NULL) {
+	}	
 }

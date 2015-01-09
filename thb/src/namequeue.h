@@ -1,3 +1,6 @@
+#ifndef NAMEQUEUE_H
+#define NAMEQUEUE_H
+
 #include "codetree.h"
 
 typedef struct name_queue {
@@ -14,3 +17,5 @@ NameQueue * dequeue(NameQueue *queue);
 
 NameQueue * roots(ListItem *forest);
 void quickSort(NameQueue * head);
+
+#endif // NAMEQUEUE_H
