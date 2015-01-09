@@ -1,6 +1,6 @@
-#include "codetree.h"
 #include <stdlib.h>
 #include <string.h>
+#include "codetree.h"
 
 
 /* functions for tree nodes */
@@ -23,6 +23,7 @@ Node * newNode(char *data){
     node->left = NULL;
     node->right = NULL;
     node->op = NULL;
+    node->isConstant = FALSE; // asd
  
     return node;
 }

@@ -1,10 +1,12 @@
 #ifndef CODETREE_H
 #define	CODETREE_H
 
+#include "constants.h"
+
 typedef struct operation{
     char *sign;
-    int isCommunitative;
-    int isAssociative;
+    bool isCommunitative;
+    bool isAssociative;
     int precedence;
 } Operation;
 
@@ -13,8 +15,9 @@ typedef struct node{
     Operation *op;
     struct node *left;
     struct node *right;
-    int isRoot;
+    bool isRoot;
     int rank;
+    bool isConstant;
 } Node;
 
 typedef struct list_item {

@@ -4,7 +4,6 @@
 #include <string.h>
 
 
-
 NameQueue * roots(ListItem *forest){
     NameQueue *queue = new_queue();
 
@@ -112,6 +111,8 @@ void rebuild(NameQueue *q, Operation *op) {
 	while(q->next != NULL && q->next->next != NULL) {
 		nl = nodeByName(forest, q->next->name);
 		nr = nodeByName(forest, q->next->next->name);
+		
+		//if (nl->)
 		
 		q = q->next->next->next;
 	}	
