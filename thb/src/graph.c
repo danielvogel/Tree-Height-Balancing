@@ -80,7 +80,8 @@ void printGraph(graph* Graph)
 		}
 		printf("\n");
 		v = v->next;	// vertex behind
-		e = v->edge;	// vertexs edge list
+		if(v != NULL)
+			e = v->edge;	// vertexs edge list
 	}
 	printf("\n");
 }

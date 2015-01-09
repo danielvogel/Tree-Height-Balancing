@@ -25,11 +25,10 @@ int main(int argc, char** argv) {
     GraphAddEdge(g,A,C);
     GraphAddEdge(g,B,A);
     GraphAddEdge(g,B,B);
-    GraphAddEdge(g,B,C);
-    GraphAddEdge(g,C,C);
-    GraphAddEdge(g,C,C);
+  
 
     printGraph(g);
+
     printRoots(Roots);
     return (EXIT_SUCCESS);
 }
