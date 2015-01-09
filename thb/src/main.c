@@ -12,13 +12,15 @@ void printRoots(NameQueue * Roots);
 
 
 int main(int argc, char** argv) {
-
-    ListItem* forest = initCode();
+    forest = initCode();
     NameQueue *Roots = roots(forest);
     Node *node;
     
-    while (Roots->next != NULL && (node = nodeByName(forest, Roots->next->name) != NULL)) {
+    while (Roots->next != NULL && (nodeByName(forest, Roots->next->name) != NULL)) {
+    	node = nodeByName(forest, Roots->next->name);
+    	printf("Start balancing node: %s\n", node->name);
     	balance(node);
+    	Roots = Roots->next;
     }
     
     graph* g = GraphCreate();

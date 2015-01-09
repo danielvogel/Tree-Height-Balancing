@@ -80,7 +80,7 @@ void balance(Node *root) {
 
 	NameQueue *q = new_queue(); // First, flatten the tree
 	root->rank = flatten(root->left, q) + flatten(root->right, q);
-	rebuild(root, root->op); // Then, rebuild a balanced tree
+	rebuild(q, root->op); // Then, rebuild a balanced tree
 }
 
 int flatten(Node *var, NameQueue *q) { // Flatten computes a rank for var & builds the queue
@@ -108,7 +108,11 @@ int inUEVar(Node *var) { // TODO
 }
 
 void rebuild(NameQueue *q, Operation *op) {
-	//Node nl,nr;
+	Node *nl, *nr;
 	while(q->next != NULL && q->next->next != NULL) {
+		nl = nodeByName(forest, q->next->name);
+		nr = nodeByName(forest, q->next->next->name);
+		
+		q = q->next->next->next;
 	}	
 }

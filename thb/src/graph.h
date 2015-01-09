@@ -7,8 +7,6 @@
   As mentioned, graphs are pretty generic data structures in that they can be used to represent lots of things. 
   Thus, exactly what operations we'll want for a graph will depend on what we want to do with it.
 */
- #ifndef GRAPH_H_
- #define GRAPH_H_
 #include <stdlib.h>
 #include <malloc.h>
 

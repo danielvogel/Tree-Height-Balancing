@@ -12,7 +12,7 @@ typedef struct uses {
     Node ** user;
 } Uses;
 
-
+ListItem *forest;
 
 Uses * uses(ListItem * forest, char * name);
 
