@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "thb.h"
-
+#include "graph.h"
 
 
 
@@ -14,7 +14,22 @@ int main(int argc, char** argv) {
 
     ListItem* forest = initCode();
     NameQueue * Roots = roots(forest);
+    graph* g = GraphCreate();
+ 
     
+    vertex* A = GraphAddVertex(g, "A", NULL);
+    vertex* B = GraphAddVertex(g, "B", NULL);
+    vertex* C = GraphAddVertex(g, "C", NULL);
+
+    GraphAddEdge(g,A,B);
+    GraphAddEdge(g,A,C);
+    GraphAddEdge(g,B,A);
+    GraphAddEdge(g,B,B);
+    GraphAddEdge(g,B,C);
+    GraphAddEdge(g,C,C);
+    GraphAddEdge(g,C,C);
+
+    printGraph(g);
     printRoots(Roots);
     return (EXIT_SUCCESS);
 }
