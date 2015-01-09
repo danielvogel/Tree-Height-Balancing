@@ -1,0 +1,2 @@
+vertex: [A][B][C][D]
+edge: A->B , A->C , A->D , B->C , C->D , D->C
