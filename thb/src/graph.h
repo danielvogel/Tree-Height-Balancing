@@ -7,12 +7,15 @@
   As mentioned, graphs are pretty generic data structures in that they can be used to represent lots of things. 
   Thus, exactly what operations we'll want for a graph will depend on what we want to do with it.
 */
+ #ifndef GRAPH_H_
+ #define GRAPH_H_
 #include <stdlib.h>
 #include <malloc.h>
 
 
 typedef struct vertexTag {
-  char* element;
+  char* element;    // vertex name
+  char* operation;  // operation (it is a constant if NULL)
   int isVisited;
   struct edgeTag* edge;
   struct vertexTag *next;
@@ -33,7 +36,7 @@ typedef struct graphTag{
 /*
 Add a vertex to the graph with a name, and optionally some data
 */
-vertex* GraphAddVertex(graph*, char*, vertex* );
+vertex* GraphAddVertex(graph*, char*,char*, vertex* );
 
 /*
 Create a directed edge between vertex1 (source) and vertex2(destination). 
@@ -58,4 +61,4 @@ Insert a new edge
 */
 void insertEdge(edge* head, vertex* v1);
 
-#endif // GRAPH_H
+#endif /*GRAPH_H_*/ 

@@ -8,12 +8,13 @@ graph* GraphCreate()
 	return g;
 }
 
-vertex* GraphAddVertex(graph* Graph, char* element, vertex* nextVertex)
+vertex* GraphAddVertex(graph* Graph, char* element, char* operation, vertex* nextVertex)
 {
 	vertex *nVertex = Graph->vertices;		// get the first vertex
 	vertex *v = (vertex*)malloc(sizeof(vertex));
 
 	v->element= element;
+	v->operation = operation;
 	v->isVisited = 0;
 	v->next = nextVertex;
 	v->edge = (edge*)malloc(sizeof(edge));
@@ -68,13 +69,14 @@ void printGraph(graph* Graph)
 {
 	vertex *v = Graph->vertices;		//get first vertex and iterate the through the graph
 	edge* e = v->edge;
-
+	printf("Print graph\n");
 
 	while(v != NULL){ //compare end of vertical list (vertex)
 		printf(" %s ",v->element);	// this is the vertex 
 		while(e->next  != NULL){ //compare end of horizontal list (edge)
 			printf(" --> [");
-			printf(" %s ",e->next->connectsTo->element);	
+			printf(" %s ",e->next->connectsTo->element);
+			printf("( %s ) ",e->next->connectsTo->operation);	
 			printf("]");
 			e = e->next;	// get next edge 
 		}
