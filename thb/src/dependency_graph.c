@@ -77,7 +77,7 @@ int parseVertex(FILE* file)
 		strVertex[i] =  '\0';
 		// printf("%c",character);		// if use %s formatter you get segmentation fault !!!
 
-	GraphAddVertex(dg->g, strVertex, NULL);	
+	//GraphAddVertex(dg->g, strVertex, NULL);	
 	
 }
 
@@ -163,6 +163,5 @@ printf("FRONT: %p\n", head);
  }
 printf("END: %p\n", head);
 
-printf("END: %p\n", dg);
  return head;	//liefert den etzten graphen
 }

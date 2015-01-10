@@ -1,2 +1,2 @@
-vertex: [A][B][C][D]
-edge: A->B , A->C , A->D , B->C , C->D , D->C
+vertex: [y(+)][z(*)][t1(*)][t2(-)][a][b][c][d]
+edge: y->t1 , z->t1 , y->t2 , t1->a , t1->b , t2->c , t2->d

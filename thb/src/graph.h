@@ -12,7 +12,8 @@
 
 
 typedef struct vertexTag {
-  char* element;
+  char* element;    // vertex name
+  char* operation;  // operation (it is a constant if NULL)
   int isVisited;
   struct edgeTag* edge;
   struct vertexTag *next;
@@ -33,7 +34,7 @@ typedef struct graphTag{
 /*
 Add a vertex to the graph with a name, and optionally some data
 */
-vertex* GraphAddVertex(graph*, char*, vertex* );
+vertex* GraphAddVertex(graph*, char*,char*, vertex* );
 
 /*
 Create a directed edge between vertex1 (source) and vertex2(destination). 
@@ -58,4 +59,4 @@ Insert a new edge
 */
 void insertEdge(edge* head, vertex* v1);
 
-#endif /*GRAPH_H_*/
+#endif /*GRAPH_H_*/ 

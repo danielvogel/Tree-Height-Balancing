@@ -17,18 +17,26 @@ int main(int argc, char** argv) {
     graph* g = GraphCreate();
     depGraph *dg;
 
-    vertex* A = GraphAddVertex(g, "A", NULL);
-    vertex* B = GraphAddVertex(g, "B", NULL);
-    vertex* C = GraphAddVertex(g, "C", NULL);
+    vertex* y = GraphAddVertex(g, "y","+", NULL);
+    vertex* z = GraphAddVertex(g, "z", "*", NULL);
+    vertex* t1 = GraphAddVertex(g, "t1","*", NULL);
+    vertex* t2 = GraphAddVertex(g, "t2","-", NULL);
+    vertex* a = GraphAddVertex(g, "a",NULL, NULL);
+    vertex* b = GraphAddVertex(g, "b",NULL, NULL);
+    vertex* c = GraphAddVertex(g, "c",NULL, NULL);    
+    vertex* d = GraphAddVertex(g, "d",NULL, NULL);
 
-    GraphAddEdge(g,A,B);
-    GraphAddEdge(g,A,C);
-    GraphAddEdge(g,B,A);
-    GraphAddEdge(g,B,B);
+
+    GraphAddEdge(g,y,t1);
+    GraphAddEdge(g,z,t1);
+    GraphAddEdge(g,y,t2);
+    GraphAddEdge(g,z,t2);
+    GraphAddEdge(g,t1,a);
+    GraphAddEdge(g,t1,b);
+    GraphAddEdge(g,t2,c);
+    GraphAddEdge(g,t2,d);
  
-    dg = parseToDependencyGraph("/home/artjom/Projects/compilerbau/Compilerbau2/graphs/");
-    printf("%p\n",dg->g);
-    printGraph(dg->g);
+    printGraph(g);
 
     printRoots(Roots);
     return (EXIT_SUCCESS);
