@@ -68,7 +68,7 @@ void printGraph(graph* Graph)
 {
 	vertex *v = Graph->vertices;		//get first vertex and iterate the through the graph
 	edge* e = v->edge;
-
+	printf("Print graph\n");
 
 	while(v != NULL){ //compare end of vertical list (vertex)
 		printf(" %s ",v->element);	// this is the vertex 

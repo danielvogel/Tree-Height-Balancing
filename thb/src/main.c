@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "thb.h"
 #include "graph.h"
-
+#include "dependency_graph.h"
 
 
 ListItem* initCode();
@@ -15,8 +15,8 @@ int main(int argc, char** argv) {
     ListItem* forest = initCode();
     NameQueue * Roots = roots(forest);
     graph* g = GraphCreate();
- 
-    
+    depGraph *dg;
+
     vertex* A = GraphAddVertex(g, "A", NULL);
     vertex* B = GraphAddVertex(g, "B", NULL);
     vertex* C = GraphAddVertex(g, "C", NULL);
@@ -25,9 +25,10 @@ int main(int argc, char** argv) {
     GraphAddEdge(g,A,C);
     GraphAddEdge(g,B,A);
     GraphAddEdge(g,B,B);
-  
-
-    printGraph(g);
+ 
+    dg = parseToDependencyGraph("/home/artjom/Projects/compilerbau/Compilerbau2/graphs/");
+    printf("%p\n",dg->g);
+    printGraph(dg->g);
 
     printRoots(Roots);
     return (EXIT_SUCCESS);
