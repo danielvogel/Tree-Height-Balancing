@@ -8,20 +8,12 @@
 
 ListItem* initCode();
 void printRoots(NameQueue * Roots);
+ListItem* getCodeTrees(graph* dg);
 
 
 
 int main(int argc, char** argv) {
-    forest = initCode();
-    NameQueue *Roots = roots(forest);
-    Node *node;
-    
-    while (Roots->next != NULL && (nodeByName(forest, Roots->next->name) != NULL)) {
-    	node = nodeByName(forest, Roots->next->name);
-    	printf("Start balancing node: %s\n", node->name);
-    	balance(node);
-    	Roots = Roots->next;
-    }
+    //forest = initCode();
     
     graph* g = GraphCreate();
     depGraph *dg;
@@ -31,9 +23,13 @@ int main(int argc, char** argv) {
     vertex* t1 = GraphAddVertex(g, "t1","*", NULL);
     vertex* t2 = GraphAddVertex(g, "t2","-", NULL);
     vertex* a = GraphAddVertex(g, "a",NULL, NULL);
+    a->isConstant= 1;
     vertex* b = GraphAddVertex(g, "b",NULL, NULL);
-    vertex* c = GraphAddVertex(g, "c",NULL, NULL);    
+    b->isConstant = 1;
+    vertex* c = GraphAddVertex(g, "c",NULL, NULL);  
+    c->isConstant = 1;
     vertex* d = GraphAddVertex(g, "d",NULL, NULL);
+    d->isConstant= 1;
 
 
     GraphAddEdge(g,y,t1);
@@ -44,6 +40,20 @@ int main(int argc, char** argv) {
     GraphAddEdge(g,t1,b);
     GraphAddEdge(g,t2,c);
     GraphAddEdge(g,t2,d);
+    
+    ListItem* forest = getCodeTrees(g);
+    
+    NameQueue *Roots = roots(forest);
+    Node *node;
+    
+    while (Roots->next != NULL && (nodeByName(forest, Roots->next->name) != NULL)) {
+    	node = nodeByName(forest, Roots->next->name);
+    	printf("Start balancing node: %s\n", node->name);
+    	balance(node);
+    	Roots = Roots->next;
+    }
+    
+   
  
     printGraph(g);
 
@@ -63,75 +73,56 @@ void printRoots(NameQueue * Roots){
 }
 
 
-ListItem* initCode() {
 
+ListItem* getCodeTrees(graph* dg){
+    
     Operation* add = newOp("+", 1, 1, 1);
     Operation* mul = newOp("*", 1, 1, 2);
+    Operation* sub = newOp("-", 0, 1, 1);
 
     ListItem* forest = new_list();
-    ListItem* head = forest;
+    ListItem* currForest = forest;
     
-    Node* t1 = newNodeWithChildren("t1", add,
-            newNode("13"),
-            newNode("a"));
+    vertex* current = dg->vertices;
     
+    do {
+        Node * new = newNode(current->element);
+        
+        if(current->operation == NULL){
+            new->isConstant = current->isConstant;
+            new->isVariable = current->isVariable;
+        } else {
+            
+            if(!strcmp(current->operation , "+")){
+                new->op = add;
+            } else if(!strcmp(current->operation , "*")){
+                new->op = mul;
+            } else if(!strcmp(current->operation , "-")){
+                new->op = sub;
+            } else {
+                printf("%s not supported operation\n", current->operation );
+                exit(1);
+            }
+        }
+        currForest = insert_right(currForest, new);
+    } while((current = current->next) != NULL);
     
-
-    Node* t2 = newNodeWithChildren("t2", add,
-            t1,
-            newNode("b"));
-
-    Node* t3 = newNodeWithChildren("t3", add,
-            t2,
-            newNode("4"));
-
-    Node* t4 = newNodeWithChildren("t4", mul,
-            t3,
-            newNode("c"));
-
-    Node* t5 = newNodeWithChildren("t5", mul,
-            newNode("3"),
-            t4);
-
-    Node* t6 = newNodeWithChildren("t6", mul,
-            newNode("d"),
-            t5);
-
-    Node* t7 = newNodeWithChildren("t7", add,
-            newNode("e"),
-            newNode("f"));
-
-    Node* t8 = newNodeWithChildren("t8", add,
-            t7,
-            newNode("g"));
-
-    Node* t9 = newNodeWithChildren("t9", add,
-            t8,
-            newNode("h"));
-
-    Node* t10 = newNodeWithChildren("t10", mul,
-            t3,
-            t7);
-
-    Node* t11 = newNodeWithChildren("t11", add,
-            t3,
-            t9);
-
+    forest = forest->right;
+    current = dg->vertices;
     
-    forest->data = t1;
-    forest = insert_right(forest, t2);
-    forest = insert_right(forest, t3);
-    forest = insert_right(forest, t4);
-    forest = insert_right(forest, t5);
-    forest = insert_right(forest, t6);
-    forest = insert_right(forest, t7);
-    forest = insert_right(forest, t8);
-    forest = insert_right(forest, t9);
-    forest = insert_right(forest, t10);
-    forest = insert_right(forest, t11);
-
-
-    return head;
- }
-
-
+    do {
+        Node* currNode = nodeByName(forest, current->element);
+        
+        if(current->operation != NULL){
+            if(!current->edge->next || !current->edge->next->next){
+                printf("%s: operation need exactly two operands\n", current->operation );
+                exit(1);
+            }
+            currNode->left = nodeByName(forest, current->edge->next->connectsTo->element);
+            currNode->right = nodeByName(forest, current->edge->next->next->connectsTo->element);
+               
+        }
+    } while((current = current->next) != NULL);
+    
+    return forest;
+}

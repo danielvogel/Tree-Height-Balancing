@@ -12,7 +12,7 @@ NameQueue * roots(ListItem *forest){
     do{
         current->data->rank = -1;
         
-        if(current->data->op->isAssociative 
+        if(current->data->op && current->data->op->isAssociative 
                 && current->data->op->isCommunitative){
         
             Uses * use = uses(forest, current->data->name);
@@ -44,9 +44,11 @@ Uses * uses(ListItem * forest, char * name){
     result->count = 0;
     //loop 1: get size
     do{
-        if(!strcmp(name, current->data->left->name) 
-                || !strcmp(name, current->data->right->name)){
-            result->count++;
+        if(current->data->op){
+            if(!strcmp(name, current->data->left->name) 
+                    || !strcmp(name, current->data->right->name)){
+                result->count++;
+            }
         }
         
         
@@ -59,12 +61,15 @@ Uses * uses(ListItem * forest, char * name){
     i = 0;
     //loop 2, put users in Uses struct
     do{
-        if(!strcmp(name, current->data->left->name) 
-                || !strcmp(name, current->data->right->name)){
-            result->user[i++] = current->data;
-        }
+         if(current->data->op){
+            if(!strcmp(name, current->data->left->name) 
+                    || !strcmp(name, current->data->right->name)){
+                result->user[i++] = current->data;
+            }
+         }
     } while(NULL != (current = current->right));
         
+    
     return result;
 }
 

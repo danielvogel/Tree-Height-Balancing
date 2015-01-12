@@ -13,6 +13,7 @@ typedef struct operation{
 typedef struct node{
     char *name;
     Operation *op;
+    int isVariable;
     struct node *left;
     struct node *right;
     bool isRoot;
