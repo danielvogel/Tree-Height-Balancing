@@ -1,4 +1,4 @@
-\documentclass[10pt,a4paper,titlepage,oneside]{report}
+\documentclass[12pt,a4paper,titlepage,oneside]{scrreprt}
 
 % Schriftart
 \usepackage[utf8]{inputenc}
@@ -8,14 +8,6 @@
 %\renewcommand*\familydefault{\sfdefault}
 %\sloppy
 
-\usepackage{graphicx}
-\usepackage{epstopdf}
-
-
-% Deutsches Datumsformat
-\usepackage{datetime}
-\newdateformat{mydate}{\twodigit{\THEDAY}.\twodigit{\THEMONTH}.\THEYEAR}
-\mydate
 
 % Meta Information festlegen
 \usepackage[
@@ -24,6 +16,17 @@ pdfsubject={Tree-Height Balancing},
 pdfauthor={Sören Gutzeit, Daniel Vogel, Artjom Siebert, Patrick Koteras},
 pdfkeywords={Compilerbau, Tree, Height, Balancing}
 ]{hyperref}
+
+%Bilder
+\usepackage[all]{hypcap}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{scrhack}
+
+% Deutsches Datumsformat
+\usepackage{datetime}
+\newdateformat{mydate}{\twodigit{\THEDAY}.\twodigit{\THEMONTH}.\THEYEAR}
+\mydate
 
 % Acronyme für Glossar
 \usepackage[printonlyused]{acronym}
@@ -36,6 +39,16 @@ pdfkeywords={Compilerbau, Tree, Height, Balancing}
 \usepackage[style=alphabetic,hyperref=true,backend=bibtex8]{biblatex}
 \bibliography{literatur}
 
+% Links richtig färben
+\hypersetup{
+	linkcolor		= black,	% red 		Color for normal internal links. 
+	anchorcolor		= black,	% black 	Color for anchor text. 
+	citecolor		= black,	% green 	Color for bibliographical citations in text. 
+	filecolor		= black,	% magenta	Color for URLs which open local files. 
+	menucolor		= black,	% red 		Color for Acrobat menu items. 
+	urlcolor		= black,	% cyan 		Color for linked URLs.
+	colorlinks		= true		% Use colored text instead of a frame around it.
+}
 
 % Eigene Befehle
 \newcommand{\acfoot}[1]{\acs{#1}\footnote{\acl{#1}}}
@@ -78,7 +91,9 @@ pdfkeywords={Compilerbau, Tree, Height, Balancing}
 %Seiten
 \pagenumbering{arabic}
 \input{chapter/Einfuehrung}
+\input{chapter/Algorithmus}
 \input{chapter/Testing}
+\input{chapter/Fazit}
 
 % Leere Seite nach Inhalt
 \newpage 
