@@ -13,6 +13,7 @@ ListItem* getCodeTrees(graph* dg);
 
 
 int main(int argc, char** argv) {
+	varTempCounter = 1;
     //forest = initCode();
     
     //graph* g = GraphCreate();

@@ -141,12 +141,11 @@ void rebuild(NameQueue *q, Operation *op) {
 			if (q->next == NULL) {
 				nt->isRoot = TRUE;
 			} else {
-				nt->name = ""; // --> TODO generate new name (e.g. starting from t0... with global var)
+				nt->name = getVariableName();
 			}
 		}		
 	}	
 }
-
 
 Node *fold(Operation *op, Node *left, Node *right) {
 	char *endPtr;
@@ -172,5 +171,12 @@ Node *fold(Operation *op, Node *left, Node *right) {
     
  	printf("Successfully folded nodes '%s' and '%s' with operation '%s' to value '%s'.\n", left->name, right->name, op->sign, result->name);   
 	return result;
+}
+
+char *getVariableName(void) {
+	char *name = malloc(sizeof (char *) * 16);;
+	sprintf(name, "tt%d", varTempCounter++);
+	printf("Generated new variable name: %s\n", name);
+	return name;
 }
 
