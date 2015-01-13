@@ -92,7 +92,7 @@ int flatten(Node *var, NameQueue *q) { // Flatten computes a rank for var & buil
 	{
 		var->rank = 0;
 		enqueue(q, var->name, var->rank);
-	} else if (1/* TODO var element UEVar(b)*/) { // Cannot recur past top of block
+	} else if (inUEVar(var) == TRUE) { // Cannot recur past top of block
 		var->rank = 1;
 		enqueue(q, var->name, var->rank);
 	} else if (var->isRoot == TRUE) { // New queue for new root
