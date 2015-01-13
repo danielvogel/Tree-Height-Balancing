@@ -184,8 +184,6 @@ int parseVertex(graph *depGraph, char* sVertex)
 	 	
 	 	sptr = strtok(NULL, EDGE_DELIMITER);
 	}
-
-   // printGraph(depGraph);
 		return 1;
 }
 
@@ -208,10 +206,7 @@ int parseFile(graph *depGraph, fName* fn)
     	if(strstr(*gptr,EDGE_DEFINE)){
     		parseEdge(depGraph,*gptr);
     	}
-    }
-
- //   printGraph(depGraph);
- 		 
+    } 		 
 }
  
 depGraph* parseToDependencyGraph(char* directory)
