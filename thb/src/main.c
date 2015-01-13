@@ -77,7 +77,8 @@ ListItem* getCodeTrees(graph* dg){
     
     Operation* add = newOp("+", 1, 1, 1);
     Operation* mul = newOp("*", 1, 1, 2);
-    Operation* sub = newOp("-", 0, 1, 1);
+    Operation* sub = newOp("-", 0, 0, 1);
+    Operation* div = newOp("/", 0, 0, 2);
 
     ListItem* forest = new_list();
     ListItem* currForest = forest;
@@ -97,6 +98,8 @@ ListItem* getCodeTrees(graph* dg){
                 new->op = mul;
             } else if(!strcmp(current->operation , "-")){
                 new->op = sub;
+            } else if(!strcmp(current->operation , "/")){
+                new->op = div;
             } else {
                 printf("%s not supported operation\n", current->operation );
                 exit(1);
