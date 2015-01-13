@@ -8,13 +8,43 @@ graph* GraphCreate()
 	return g;
 }
 
-vertex* GraphAddVertex(graph* Graph, char* element, char* operation, vertex* nextVertex)
+vertex *GraphGetVertexByName(graph* g, char* sVertex)
+{
+	vertex *nVertex = g->vertices;		// get the first vertex
+
+	while(nVertex != NULL ){
+		if(strcmp(nVertex->element,sVertex)==0)
+			return nVertex;
+		nVertex = nVertex->next;	
+	}
+
+	return NULL;		
+}
+
+vertex *GraphGetVertexByNameAndOperation(graph* g, char* sVertex, char* operation)
+{
+	vertex *nVertex = g->vertices;		// get the first vertex
+
+	while(nVertex != NULL ){
+		if((strcmp(nVertex->element,sVertex)==0) && strcmp(nVertex,operation)==0)
+			return nVertex;
+		nVertex = nVertex->next;	
+	}
+
+	return NULL;		
+}
+
+vertex* GraphAddVertex(graph* Graph, char* element, char* operation, int isConstant, vertex* nextVertex)
 {
 	vertex *nVertex = Graph->vertices;		// get the first vertex
 	vertex *v = (vertex*)malloc(sizeof(vertex));
 
 	v->element= element;
-	v->operation = operation;
+	if(isConstant)
+		v->operation = NULL;
+	else
+		v->operation = operation;
+	v->isConstant = isConstant;
 	v->isVisited = 0;
 	v->next = nextVertex;
 	v->edge = (edge*)malloc(sizeof(edge));
@@ -60,7 +90,6 @@ void GraphAddEdge(graph* Graph, vertex* vertex1, vertex* vertex2)
 		
 		//austritt, sobald Knoten gefunden ist. v ist jetzt aktueller Knoten
 		insertEdge(v->edge,vertex2);
-		//printGraph(Graph);
 	}
 }
 

@@ -15,20 +15,20 @@ ListItem* getCodeTrees(graph* dg);
 int main(int argc, char** argv) {
     //forest = initCode();
     
-    graph* g = GraphCreate();
+    //graph* g = GraphCreate();
     depGraph *dg;
 
-    vertex* y = GraphAddVertex(g, "y","+", NULL);
-    vertex* z = GraphAddVertex(g, "z", "*", NULL);
-    vertex* t1 = GraphAddVertex(g, "t1","*", NULL);
-    vertex* t2 = GraphAddVertex(g, "t2","-", NULL);
-    vertex* a = GraphAddVertex(g, "a",NULL, NULL);
+    /*vertex* y = GraphAddVertex(g, "y","+",0, NULL);
+    vertex* z = GraphAddVertex(g, "z", "*",0, NULL);
+    vertex* t1 = GraphAddVertex(g, "t1","*",0, NULL);
+    vertex* t2 = GraphAddVertex(g, "t2","-", 0,NULL);
+    vertex* a = GraphAddVertex(g, "a",NULL,1, NULL);
     a->isConstant= 1;
-    vertex* b = GraphAddVertex(g, "b",NULL, NULL);
+    vertex* b = GraphAddVertex(g, "b",NULL, 1,NULL);
     b->isConstant = 1;
-    vertex* c = GraphAddVertex(g, "c",NULL, NULL);  
+    vertex* c = GraphAddVertex(g, "c",NULL,1, NULL);  
     c->isConstant = 1;
-    vertex* d = GraphAddVertex(g, "d",NULL, NULL);
+    vertex* d = GraphAddVertex(g, "d",NULL, 1,NULL);
     d->isConstant= 1;
 
 
@@ -39,9 +39,12 @@ int main(int argc, char** argv) {
     GraphAddEdge(g,t1,a);
     GraphAddEdge(g,t1,b);
     GraphAddEdge(g,t2,c);
-    GraphAddEdge(g,t2,d);
-    
-    ListItem* forest = getCodeTrees(g);
+    GraphAddEdge(g,t2,d);*/
+
+    dg = parseToDependencyGraph(GRAPHS_PATH);
+   // printGraph(dg->g);
+    printAllGraphs(dg);
+    ListItem* forest = getCodeTrees(dg->g);
     
     NameQueue *Roots = roots(forest);
     Node *node;
@@ -52,10 +55,6 @@ int main(int argc, char** argv) {
     	balance(node);
     	Roots = Roots->next;
     }
-    
-   
- 
-    printGraph(g);
 
     printRoots(Roots);
     return (EXIT_SUCCESS);

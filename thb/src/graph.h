@@ -36,7 +36,7 @@ typedef struct graphTag{
 /*
 Add a vertex to the graph with a name, and optionally some data
 */
-vertex* GraphAddVertex(graph*, char*,char*, vertex* );
+vertex* GraphAddVertex(graph*, char*,char*, int, vertex* );
 
 /*
 Create a directed edge between vertex1 (source) and vertex2(destination). 
@@ -61,4 +61,7 @@ Insert a new edge
 */
 void insertEdge(edge* head, vertex* v1);
 
+
+vertex *GraphGetVertexByNameAndOperation(graph*, char* , char* );
+vertex *GraphGetVertexByName(graph* , char* );
 #endif /*GRAPH_H_*/ 

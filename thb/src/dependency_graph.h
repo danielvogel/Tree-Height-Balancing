@@ -21,7 +21,7 @@ typedef struct dependencyGraph{
 	struct dependenyGraph *next;
 } depGraph;
 
-extern depGraph* dg;		//global variable for dependency graphs
+//extern depGraph* dg;		//global variable for dependency graphs
 
 typedef struct fileNames{
 	char* file;
@@ -30,6 +30,7 @@ typedef struct fileNames{
 	struct fileNames * next;
 }fName;
 
+#define GRAPHS_PATH	"../graphs/"
 #define VALID			1		// thats called if the parsed syntax was correct
 #define NOT_VALID		0		// thats called if the parsed syntax was not correct
 #define FOUND_NO_GRAPHS	2		// no graphs found
@@ -37,10 +38,14 @@ typedef struct fileNames{
 #define VERTEX_DEFINE	"vertex:"
 #define VERTEX_DELIMITER_OPEN	'['
 #define VERTEX_DELIMITER_CLOSE	']'
+#define VERTEX_CONST	"const"
+#define VERTEX_VAR	"var"
+#define VERTEX_TYPE_OPEN '('
+#define VERTEX_TYPE_CLOSE ')'
 
-#define EDGE_DEFINE	'edge:'
-#define EDGE_DELIMITER	','
-#define EDGE_CONNECTION	'->'
+#define EDGE_DEFINE	"edge:"
+#define EDGE_DELIMITER	","
+#define EDGE_CONNECTION	"->"
 
 
 /*function prototypes*/
@@ -68,4 +73,7 @@ create dependency graph
 void createDependencyGraph(depGraph*);
 
 void getNameofFiles(char* ,fName*);
+
+void printAllGraphs(depGraph* );
+
 #endif /* DEPENDENCYGRAPHS_H_ */

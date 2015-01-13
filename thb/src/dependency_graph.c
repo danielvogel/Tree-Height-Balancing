@@ -1,6 +1,12 @@
 #include "dependency_graph.h"
 
-depGraph* dg;
+
+void append(char* s, char c)
+{
+        int len = strlen(s);
+        s[len] = c;
+        s[len+1] = '\0';
+}
 
 off_t fsize(const char *filename) {
     struct stat st; 
@@ -59,75 +65,169 @@ void getNameofFiles(char* directory, fName* fn){
  }
 }
 
-
-int parseEdge()
+char* getVertex1ByDelimiter(char* sEdge)
 {
+	char* vertex1, *begin;
+	int i=0;
+	if((begin = strchr(sEdge,VERTEX_DELIMITER_OPEN))){
+		vertex1 = malloc(strlen(begin));	
+		i=1;	//first character is the open delimiter
+		while(begin[i] != '-')
+			append(vertex1,begin[i++]);	
 
+		return vertex1;	
+	}else
+	return NULL;
 }
 
-int parseVertex(FILE* file)
+char* getVertex2ByDelimiter(char* sEdge)
 {
-	char character;
-	char strVertex[255];
+	char* vertex2, *begin;
+	int i=0;
+	if((begin = strchr(sEdge,'>'))){
+		vertex2 = malloc(strlen(begin));	
+		i=1;	//first character is the open delimiter
+		while(begin[i] != VERTEX_DELIMITER_CLOSE)
+			append(vertex2,begin[i++]);	
+
+		return vertex2;	
+	}else
+	return NULL;
+}
+
+
+int parseEdge(graph *depGraph, char* sEdge)
+{
 	int i = 0;
+	char *sptr, *begin, *edgeElement1, *edgeElement2;
+	char *vertex1, *vertex2;
+	vertex *v1, *v2;
 
-	while( ( character = fgetc(file) ) != VERTEX_DELIMITER_CLOSE ){
-		strVertex[i++] = character;
+	// initialisieren und ersten Abschnitt erstellen
+	sptr = strtok(sEdge, ":");	// remove vertex string
+	sptr = strtok(NULL, EDGE_DELIMITER);
+	while(sptr != NULL) {
+		//printf("Abschnitt gefunden: %s\n", sptr);
+		vertex1 = getVertex1ByDelimiter(sptr);
+		vertex2 = getVertex2ByDelimiter(sptr);
+
+		v1 = GraphGetVertexByName(depGraph,vertex1);
+		v2 = GraphGetVertexByName(depGraph,vertex2);
+
+   		GraphAddEdge(depGraph,v1,v2);
+
+	 	sptr = strtok(NULL, EDGE_DELIMITER);
 	}
-		strVertex[i] =  '\0';
-		// printf("%c",character);		// if use %s formatter you get segmentation fault !!!
 
-	//GraphAddVertex(dg->g, strVertex, NULL);	
-	
+   // printGraph(depGraph);
 }
 
-int parseFile(fName* fn)
+char* getVertexType(char* sVertex)
+{
+	int i = 0;
+	char *begin, *sType;
+
+	if((begin = strchr(sVertex,VERTEX_TYPE_OPEN))){
+		sType = malloc(strlen(begin));	
+		i=1;	//first character is the open delimiter
+
+		while(begin[i] != VERTEX_TYPE_CLOSE)
+			append(sType,begin[i++]);		
+		
+		return sType;
+	}else
+	return NULL;
+}
+
+char* getVertexName(char* sVertex)
+{
+	int i = 0;
+	char *begin, *sType;
+
+
+	if((begin = strchr(sVertex,VERTEX_DELIMITER_OPEN))){
+		sType = malloc(strlen(begin));	
+		i=1;	//first character is the open delimiter
+
+		while(begin[i] != VERTEX_TYPE_OPEN)
+			append(sType,begin[i++]);		
+		
+		return sType;
+
+	}else
+	return NULL;
+}
+
+int parseVertex(graph *depGraph, char* sVertex)
+{
+    char *begin, *end;	// begin and end of vertex in string
+    char *sptr, *sdescript, *vertexElement, *vertexType;
+	int i = 0, isConst = 0, isVar = 0;
+
+	// initialisieren und ersten Abschnitt erstellen
+	sptr = strtok(sVertex, ":");	// remove vertex string
+	sptr = strtok(NULL, EDGE_DELIMITER);
+
+	while(sptr != NULL) {
+		//printf("Abschnitt gefunden: %s\n", sptr);
+		// naechsten Abschnitt erstellen
+		vertexElement = getVertexName(sptr);
+		vertexType = getVertexType(sptr);
+
+		if(strcmp(vertexType,VERTEX_CONST)==0)
+			isConst = 1;
+
+		if(strcmp(vertexType,VERTEX_VAR)==0)
+			isVar = 1;
+
+	 	GraphAddVertex(depGraph,vertexElement,vertexType,isConst, NULL);
+	 	
+	 	sptr = strtok(NULL, EDGE_DELIMITER);
+	}
+
+   // printGraph(depGraph);
+		return 1;
+}
+
+int parseFile(graph *depGraph, fName* fn)
 {
 	
   	size_t *t = malloc(0);
   	int nRet;
    	char **gptr = malloc(sizeof(char*));
     *gptr = NULL;
-    char ch;
 
-
-    while( ( ch = fgetc(fn->f) ) != EOF ){
-    	//printf("Line: ");
-    	do{
-    		if(ch == VERTEX_DELIMITER_OPEN)
-    			parseVertex(fn->f);
-
-    		// printf("%c",ch);
-    	}while((ch = fgetc(fn->f)) != '\n');
-    	
-  	}
-/*
     //read line from file. getline realloc memory for gptr
     while( (nRet=getline(gptr, t, fn->f)) > 0){    
-    //	printf("Line %d: %s",nRet,*gptr);
-    	//walk step by step through line
-	 printf("Step: %s\n",*gptr);
-		//check if vertex defined 
-		//parse the vertexs
-		//save the vertex onto graph struct
-	
-    }*/
-	
-	 		 
+    	//is vertex part of line? Parse vertex
+    	if(strstr(*gptr,VERTEX_DEFINE)){
+    		parseVertex(depGraph,*gptr);
+    	}
+    	
+    	//is edge part of line? Parse edge
+    	if(strstr(*gptr,EDGE_DEFINE)){
+    		parseEdge(depGraph,*gptr);
+    	}
+    }
+
+ //   printGraph(depGraph);
+ 		 
 }
  
 depGraph* parseToDependencyGraph(char* directory)
 {
   FILE *file;
   DIR *dir;
+  depGraph* dg;
   char* filepath;
   struct dirent *ent;
   fName *fn = (fName*)malloc(sizeof(fName)); //alocate first list element (head)
   depGraph* head;
+  
   dg = (depGraph*)malloc(sizeof(depGraph));
   head = dg;
 
-printf("FRONT: %p\n", head);
+  printf("FRONT: %p\n", dg);
   //first get all filenames in directory
   	if ((dir = opendir (directory)) != NULL) {
 	  /* print all the files and directories within directory */
@@ -150,8 +250,8 @@ printf("FRONT: %p\n", head);
 	    	    fprintf(stderr, "Error : Failed to open entry file - %s\n", strerror(errno));
 	            return 1;
         	}
-			parseFile(fn);	//parse file and  create dependency graph 	
-			printGraph(dg->g);
+			parseFile(dg->g,fn);	//parse file and  create dependency graph 	
+			//printGraph(dg->g);
      		fn = fn->next; 
      		dg = dg->next;
 	    }
@@ -163,5 +263,13 @@ printf("FRONT: %p\n", head);
  }
 printf("END: %p\n", head);
 
- return head;	//liefert den etzten graphen
+  //  printGraph(dg->g);
+ return head;	//liefert den letzten graphen
+}
+
+void printAllGraphs(depGraph* dg){
+	while(dg->g != NULL){
+		printGraph(dg->g);
+		dg = dg->next;
+	}
 }
