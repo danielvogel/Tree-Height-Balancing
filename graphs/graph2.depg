@@ -1,2 +1,2 @@
 vertex: [W(+)],[X(*)],[t1(*)],[t2(-)],[a(const)],[b(const)],[c(const)],[d(const)]
-edge: [W->t1] , [X->t1] , [W->t2] , [t1->a] , [t1->b] , [t2->c] , [t2->d]
+edge: [W->t1] , [X->t1] , [W->t2] , [X->t2] , [t1->a] , [t1->b] , [t2->c] , [t2->d]

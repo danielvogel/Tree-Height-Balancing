@@ -1,2 +1,2 @@
 vertex: [y(+)],[z(*)],[t1(*)],[t2(-)],[a(const)],[b(const)],[c(const)],[d(const)]
-edge: [y->t1] , [z->t1] , [y->t2] , [t1->a] , [t1->b] , [t2->c] , [t2->d]
+edge: [y->t1] , [z->t1] , [y->t2] , [z->t2] , [t1->a] , [t1->b] , [t2->c] , [t2->d]
