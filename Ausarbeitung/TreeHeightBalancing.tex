@@ -1,0 +1,95 @@
+\documentclass[10pt,a4paper,titlepage,oneside]{report}
+
+% Schriftart
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+%\usepackage[scaled]{uarial} %WINDOWS only!!!
+\renewcommand*\familydefault{\sfdefault}
+\sloppy
+
+\usepackage{graphicx}
+
+% Deutsches Datumsformat
+\usepackage{datetime}
+\newdateformat{mydate}{\twodigit{\THEDAY}.\twodigit{\THEMONTH}.\THEYEAR}
+\mydate
+
+% Meta Information festlegen
+\usepackage[
+pdftitle={Ausarbeitung für das Modul Compilerbau 2},
+pdfsubject={Tree-Height Balancing},
+pdfauthor={Sören Gutzeit, Daniel Vogel, Artjom Siebert, Patrick Koteras},
+pdfkeywords={Compilerbau, Tree, Height, Balancing}
+]{hyperref}
+
+% Acronyme für Glossar
+\usepackage[printonlyused]{acronym}
+
+% Listings
+\usepackage{listings}
+
+% biblatex einfügen
+\usepackage[babel]{csquotes}
+\usepackage[style=alphabetic,hyperref=true,backend=bibtex8]{biblatex}
+\bibliography{literatur}
+
+% Eigene Befehle
+\newcommand{\acfoot}[1]{\acs{#1}\footnote{\acl{#1}}}
+
+\author{Sören Gutzeit, Daniel Vogel, Artjom Siebert, Patrick Koteras}
+\title{Tree-Height Balancing}
+
+% Titlepage
+\begin{document}
+\begin{titlepage}
+	\begin{center}
+		\includegraphics[width=1.0\textwidth]{images/logo}\\
+		\vspace{3cm}
+		\begin{Huge}
+			 Tree-Height Balacing
+		\end{Huge} \linebreak
+		Ausarbeitung im Modul Compilerbau 2 \\
+		\vspace{3cm}
+		Sören Gutzeit, Daniel Vogel, Artjom Siebert, Patrick Koteras \\
+		\today
+	\end{center}
+\end{titlepage}
+
+% Leere Seite nach Titlepage
+\newpage 
+\thispagestyle{empty}
+\quad
+\newpage
+
+% Inhaltsverzeichnis
+\pagenumbering{Roman}
+\setcounter{page}{1}
+\tableofcontents
+
+% Sichern der aktuellen Seitenzahl des Vorspanns
+\newcounter{last_roman}
+\setcounter{last_roman}{\value{page}}
+\newpage
+
+%Seiten
+\pagenumbering{arabic}
+\input{chapter/Testing}
+
+% Leere Seite nach Inhalt
+\newpage 
+\thispagestyle{empty}
+\quad
+\newpage
+
+% Schluss
+\pagenumbering{Roman}
+\setcounter{page}{\value{last_roman}}
+\input{Abkuerzungsverzeichnis}
+\newpage
+\input{Abbildungsverzeichnis}
+\newpage
+\input{Listingverzeichnis}
+\newpage
+\input{Literaturverzeichnis}
+
+\end{document}
