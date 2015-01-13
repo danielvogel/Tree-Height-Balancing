@@ -1,4 +1,4 @@
-\documentclass[10pt,a4paper,titlepage,oneside]{report}
+\documentclass[12pt,a4paper,titlepage,oneside]{scrreprt}
 
 % Schriftart
 \usepackage[utf8]{inputenc}
@@ -8,13 +8,6 @@
 %\renewcommand*\familydefault{\sfdefault}
 %\sloppy
 
-\usepackage{graphicx}
-
-% Deutsches Datumsformat
-\usepackage{datetime}
-\newdateformat{mydate}{\twodigit{\THEDAY}.\twodigit{\THEMONTH}.\THEYEAR}
-\mydate
-
 % Meta Information festlegen
 \usepackage[
 pdftitle={Ausarbeitung für das Modul Compilerbau 2},
@@ -22,6 +15,17 @@ pdfsubject={Tree-Height Balancing},
 pdfauthor={Sören Gutzeit, Daniel Vogel, Artjom Siebert, Patrick Koteras},
 pdfkeywords={Compilerbau, Tree, Height, Balancing}
 ]{hyperref}
+
+%Bilder
+\usepackage[all]{hypcap}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{scrhack}
+
+% Deutsches Datumsformat
+\usepackage{datetime}
+\newdateformat{mydate}{\twodigit{\THEDAY}.\twodigit{\THEMONTH}.\THEYEAR}
+\mydate
 
 % Acronyme für Glossar
 \usepackage[printonlyused]{acronym}
@@ -75,7 +79,9 @@ pdfkeywords={Compilerbau, Tree, Height, Balancing}
 %Seiten
 \pagenumbering{arabic}
 \input{chapter/Einfuehrung}
+\input{chapter/Algorithmus}
 \input{chapter/Testing}
+\input{chapter/Fazit}
 
 % Leere Seite nach Inhalt
 \newpage 
