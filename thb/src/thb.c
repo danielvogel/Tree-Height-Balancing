@@ -88,7 +88,7 @@ void balance(Node *root) {
 }
 
 int flatten(Node *var, NameQueue *q) { // Flatten computes a rank for var & builds the queue
-	if (var->op == NULL) // Cannot recur further
+	if (var->isConstant == TRUE) // Cannot recur further
 	{
 		var->rank = 0;
 		enqueue(q, var->name, var->rank);
