@@ -32,6 +32,7 @@
 # directories
 bin/
 obj/
+nbproject/
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
