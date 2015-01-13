@@ -88,11 +88,11 @@ void balance(Node *root) {
 }
 
 int flatten(Node *var, NameQueue *q) { // Flatten computes a rank for var & builds the queue
-	if (var->op == NULL) // Cannot recur further
+	if (var->isConstant == TRUE) // Cannot recur further
 	{
 		var->rank = 0;
 		enqueue(q, var->name, var->rank);
-	} else if (1/* TODO var element UEVar(b)*/) { // Cannot recur past top of block
+	} else if (inUEVar(var) == TRUE) { // Cannot recur past top of block
 		var->rank = 1;
 		enqueue(q, var->name, var->rank);
 	} else if (var->isRoot == TRUE) { // New queue for new root
