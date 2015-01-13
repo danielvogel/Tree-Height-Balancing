@@ -81,7 +81,7 @@ void balance(Node *root) {
 	{
 		return; // have already processed this tree
 	}
-
+	
 	NameQueue *q = new_queue(); // First, flatten the tree
 	root->rank = flatten(root->left, q) + flatten(root->right, q);
 	rebuild(q, root->op); // Then, rebuild a balanced tree
@@ -112,13 +112,65 @@ int inUEVar(Node *var) { // TODO
 }
 
 void rebuild(NameQueue *q, Operation *op) {
-	Node *nl, *nr;
-	while(q->next != NULL && q->next->next != NULL) {
+	printf("Start rebuilding tree");
+
+	Node *nl, *nr, *nt;
+	//while(q->next != NULL && q->next->next != NULL) {
+	if(1) {
+		/*q = q->next->next->next;
 		nl = nodeByName(forest, q->next->name);
 		nr = nodeByName(forest, q->next->next->name);
 		
-		//if (nl->)
+		printf("Examining nodes '%s' and '%s' for rebuild.", nl->name, nr->name);*/
 		
-		q = q->next->next->next;
+		nl = newNode("5");
+		nr = newNode("18");
+		nl->isConstant = TRUE;
+		nr->isConstant = TRUE;
+		op->sign = "*";
+		if (nl->isConstant && nr->isConstant) {
+			nt = fold(op, nl, nr);
+			if (q->next == NULL) {
+				printf("root <-- %s\n", nt->name);
+				nt->rank = 0;
+			} else {
+				enqueue(q,nt->name,0);
+				nt->rank = 0;
+			}
+		} else {
+			if (q->next == NULL) {
+				nt->isRoot = TRUE;
+			} else {
+				nt->name = ""; // --> TODO generate new name (e.g. starting from t0... with global var)
+			}
+		}		
 	}	
 }
+
+
+Node *fold(Operation *op, Node *left, Node *right) {
+	char *endPtr;
+	Node *result = newNode("");
+	result->name = malloc(sizeof (char *) * 16);
+	result->rank = 0;
+	
+	int leftOp  = strtol(left->name, &endPtr, 10);
+	int rightOp = strtol(right->name, &endPtr, 10);
+	int intRes;
+	
+	if(!strcmp(op->sign, "+")) {
+		intRes = leftOp + rightOp;
+    } else if(!strcmp(op->sign, "*")) {
+		intRes = leftOp * rightOp;
+    } else if(!strcmp(op->sign, "-")) {
+        intRes = leftOp - rightOp;
+    } else if(!strcmp(op->sign, "/")) {
+        intRes = leftOp / rightOp;
+    }
+       
+    sprintf(result->name, "%d", intRes);
+    
+ 	printf("Successfully folded nodes '%s' and '%s' with operation '%s' to value '%s'.\n", left->name, right->name, op->sign, result->name);   
+	return result;
+}
+

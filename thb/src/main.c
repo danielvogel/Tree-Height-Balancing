@@ -90,7 +90,6 @@ ListItem* getCodeTrees(graph* dg){
         
         if(current->operation == NULL){
             new->isConstant = current->isConstant;
-            new->isVariable = current->isVariable;
         } else {
             
             if(!strcmp(current->operation , "+")){

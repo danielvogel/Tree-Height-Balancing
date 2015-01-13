@@ -19,5 +19,5 @@ void balance(Node *root);
 int flatten(Node *var, NameQueue *q);
 int inUEVar(Node *var);
 void rebuild(NameQueue *q, Operation *op);
-
+Node *fold(Operation *op, Node *left, Node *right);
 #endif	/* THB_H */
