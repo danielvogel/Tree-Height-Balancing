@@ -1,6 +1,5 @@
 #include "dependency_graph.h"
 
-
 void append(char* s, char c)
 {
         int len = strlen(s);
@@ -211,7 +210,6 @@ int parseFile(graph *depGraph, fName* fn)
  
 depGraph* parseToDependencyGraph(char* directory)
 {
-  FILE *file;
   DIR *dir;
   depGraph* dg;
   char* filepath;
@@ -222,7 +220,6 @@ depGraph* parseToDependencyGraph(char* directory)
   dg = (depGraph*)malloc(sizeof(depGraph));
   head = dg;
 
-  printf("FRONT: %p\n", dg);
   //first get all filenames in directory
   	if ((dir = opendir (directory)) != NULL) {
 	  /* print all the files and directories within directory */
@@ -241,12 +238,11 @@ depGraph* parseToDependencyGraph(char* directory)
 			fn->isValid = 0;
 
 	    	fn->f = fopen(fn->file, "r");
-	    	if (file == NULL){
+	    	if (fn->f == NULL){
 	    	    fprintf(stderr, "Error : Failed to open entry file - %s\n", strerror(errno));
-	            return 1;
+	            return NULL;
         	}
 			parseFile(dg->g,fn);	//parse file and  create dependency graph 	
-			//printGraph(dg->g);
      		fn = fn->next; 
      		dg = dg->next;
 	    }
@@ -256,9 +252,7 @@ depGraph* parseToDependencyGraph(char* directory)
 	  /* could not open directory */
 	  perror ("Error - ");
  }
-printf("END: %p\n", head);
 
-  //  printGraph(dg->g);
  return head;	//liefert den letzten graphen
 }
 
