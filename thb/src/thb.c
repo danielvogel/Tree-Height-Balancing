@@ -115,19 +115,19 @@ void rebuild(NameQueue *q, Operation *op) {
 	printf("Start rebuilding tree");
 
 	Node *nl, *nr, *nt;
-	//while(q->next != NULL && q->next->next != NULL) {
-	if(1) {
-		/*q = q->next->next->next;
+	while(q->next != NULL && q->next->next != NULL) {
+	//if(1) {
+		q = q->next->next->next;
 		nl = nodeByName(forest, q->next->name);
 		nr = nodeByName(forest, q->next->next->name);
 		
-		printf("Examining nodes '%s' and '%s' for rebuild.", nl->name, nr->name);*/
+		printf("Examining nodes '%s' and '%s' for rebuild.", nl->name, nr->name);
 		
-		nl = newNode("5");
+		/*nl = newNode("5");
 		nr = newNode("18");
 		nl->isConstant = TRUE;
 		nr->isConstant = TRUE;
-		op->sign = "*";
+		op->sign = "*";*/
 		if (nl->isConstant && nr->isConstant) {
 			nt = fold(op, nl, nr);
 			if (q->next == NULL) {
@@ -142,6 +142,11 @@ void rebuild(NameQueue *q, Operation *op) {
 				nt->isRoot = TRUE;
 			} else {
 				nt->name = getVariableName();
+			}
+			printf("%s <-- %s %s %s\n", nt->name, nl->name, op->sign, nr->name);
+			nr->rank = nl->rank + nr->rank;
+			if (q->next != NULL) {
+				enqueue(q,nt->name,nr->rank);
 			}
 		}		
 	}	
