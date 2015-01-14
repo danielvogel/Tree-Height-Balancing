@@ -192,7 +192,7 @@ void rebuild(NameQueue *q, Operation *op) {
 			if (q->next == NULL) {
 				nt->isRoot = TRUE;
 			} else {
-				//nt->name = getVariableName();
+				getVariableName(nt);
 			}
 			printf("%s <-- %s %s %s\n", nt->name, nl->name, op->sign, nr->name);
 			nr->rank = nl->rank + nr->rank;
