@@ -163,28 +163,28 @@ bool cmpOp(Operation *op1, Operation *op2)
 }
 
 void rebuild(NameQueue *q, Operation *op) {
-	printf("Start rebuilding tree");
+	printf("Start rebuilding tree\n");
+	printf("---------------------\n");
 
 	Node *nl, *nr, *nt;
 	while(q->next != NULL && q->next->next != NULL) {
-	//if(1) {
-		q = q->next->next->next;
+
 		nl = nodeByName(forest, q->next->name);
 		nr = nodeByName(forest, q->next->next->name);
+		q  = q->next->next;
 		
-		printf("Examining nodes '%s' and '%s' for rebuild.", nl->name, nr->name);
+		if (DEBUG_OUTPUT)
+			printf("Examining nodes '%s' and '%s' for rebuild.\n", nl->name, nr->name);
 		
-		/*nl = newNode("5");
-		nr = newNode("18");
-		nl->isConstant = TRUE;
-		nr->isConstant = TRUE;
-		op->sign = "*";*/
 		if (nl->isConstant && nr->isConstant) {
 			nt = fold(op, nl, nr);
+			getVariableName(nt);
 			if (q->next == NULL) {
-				printf("root <-- %s\n", nt->name);
+				printf("root: %s --> [ %s %s %s ]\n", nt->name, nl->name, op->sign, nr->name);
 				nt->rank = 0;
 			} else {
+				if (DEBUG_OUTPUT)
+					printf("Enqueueing new node %s\n", nt->name);
 				enqueue(q,nt->name,0);
 				nt->rank = 0;
 			}
@@ -192,7 +192,7 @@ void rebuild(NameQueue *q, Operation *op) {
 			if (q->next == NULL) {
 				nt->isRoot = TRUE;
 			} else {
-				nt->name = getVariableName();
+				//nt->name = getVariableName();
 			}
 			printf("%s <-- %s %s %s\n", nt->name, nl->name, op->sign, nr->name);
 			nr->rank = nl->rank + nr->rank;
@@ -225,14 +225,15 @@ Node *fold(Operation *op, Node *left, Node *right) {
        
     sprintf(result->name, "%d", intRes);
     
- 	printf("Successfully folded nodes '%s' and '%s' with operation '%s' to value '%s'.\n", left->name, right->name, op->sign, result->name);   
+ 	if (DEBUG_OUTPUT)
+ 		printf("Successfully folded nodes '%s' and '%s' with operation '%s' to value '%s'.\n", left->name, right->name, op->sign, result->name);   
 	return result;
 }
 
-char *getVariableName(void) {
-	char *name = malloc(sizeof (char *) * 16);;
-	sprintf(name, "tt%d", varTempCounter++);
-	printf("Generated new variable name: %s\n", name);
-	return name;
+void getVariableName(Node *node) {
+	node->name = malloc(sizeof (char *) * 16);;
+	sprintf(node->name, "tt%d", varTempCounter++);
+	if (DEBUG_OUTPUT)
+		printf("Generated new variable name: %s\n", node->name);
 }
 

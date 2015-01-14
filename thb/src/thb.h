@@ -27,5 +27,5 @@ bool cmpOp(Operation *op1, Operation *op2);
 int inUEVar(Node *var);
 void rebuild(NameQueue *q, Operation *op);
 Node *fold(Operation *op, Node *left, Node *right);
-char *getVariableName(void);
+void getVariableName(Node *node);
 #endif	/* THB_H */

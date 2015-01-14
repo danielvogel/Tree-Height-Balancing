@@ -45,14 +45,15 @@ int main(int argc, char** argv) {
     dg = parseToDependencyGraph(GRAPHS_PATH);
    // printGraph(dg->g);
     printAllGraphs(dg);
-    ListItem* forest = getCodeTrees(dg->g);
+    forest = getCodeTrees(dg->g);
     
     NameQueue *Roots = roots(forest);
     Node *node;
     
     while (Roots->next != NULL && (nodeByName(forest, Roots->next->name) != NULL)) {
     	node = nodeByName(forest, Roots->next->name);
-    	printf("Start balancing node: %s\n", node->name);
+    	if (DEBUG_OUTPUT)
+    		printf("Start balancing node: %s\n", node->name);
     	balance(node);
     	Roots = Roots->next;
     }

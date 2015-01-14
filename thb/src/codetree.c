@@ -24,6 +24,7 @@ Node * newNode(char *data){
     node->right = NULL;
     node->op = NULL;
     node->isConstant = FALSE; // asd
+    node->rank = 0;
  
     return node;
 }
