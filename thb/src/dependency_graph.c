@@ -23,8 +23,7 @@ char* filePath(char* directory, char* fileName){
 	int sDirectory = strlen(directory) ;
 	int sfileName = strlen(fileName) ; 
 	char* filepath = (char*)malloc(sizeof(char) + sDirectory + sfileName + 1); // allocate memory for filepath (+1 because the \0 at the end)
-	
-	//printf("Size of directory %s : %d\nSize of fileName %s : %d\n",directory, sDirectory,fileName, sfileName);
+
 	sprintf(filepath,"%s%s",directory,fileName);	//print string formatted 
 
 	return filepath;
@@ -41,7 +40,6 @@ void getNameofFiles(char* directory, fName* fn){
 	DIR *dir;
 	struct dirent *ent;
 	
-
 	if ((dir = opendir (directory)) != NULL) {
 
 	  /* print all the files and directories within directory */

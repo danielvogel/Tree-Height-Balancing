@@ -64,4 +64,5 @@ void insertEdge(edge* head, vertex* v1);
 
 vertex *GraphGetVertexByNameAndOperation(graph*, char* , char* );
 vertex *GraphGetVertexByName(graph* , char* );
+
 #endif /*GRAPH_H_*/ 
