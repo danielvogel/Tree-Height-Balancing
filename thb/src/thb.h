@@ -23,7 +23,7 @@ void balance(Node *root);
 int flatten(Node *var, NameQueue *q);
 void setUEVAR(UEVarQueue *queue);
 bool cmpNode(Node *node1, Node *node2);
-bool cmpOp(Operation *op1, Operation *op2);
+// bool cmpOp(Operation *op1, Operation *op2);
 int inUEVar(Node *var);
 void rebuild(NameQueue *q, Operation *op);
 Node *fold(Operation *op, Node *left, Node *right);

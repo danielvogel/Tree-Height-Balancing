@@ -133,13 +133,13 @@ bool cmpNode(Node *node1, Node *node2)
 {
 	bool result = FALSE;
 
-	if (node1->name == node2->name &&
+	if (node1->name == node2->name/* &&
 		cmpOp(node1->op, node2->op) &&
 		cmpNode(node1->left, node2->left) &&
 		cmpNode(node1->right, node2->right) &&
 		node1->isRoot == node2->isRoot &&
 		node1->rank == node2->rank &&
-		node1->isConstant == node2->isConstant)
+		node1->isConstant == node2->isConstant*/)
 	{
 		result = TRUE;
 	}
@@ -147,7 +147,7 @@ bool cmpNode(Node *node1, Node *node2)
 	return result;
 }
 
-bool cmpOp(Operation *op1, Operation *op2)
+/*bool cmpOp(Operation *op1, Operation *op2)
 {
 	bool result = FALSE;
 
@@ -160,7 +160,7 @@ bool cmpOp(Operation *op1, Operation *op2)
 	}
 
 	return result;
-}
+}*/
 
 void rebuild(NameQueue *q, Operation *op) {
 	printf("Start rebuilding tree\n");
