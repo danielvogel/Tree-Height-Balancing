@@ -42,6 +42,31 @@ int main(int argc, char** argv) {
     GraphAddEdge(g,t2,c);
     GraphAddEdge(g,t2,d);*/
 
+    printf("\nStarting creation of UEVar\n");
+    UEVarQueue *uevarNodeA = (UEVarQueue *)malloc(sizeof(UEVarQueue));
+    uevarNodeA->name = "a";
+    printf("Created \"%s\"\n",uevarNodeA->name);
+    UEVarQueue *uevarNodeB = (UEVarQueue *)malloc(sizeof(UEVarQueue));
+    uevarNodeB->name = "b";
+    printf("Created \"%s\"\n",uevarNodeB->name);
+    uevarNodeA->next = uevarNodeB;
+    printf("Set next from \"%s\" to \"%s\"\n",uevarNodeA->name, uevarNodeA->next->name);
+    UEVarQueue *uevarNodeC = (UEVarQueue *)malloc(sizeof(UEVarQueue));
+    uevarNodeC->name = "c";
+    printf("Created \"%s\"\n",uevarNodeC->name);
+    uevarNodeB->next = uevarNodeC;
+    printf("Set next from \"%s\" to \"%s\"\n",uevarNodeB->name, uevarNodeB->next->name);
+    UEVarQueue *uevarNodeD = (UEVarQueue *)malloc(sizeof(UEVarQueue));
+    uevarNodeD->name = "d";
+    printf("Created \"%s\"\n",uevarNodeD->name);
+    uevarNodeC->next = uevarNodeD;
+    printf("Set next from \"%s\" to \"%s\"\n",uevarNodeC->name, uevarNodeC->next->name);
+    UEVar = uevarNodeA;
+    printf("First element of UEVar is \"%s\"\n", UEVar->name);
+    printf("Last element of UEVar is \"%s\"\n", UEVar->next->next->next->name);
+    printf("Size of UEVar is %d\n", sizeOfUEVAR(UEVar));
+    printf("Finished creation of UEVar\n\n");
+
     dg = parseToDependencyGraph(GRAPHS_PATH);
    // printGraph(dg->g);
     printAllGraphs(dg);

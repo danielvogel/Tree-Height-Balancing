@@ -13,7 +13,7 @@ int varTempCounter;
 
 typedef struct UEVar_queue {
     struct UEVar_queue *next;
-    Node *node;
+    char *name;
 } UEVarQueue;
 
 UEVarQueue *UEVar;
@@ -21,7 +21,7 @@ UEVarQueue *UEVar;
 Uses * uses(ListItem * forest, char * name);
 void balance(Node *root);
 int flatten(Node *var, NameQueue *q);
-void setUEVAR(UEVarQueue *queue);
+int sizeOfUEVAR(UEVarQueue *queue);
 bool cmpNode(Node *node1, Node *node2);
 // bool cmpOp(Operation *op1, Operation *op2);
 int inUEVar(Node *var);

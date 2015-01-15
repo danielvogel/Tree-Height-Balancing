@@ -107,9 +107,18 @@ int flatten(Node *var, NameQueue *q) { // Flatten computes a rank for var & buil
 UEVarQueue *UEVar = NULL;
 
 // In tests set UEVar!
-void setUEVAR(UEVarQueue *queue)
+int sizeOfUEVAR(UEVarQueue *queue)
 {
-	UEVar = queue;
+	int i = 0;
+	UEVarQueue *element = queue;
+
+	while (element != NULL)
+	{
+		i++;
+		element = element->next;
+	}
+
+	return i;
 }
 
 // check if UEVar(b) contains var
@@ -119,7 +128,7 @@ bool inUEVar(Node *var) {
 
 	while (result != TRUE && element != NULL)
 	{
-		if (cmpNode(var, element->node))
+		if (strcmp(var->name, element->name) == 0)
 		{
 			result = TRUE;
 		}
@@ -128,39 +137,6 @@ bool inUEVar(Node *var) {
 
 	return result;
 }
-
-bool cmpNode(Node *node1, Node *node2)
-{
-	bool result = FALSE;
-
-	if (node1->name == node2->name/* &&
-		cmpOp(node1->op, node2->op) &&
-		cmpNode(node1->left, node2->left) &&
-		cmpNode(node1->right, node2->right) &&
-		node1->isRoot == node2->isRoot &&
-		node1->rank == node2->rank &&
-		node1->isConstant == node2->isConstant*/)
-	{
-		result = TRUE;
-	}
-
-	return result;
-}
-
-/*bool cmpOp(Operation *op1, Operation *op2)
-{
-	bool result = FALSE;
-
-	if (op1->sign == op2->sign &&
-		op1->isCommunitative == op2->isCommunitative &&
-		op1->isAssociative == op2->isAssociative &&
-		op1->precedence == op2->precedence)
-	{
-		result = TRUE;
-	}
-
-	return result;
-}*/
 
 void rebuild(NameQueue *q, Operation *op) {
 	printf("Start rebuilding tree\n");
