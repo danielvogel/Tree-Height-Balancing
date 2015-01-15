@@ -107,10 +107,10 @@ int flatten(Node *var, NameQueue *q) { // Flatten computes a rank for var & buil
 UEVarQueue *UEVar = NULL;
 
 // In tests set UEVar!
-int sizeOfUEVAR(UEVarQueue *queue)
+int sizeOfUEVar()
 {
 	int i = 0;
-	UEVarQueue *element = queue;
+	UEVarQueue *element = UEVar;
 
 	while (element != NULL)
 	{
@@ -119,6 +119,18 @@ int sizeOfUEVAR(UEVarQueue *queue)
 	}
 
 	return i;
+}
+
+UEVarQueue *getEndOfUEVar()
+{
+	UEVarQueue *element = UEVar;
+
+	while (element != NULL)
+	{
+		element = element->next;
+	}
+
+	return element;
 }
 
 // check if UEVar(b) contains var
