@@ -1,5 +1,7 @@
 #include "dependency_graph.h"
 
+int numberOfGraphs = 0;
+
 void append(char* s, char c)
 {
         int len = strlen(s);
@@ -93,10 +95,9 @@ char* getVertex2ByDelimiter(char* sEdge)
 }
 
 
-int parseEdge(graph *depGraph, char* sEdge)
+void parseEdge(graph *depGraph, char* sEdge)
 {
-	int i = 0;
-	char *sptr, *begin, *edgeElement1, *edgeElement2;
+	char *sptr;
 	char *vertex1, *vertex2;
 	vertex *v1, *v2;
 
@@ -115,8 +116,6 @@ int parseEdge(graph *depGraph, char* sEdge)
 
 	 	sptr = strtok(NULL, EDGE_DELIMITER);
 	}
-
-   // printGraph(depGraph);
 }
 
 char* getVertexType(char* sVertex)
@@ -157,9 +156,8 @@ char* getVertexName(char* sVertex)
 
 int parseVertex(graph *depGraph, char* sVertex)
 {
-    char *begin, *end;	// begin and end of vertex in string
-    char *sptr, *sdescript, *vertexElement, *vertexType;
-	int i = 0, isConst = 0, isVar = 0;
+    char *sptr, *vertexElement, *vertexType;
+	int isConst = 0;
 
 	// initialisieren und ersten Abschnitt erstellen
 	sptr = strtok(sVertex, ":");	// remove vertex string
@@ -175,7 +173,7 @@ int parseVertex(graph *depGraph, char* sVertex)
 			isConst = 1;
 
 		if(strcmp(vertexType,VERTEX_VAR)==0)
-			isVar = 1;
+			isConst = 0;	//isConst = 0, that is a variable not a constant
 
 	 	GraphAddVertex(depGraph,vertexElement,vertexType,isConst, NULL);
 	 	
@@ -184,7 +182,7 @@ int parseVertex(graph *depGraph, char* sVertex)
 		return 1;
 }
 
-int parseFile(graph *depGraph, fName* fn)
+void parseFile(graph *depGraph, fName* fn)
 {
 	
   	size_t *t = malloc(0);
@@ -218,17 +216,18 @@ depGraph* parseToDependencyGraph(char* directory)
   dg = (depGraph*)malloc(sizeof(depGraph));
   head = dg;
 
+  printf("Reading graphs from /graphs directory. It is read only files with the extension .depg \n");
   //first get all filenames in directory
   	if ((dir = opendir (directory)) != NULL) {
 	  /* print all the files and directories within directory */
 	  while ((ent = readdir (dir)) != NULL) {
 	    if(strstr(ent->d_name,".depg") != NULL){ 	 //if the file is a dependency graph type
 	    	dg->g = GraphCreate();		//new file => new Graph
-	    	dg->next = (depGraph*)malloc(sizeof(depGraph));
+	    	dg->next = (struct dependenyGraph*)malloc(sizeof(depGraph));
 
 	    	filepath = filePath(directory,ent->d_name);
-	    	printf("Found file %s %d\n",ent->d_name,ent->d_type);
-	    	printf("Size of file %d bytes\n",fsize(filepath));
+	    	printf("Found file: %s\n",ent->d_name);
+	    	printf("Size of file: %lld bytes\n",(long long int)fsize(filepath));
 
 	    	//set the next file struct
 			fn->file = filepath;
@@ -243,9 +242,11 @@ depGraph* parseToDependencyGraph(char* directory)
 			parseFile(dg->g,fn);	//parse file and  create dependency graph 	
      		fn = fn->next; 
      		dg = dg->next;
+     		numberOfGraphs++;	//increment reading graph counter
 	    }
 	  }
 	  closedir (dir);		//close the opened directory
+	  printf("Number of graphs: %d\n\n", numberOfGraphs);
 	} else {
 	  /* could not open directory */
 	  perror ("Error - ");

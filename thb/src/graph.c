@@ -26,7 +26,7 @@ vertex *GraphGetVertexByNameAndOperation(graph* g, char* sVertex, char* operatio
 	vertex *nVertex = g->vertices;		// get the first vertex
 
 	while(nVertex != NULL ){
-		if((strcmp(nVertex->element,sVertex)==0) && strcmp(nVertex,operation)==0)
+		if((strcmp(nVertex->element,sVertex)==0) && strcmp(nVertex->operation,operation)==0)
 			return nVertex;
 		nVertex = nVertex->next;	
 	}

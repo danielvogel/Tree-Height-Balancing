@@ -5,7 +5,7 @@
 #CFLAGS=
 #LDFLAGS=
 CC=gcc
-CFLAGS=-c -ggdb -I/usr/local/include 
+CFLAGS=-c -Wall -ggdb -I/usr/local/include 
 SOURCES= src/main.c src/thb.c src/codetree.c src/namequeue.c src/graph.c src/dependency_graph.c
 DISTDIR= bin/
 ODIR= obj

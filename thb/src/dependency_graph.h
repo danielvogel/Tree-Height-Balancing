@@ -13,7 +13,7 @@
 #include <errno.h>
 #include <sys/stat.h>
 
-static int numberOfGraphs = 0;
+extern int numberOfGraphs;
 
 /*dependency struct*/
 typedef struct dependencyGraph{

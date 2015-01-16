@@ -9,13 +9,13 @@
 */
 #include <stdlib.h>
 #include <malloc.h>
-
+#include <string.h>
+#include "thb.h"
 
 typedef struct vertexTag {
   char* element;    // vertex name
   char* operation;  // operation (it is a constant if NULL)
   int isConstant;
-  int isVariable;
   int isVisited;
   struct edgeTag* edge;
   struct vertexTag *next;
