@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
     UEVar = uevarNodeA;
     printf("First element of UEVar is \"%s\"\n", UEVar->name);
     printf("Last element of UEVar is \"%s\"\n", UEVar->next->next->next->name);
-    printf("Size of UEVar is %d\n", sizeOfUEVAR(UEVar));
+    printf("Size of UEVar is %d\n", sizeOfUEVar());
     printf("Finished creation of UEVar\n\n");
 
     dg = parseToDependencyGraph(GRAPHS_PATH);
