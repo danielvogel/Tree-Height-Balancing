@@ -42,6 +42,8 @@ int main(int argc, char** argv) {
     GraphAddEdge(g,t2,c);
     GraphAddEdge(g,t2,d);*/
 
+    
+    
     printf("\nStarting creation of UEVar\n");
     UEVarQueue *uevarNodeA = (UEVarQueue *)malloc(sizeof(UEVarQueue));
     uevarNodeA->name = "a";
@@ -70,20 +72,26 @@ int main(int argc, char** argv) {
     dg = parseToDependencyGraph(GRAPHS_PATH);
    // printGraph(dg->g);
     printAllGraphs(dg);
-    forest = getCodeTrees(dg->g);
     
-    NameQueue *Roots = roots(forest);
-    Node *node;
+    depGraph* current = dg;
     
-    while (Roots->next != NULL && (nodeByName(forest, Roots->next->name) != NULL)) {
-    	node = nodeByName(forest, Roots->next->name);
-    	if (DEBUG_OUTPUT)
-    		printf("Start balancing node: %s\n", node->name);
-    	balance(node);
-    	Roots = Roots->next;
-    }
+    do{
+        forest = getCodeTrees(current->g);
 
-    printRoots(Roots);
+        NameQueue *Roots = roots(forest);
+        Node *node;
+        
+        printRoots(Roots);
+
+        while (Roots->next != NULL && (nodeByName(forest, Roots->next->name) != NULL)) {
+            node = nodeByName(forest, Roots->next->name);
+            if (DEBUG_OUTPUT)
+                    printf("Start balancing node: %s\n", node->name);
+            balance(node);
+            Roots = Roots->next;
+        }
+    } while ((current = current->next) != NULL);
+    
     return (EXIT_SUCCESS);
 }
 
@@ -91,11 +99,14 @@ void printRoots(NameQueue * Roots){
 
     NameQueue * current = Roots;
     
+    printf("\nResult Phase 1:\n");
+    
     do{
         printf("(%s %d)", current->name, current->precedence);
         
     } while ((current = current->next) != NULL);
    
+    printf("\n\n");
 }
 
 
