@@ -12,13 +12,15 @@
 #include <string.h>
 #include <errno.h>
 #include <sys/stat.h>
+#include "thb.h"
 
 extern int numberOfGraphs;
 
 /*dependency struct*/
 typedef struct dependencyGraph{
-	graph *g;
-	struct dependenyGraph *next;
+	graph *g;			//each dg contains a graph
+	UEVarQueue *uevar;	//contains a queue of uevars
+	struct dependenyGraph *next;	// it is possible to get more than one dependency graph
 } depGraph;
 
 //extern depGraph* dg;		//global variable for dependency graphs
@@ -47,6 +49,7 @@ typedef struct fileNames{
 #define EDGE_DELIMITER	","
 #define EDGE_CONNECTION	"->"
 
+#define UEVAR_DEFINE "uevar:"
 
 /*function prototypes*/
 
@@ -75,5 +78,12 @@ void createDependencyGraph(depGraph*);
 void getNameofFiles(char* ,fName*);
 
 void printAllGraphs(depGraph* );
+
+void parseEdge(graph *, char* );
+
+void parseVertex(graph *, char* );
+
+void parseFile(graph *, fName*);
+
 
 #endif /* DEPENDENCYGRAPHS_H_ */

@@ -32,9 +32,7 @@ char* filePath(char* directory, char* fileName){
 }
 
 FILE* openNewFile(char* path, char* mode){
-	FILE *file = fopen(path, mode);
- 	
-	return file;
+	return fopen(path, mode);
 }
 
 
@@ -94,6 +92,73 @@ char* getVertex2ByDelimiter(char* sEdge)
 	return NULL;
 }
 
+char* getVertexType(char* sVertex)
+{
+	int i = 0;
+	char *begin, *sType;
+
+	if((begin = strchr(sVertex,VERTEX_TYPE_OPEN))){
+		sType = malloc(strlen(begin));	
+		i=1;	//first character is the open delimiter
+
+		while(begin[i] != VERTEX_TYPE_CLOSE)
+			append(sType,begin[i++]);		
+		
+		return sType;
+	}else
+	return NULL;
+}
+
+char* getVertexNameByName(char* vertexName)
+{
+	int i = 0;
+	char *begin, *sType;
+
+	if((begin = strchr(vertexName,VERTEX_DELIMITER_OPEN))){
+		sType = malloc(strlen(begin));	
+		i=1;	//first character is the open delimiter
+
+		while(begin[i] != VERTEX_DELIMITER_CLOSE)
+			append(sType,begin[i++]);		
+		
+		return sType;
+
+	}else
+	return NULL;
+}
+
+char* getVertexName(char* sVertex)
+{
+	int i = 0;
+	char *begin, *sType;
+
+	if((begin = strchr(sVertex,VERTEX_DELIMITER_OPEN))){
+		sType = malloc(strlen(begin));	
+		i=1;	//first character is the open delimiter
+
+		while(begin[i] != VERTEX_TYPE_OPEN)
+			append(sType,begin[i++]);		
+		
+		return sType;
+
+	}else
+	return NULL;
+}
+
+void parseUEVar(graph *depGraph, char* UEVar)
+{
+	char *sptr ,*vertexElement;
+
+	sptr = strtok(UEVar, ":");	// remove vertex string
+	sptr = strtok(NULL, EDGE_DELIMITER);
+	while(sptr != NULL) {
+		vertexElement = getVertexNameByName(sptr);
+		printf("UEAVAR(%s)\n",vertexElement);
+
+		//TODO	save the located uevars into the queu of uevar. This queue discarded in the struct of dependency graph
+	 	sptr = strtok(NULL, EDGE_DELIMITER);
+	}
+}
 
 void parseEdge(graph *depGraph, char* sEdge)
 {
@@ -118,43 +183,7 @@ void parseEdge(graph *depGraph, char* sEdge)
 	}
 }
 
-char* getVertexType(char* sVertex)
-{
-	int i = 0;
-	char *begin, *sType;
-
-	if((begin = strchr(sVertex,VERTEX_TYPE_OPEN))){
-		sType = malloc(strlen(begin));	
-		i=1;	//first character is the open delimiter
-
-		while(begin[i] != VERTEX_TYPE_CLOSE)
-			append(sType,begin[i++]);		
-		
-		return sType;
-	}else
-	return NULL;
-}
-
-char* getVertexName(char* sVertex)
-{
-	int i = 0;
-	char *begin, *sType;
-
-
-	if((begin = strchr(sVertex,VERTEX_DELIMITER_OPEN))){
-		sType = malloc(strlen(begin));	
-		i=1;	//first character is the open delimiter
-
-		while(begin[i] != VERTEX_TYPE_OPEN)
-			append(sType,begin[i++]);		
-		
-		return sType;
-
-	}else
-	return NULL;
-}
-
-int parseVertex(graph *depGraph, char* sVertex)
+void parseVertex(graph *depGraph, char* sVertex)
 {
     char *sptr, *vertexElement, *vertexType;
 	int isConst = 0;
@@ -164,8 +193,7 @@ int parseVertex(graph *depGraph, char* sVertex)
 	sptr = strtok(NULL, EDGE_DELIMITER);
 
 	while(sptr != NULL) {
-		//printf("Abschnitt gefunden: %s\n", sptr);
-		// naechsten Abschnitt erstellen
+		// create next part
 		vertexElement = getVertexName(sptr);
 		vertexType = getVertexType(sptr);
 
@@ -179,7 +207,6 @@ int parseVertex(graph *depGraph, char* sVertex)
 	 	
 	 	sptr = strtok(NULL, EDGE_DELIMITER);
 	}
-		return 1;
 }
 
 void parseFile(graph *depGraph, fName* fn)
@@ -193,14 +220,16 @@ void parseFile(graph *depGraph, fName* fn)
     //read line from file. getline realloc memory for gptr
     while( (nRet=getline(gptr, t, fn->f)) > 0){    
     	//is vertex part of line? Parse vertex
-    	if(strstr(*gptr,VERTEX_DEFINE)){
+    	if(strstr(*gptr,VERTEX_DEFINE))
     		parseVertex(depGraph,*gptr);
-    	}
     	
     	//is edge part of line? Parse edge
-    	if(strstr(*gptr,EDGE_DEFINE)){
+    	if(strstr(*gptr,EDGE_DEFINE))
     		parseEdge(depGraph,*gptr);
-    	}
+
+    	//is uevar part of line? Parse uevar
+    	if(strstr(*gptr,UEVAR_DEFINE))
+    		parseUEVar(depGraph, *gptr);
     } 		 
 }
  

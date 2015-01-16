@@ -10,7 +10,6 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <string.h>
-#include "thb.h"
 
 typedef struct vertexTag {
   char* element;    // vertex name
