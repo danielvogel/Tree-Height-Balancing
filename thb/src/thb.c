@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <string.h>
 
-
 NameQueue * roots(ListItem *forest){
     NameQueue *queue = new_queue();
 
@@ -75,28 +74,36 @@ Uses * uses(ListItem * forest, char * name){
 
 // Create balanced tree from its root, Ti in "Ti <- Li Opi Ri"
 void balance(Node *root) {
+	if (DEBUG_OUTPUT) printf("Called balance() for node \"%s\".\n", root->name);
 	if (root->rank >= 0)
 	{
+		if (DEBUG_OUTPUT) printf("Node \"%s\" is already balanced. Returning...\n", root->name);
 		return; // have already processed this tree
 	}
 	
 	NameQueue *q = new_queue(); // First, flatten the tree
 	root->rank = flatten(root->left, q) + flatten(root->right, q);
+	if (DEBUG_OUTPUT) printf("Set rank of node \"%s\" to %d.\n", root->name, root->rank);
 	rebuild(q, root->op); // Then, rebuild a balanced tree
 }
 
 int flatten(Node *var, NameQueue *q) { // Flatten computes a rank for var & builds the queue
+	if (DEBUG_OUTPUT) printf("Called flatten() for node \"%s\" in queue \"%s\".\n", var->name, q->name);
 	if (var->isConstant == TRUE) // Cannot recur further
 	{
 		var->rank = 0;
+		if (DEBUG_OUTPUT) printf("\tNode \"%s\" is a constant, set rank to 0.\n", var->name);
 		enqueue(q, var->name, var->rank);
 	} else if (inUEVar(var) == TRUE) { // Cannot recur past top of block
 		var->rank = 1;
+		if (DEBUG_OUTPUT) printf("\tNode \"%s\" is in UEVar, set rank to 1.\n", var->name);
 		enqueue(q, var->name, var->rank);
 	} else if (var->isRoot == TRUE) { // New queue for new root
+		if (DEBUG_OUTPUT) printf("\tNode \"%s\" is a root element. Calling balance() for Node.\n", var->name);
 		balance(var); // Recur to find its rank
 		enqueue(q, var->name, var->rank);
 	} else { // var is Tj in jth op in block
+		if (DEBUG_OUTPUT) printf("\tCalling flatten for left and right part of node \"%s\".\n", var->name);
 		flatten(var->left, q); // Recur on left operand
 		flatten(var->right, q); // Recur on right operand
 	}
@@ -109,6 +116,7 @@ UEVarQueue *UEVar = NULL;
 // In tests set UEVar!
 int sizeOfUEVar()
 {
+	if (DEBUG_OUTPUT) printf("Calculating size of UEVar.\n");
 	int i = 0;
 	UEVarQueue *element = UEVar;
 
@@ -118,11 +126,13 @@ int sizeOfUEVar()
 		element = element->next;
 	}
 
+	if (DEBUG_OUTPUT) printf("Size of UEVar is %d.\n", i);
 	return i;
 }
 
 UEVarQueue *getEndOfUEVar()
 {
+	if (DEBUG_OUTPUT) printf("Getting end of UEVar.\n");
 	UEVarQueue *element = UEVar;
 
 	while (element != NULL)
@@ -135,6 +145,8 @@ UEVarQueue *getEndOfUEVar()
 
 // check if UEVar(b) contains var
 bool inUEVar(Node *var) {
+	if (DEBUG_OUTPUT) printf("Checking if node \"%s\" is in UEVar.\n", var->name);
+
 	bool result = FALSE;
 	UEVarQueue *element = UEVar;
 
@@ -142,9 +154,17 @@ bool inUEVar(Node *var) {
 	{
 		if (strcmp(var->name, element->name) == 0)
 		{
+
 			result = TRUE;
 		}
 		element = element->next;
+	}
+
+	if (result == TRUE)
+	{
+		if (DEBUG_OUTPUT) printf("Node \"%s\" is in UEVar.\n", var->name);
+	} else {
+		if (DEBUG_OUTPUT) printf("Node \"%s\" is not in UEVar.\n", var->name);
 	}
 
 	return result;
