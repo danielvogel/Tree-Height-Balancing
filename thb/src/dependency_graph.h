@@ -83,7 +83,7 @@ void parseEdge(graph *, char* );
 
 void parseVertex(graph *, char* );
 
-void parseFile(graph *, fName*);
+void parseFile(depGraph*, graph *, fName*);
 
 
 #endif /* DEPENDENCYGRAPHS_H_ */

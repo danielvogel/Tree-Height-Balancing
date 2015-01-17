@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
 
     
     
-    printf("\nStarting creation of UEVar\n");
+  /*  printf("\nStarting creation of UEVar\n");
     UEVarQueue *uevarNodeA = (UEVarQueue *)malloc(sizeof(UEVarQueue));
     uevarNodeA->name = "a";
     printf("Created \"%s\"\n",uevarNodeA->name);
@@ -67,15 +67,15 @@ int main(int argc, char** argv) {
     printf("First element of UEVar is \"%s\"\n", UEVar->name);
     printf("Last element of UEVar is \"%s\"\n", UEVar->next->next->next->name);
     printf("Size of UEVar is %d\n", sizeOfUEVar());
-    printf("Finished creation of UEVar\n\n");
+    printf("Finished creation of UEVar\n\n");*/
 
     dg = parseToDependencyGraph(GRAPHS_PATH);
-   // printGraph(dg->g);
     printAllGraphs(dg);
     
     depGraph* current = dg;
     
     do{
+    	UEVar = current->uevar;
         forest = getCodeTrees(current->g);
 
         NameQueue *Roots = roots(forest);

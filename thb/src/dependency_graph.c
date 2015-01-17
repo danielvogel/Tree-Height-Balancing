@@ -145,7 +145,7 @@ char* getVertexName(char* sVertex)
 	return NULL;
 }
 
-void parseUEVar(graph *depGraph, char* UEVar)
+void parseUEVar(depGraph *dg, char* UEVar)
 {
 	char *sptr ,*vertexElement;
 
@@ -153,9 +153,11 @@ void parseUEVar(graph *depGraph, char* UEVar)
 	sptr = strtok(NULL, EDGE_DELIMITER);
 	while(sptr != NULL) {
 		vertexElement = getVertexNameByName(sptr);
-		printf("UEAVAR(%s)\n",vertexElement);
+		dg->uevar = (struct UEVar_queue*)malloc(sizeof(struct UEVar_queue));
+		dg->uevar->name = vertexElement; 
+		dg->uevar->next = NULL;
+		dg->uevar = dg->uevar->next;
 
-		//TODO	save the located uevars into the queu of uevar. This queue discarded in the struct of dependency graph
 	 	sptr = strtok(NULL, EDGE_DELIMITER);
 	}
 }
@@ -209,7 +211,7 @@ void parseVertex(graph *depGraph, char* sVertex)
 	}
 }
 
-void parseFile(graph *depGraph, fName* fn)
+void parseFile(depGraph *dglist, graph *dg, fName* fn)
 {
 	
   	size_t *t = malloc(0);
@@ -221,15 +223,15 @@ void parseFile(graph *depGraph, fName* fn)
     while( (nRet=getline(gptr, t, fn->f)) > 0){    
     	//is vertex part of line? Parse vertex
     	if(strstr(*gptr,VERTEX_DEFINE))
-    		parseVertex(depGraph,*gptr);
+    		parseVertex(dg,*gptr);
     	
     	//is edge part of line? Parse edge
     	if(strstr(*gptr,EDGE_DEFINE))
-    		parseEdge(depGraph,*gptr);
+    		parseEdge(dg,*gptr);
 
     	//is uevar part of line? Parse uevar
     	if(strstr(*gptr,UEVAR_DEFINE))
-    		parseUEVar(depGraph, *gptr);
+    		parseUEVar(dglist, *gptr);
     } 		 
 }
  
@@ -253,6 +255,7 @@ depGraph* parseToDependencyGraph(char* directory)
 	    if(strstr(ent->d_name,".depg") != NULL){ 	 //if the file is a dependency graph type
 	    	dg->g = GraphCreate();		//new file => new Graph
 	    	dg->next = (struct dependenyGraph*)malloc(sizeof(depGraph));
+		    dg->uevar = (struct UEVar_queue*)malloc(sizeof(struct UEVar_queue));
 
 	    	filepath = filePath(directory,ent->d_name);
 	    	printf("Found file: %s\n",ent->d_name);
@@ -268,7 +271,7 @@ depGraph* parseToDependencyGraph(char* directory)
 	    	    fprintf(stderr, "Error : Failed to open entry file - %s\n", strerror(errno));
 	            return NULL;
         	}
-			parseFile(dg->g,fn);	//parse file and  create dependency graph 	
+			parseFile(dg,dg->g,fn);	//parse file and  create dependency graph 	
      		fn = fn->next; 
      		dg = dg->next;
      		numberOfGraphs++;	//increment reading graph counter
