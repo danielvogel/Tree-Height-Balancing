@@ -1,15 +1,13 @@
 #ifndef THB_H
 #define	THB_H
 
+#include "globals.h"
 #include "namequeue.h"
 
 typedef struct uses {
     int count;
     Node ** user;
 } Uses;
-
-ListItem *forest;
-int varTempCounter;
 
 typedef struct UEVar_queue {
     struct UEVar_queue *next;

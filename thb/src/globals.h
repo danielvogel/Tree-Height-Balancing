@@ -1,8 +1,10 @@
 #ifndef GLOBALS_H
 #define	GLOBALS_H
 
-#include "thb_test.h"
+#include "codetree.h"
 
 ListItem *resultTrees;
+ListItem *forest;
+int varTempCounter;
 
 #endif	/* GLOBALS_H */

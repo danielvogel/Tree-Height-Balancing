@@ -4,7 +4,7 @@
 #include "graph.h"
 #include "codetree.h"
 #include "dependency_graph.h"
-//#include "globals.h"
+#include "globals.h"
 
 
 ListItem* initCode();

@@ -1,5 +1,6 @@
 #include "namequeue.h"
 #include <stdlib.h>
+#include<string.h>
 
 
 NameQueue * new_queue(){
@@ -107,4 +108,24 @@ void quickSort(NameQueue * head)
     NameQueue * h = lastNode(head);
  
     _quickSort(head, h);
+}
+
+void printQueue(NameQueue *q) {
+	Node *n = nodeByName(forest,q->name);
+	char out[1024];
+	char intBuffer[15];
+    strcpy(out,"[");
+    
+    while(q->next != NULL)
+    {
+    	sprintf(intBuffer, "%d", n->rank);
+    
+    	strcat(out,"<");
+    	strcat(out,n->name);
+    	strcat(out,",");
+    	strcat(out,intBuffer);
+    	strcat(out,">");
+        q = q->next;
+    }
+    strcat(out,"]");
 }
