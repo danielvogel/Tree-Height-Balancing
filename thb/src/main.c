@@ -131,10 +131,10 @@ ListItem* getCodeTrees(graph* dg){
     do {
         Node * new = newNode(current->element);
         
-        if(current->operation == NULL){
-            new->isConstant = current->isConstant;
-        } else {
-            
+        new->isConstant = current->isConstant;
+
+        if(current->operation != NULL){
+        
             if(!strcmp(current->operation , "+")){
                 new->op = add;
             } else if(!strcmp(current->operation , "*")){
@@ -143,11 +143,14 @@ ListItem* getCodeTrees(graph* dg){
                 new->op = sub;
             } else if(!strcmp(current->operation , "/")){
                 new->op = div;
-            } else {
+            } else if (strcmp(current->operation , VERTEX_VAR) && strcmp(current->operation , VERTEX_CONST)){
                 printf("'%s': not supported operation\n", current->operation );
                 exit(1);
+            } else {
+                current->operation = NULL;
             }
         }
+        
         currForest = insert_right(currForest, new);
     } while((current = current->next) != NULL);
     
