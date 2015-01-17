@@ -70,11 +70,14 @@ int main(int argc, char** argv) {
     printf("Finished creation of UEVar\n\n");*/
 
     dg = parseToDependencyGraph(GRAPHS_PATH);
-    printAllGraphs(dg);
     
     depGraph* current = dg;
     
     do{
+        if(current->g == NULL)break;
+        
+        printGraph(current->g);
+        
     	UEVar = current->uevar;
         forest = getCodeTrees(current->g);
 
