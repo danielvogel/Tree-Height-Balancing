@@ -17,10 +17,10 @@
 extern int numberOfGraphs;
 
 /*dependency struct*/
-typedef struct dependencyGraph{
+typedef struct dependency_graph{
 	graph *g;			//each dg contains a graph
 	UEVarQueue *uevar;	//contains a queue of uevars
-	struct dependenyGraph *next;	// it is possible to get more than one dependency graph
+	struct dependency_graph *next;	// it is possible to get more than one dependency graph
 } depGraph;
 
 //extern depGraph* dg;		//global variable for dependency graphs

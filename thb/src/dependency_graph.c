@@ -254,7 +254,7 @@ depGraph* parseToDependencyGraph(char* directory)
 	  while ((ent = readdir (dir)) != NULL) {
 	    if(strstr(ent->d_name,".depg") != NULL){ 	 //if the file is a dependency graph type
 	    	dg->g = GraphCreate();		//new file => new Graph
-	    	dg->next = (struct dependenyGraph*)malloc(sizeof(depGraph));
+	    	dg->next = (depGraph*)malloc(sizeof(depGraph));
 		    dg->uevar = (struct UEVar_queue*)malloc(sizeof(struct UEVar_queue));
 
 	    	filepath = filePath(directory,ent->d_name);
