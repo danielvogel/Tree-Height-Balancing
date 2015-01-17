@@ -82,6 +82,8 @@ int main(int argc, char** argv) {
         printGraph(current->g);
         
     	UEVar = current->uevar;
+    	if (DEBUG_OUTPUT) printf("Set UEVar, size is %d,\n", sizeOfUEVar());
+
         forest = getCodeTrees(current->g);
 
         NameQueue *Roots = roots(forest);

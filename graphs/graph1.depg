@@ -1,4 +1,4 @@
-vertex: [y(+)],[z(*)],[t1(*)],[t2(-)],[a(const)],[b(const)],[c(const)],[d(const)]
-edge: [y->t1] , [z->t1] , [y->t2] , [z->t2] , [t1->a] , [t1->b] , [t2->c] , [t2->d]
-uevar: [a],[b],[c],[d]
+vertex: [y(+)],[z(*)],[t1(*)],[t2(-)],[a1(const)],[b1(const)],[c1(const)],[d1(const)]
+edge: [y->t1] , [z->t1] , [y->t2] , [z->t2] , [t1->a1] , [t1->b1] , [t2->c1] , [t2->d1]
+uevar: [a1],[b1],[c1],[d1]
 

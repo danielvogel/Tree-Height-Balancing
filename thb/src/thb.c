@@ -113,12 +113,9 @@ int flatten(Node *var, NameQueue *q) { // Flatten computes a rank for var & buil
 	return var->rank;
 }
 
-UEVarQueue *UEVar = NULL;
-
 // In tests set UEVar!
 int sizeOfUEVar()
 {
-	if (DEBUG_OUTPUT) printf("Calculating size of UEVar.\n");
 	int i = 0;
 	UEVarQueue *element = UEVar;
 
@@ -128,7 +125,6 @@ int sizeOfUEVar()
 		element = element->next;
 	}
 
-	if (DEBUG_OUTPUT) printf("Size of UEVar is %d.\n", i);
 	return i;
 }
 
@@ -152,11 +148,13 @@ bool inUEVar(Node *var) {
 	bool result = FALSE;
 	UEVarQueue *element = UEVar;
 
+	printf("Size of UEVar is %d.\n", sizeOfUEVar());
+
 	while (result != TRUE && element != NULL)
 	{
+		printf("Element of UEVar is \"%s\".\n", element->name);
 		if (strcmp(var->name, element->name) == 0)
 		{
-
 			result = TRUE;
 		}
 		element = element->next;

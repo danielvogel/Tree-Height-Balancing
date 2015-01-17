@@ -154,7 +154,8 @@ void parseUEVar(depGraph *dg, char* UEVar)
 	while(sptr != NULL) {
 		vertexElement = getVertexNameByName(sptr);
 		dg->uevar = (struct UEVar_queue*)malloc(sizeof(struct UEVar_queue));
-		dg->uevar->name = vertexElement; 
+		dg->uevar->name = vertexElement;
+		if (DEBUG_OUTPUT) printf("Added Element \"%s\" to UEVar.\n", dg->uevar->name);
 		dg->uevar->next = NULL;
 		dg->uevar = dg->uevar->next;
 
