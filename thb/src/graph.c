@@ -101,7 +101,7 @@ void printGraph(graph* Graph)
 	printf("Print graph\n");
 
 	while(v != NULL){ //compare end of vertical list (vertex)
-		printf(" %s ",v->element);	// this is the vertex 
+		printf(" %s (%s)",v->element, v->operation);	// this is the vertex 
 		while(e->next  != NULL){ //compare end of horizontal list (edge)
 			printf(" --> [");
 			printf(" %s ",e->next->connectsTo->element);

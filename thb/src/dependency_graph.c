@@ -145,20 +145,29 @@ char* getVertexName(char* sVertex)
 	return NULL;
 }
 
+void push(UEVarQueue * head, char* val) {
+    UEVarQueue * current = head;
+
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        /* now we can add a new variable */
+        current->next = (UEVarQueue*) malloc(sizeof(UEVarQueue));
+        current->name = val;
+}
+
 void parseUEVar(depGraph *dg, char* UEVar)
 {
 	char *sptr ,*vertexElement;
+	//UEVarQueue *current = dg->uevar;
 
 	sptr = strtok(UEVar, ":");	// remove vertex string
 	sptr = strtok(NULL, EDGE_DELIMITER);
 	while(sptr != NULL) {
-		vertexElement = getVertexNameByName(sptr);
-		dg->uevar = (struct UEVar_queue*)malloc(sizeof(struct UEVar_queue));
-		dg->uevar->name = vertexElement;
-		if (DEBUG_OUTPUT) printf("Added Element \"%s\" to UEVar.\n", dg->uevar->name);
-		dg->uevar->next = NULL;
-		dg->uevar = dg->uevar->next;
 
+		vertexElement = getVertexNameByName(sptr);
+		 push(dg->uevar,vertexElement);
+		
 	 	sptr = strtok(NULL, EDGE_DELIMITER);
 	}
 }
@@ -256,8 +265,8 @@ depGraph* parseToDependencyGraph(char* directory)
 	    if(strstr(ent->d_name,".depg") != NULL){ 	 //if the file is a dependency graph type
 	    	dg->g = GraphCreate();		//new file => new Graph
 	    	dg->next = (depGraph*)malloc(sizeof(depGraph));
-		    dg->uevar = (struct UEVar_queue*)malloc(sizeof(struct UEVar_queue));
-
+		dg->uevar = (UEVarQueue*) malloc(sizeof(struct UEVar_queue));
+		dg->uevar->next = NULL;
 	    	filepath = filePath(directory,ent->d_name);
 	    	printf("Found file: %s\n",ent->d_name);
 	    	printf("Size of file: %lld bytes\n",(long long int)fsize(filepath));
@@ -274,6 +283,8 @@ depGraph* parseToDependencyGraph(char* directory)
         	}
 			parseFile(dg,dg->g,fn);	//parse file and  create dependency graph 	
      		fn = fn->next; 
+     		
+     		//printf("UEVAR: %s\n",dg->uevar->name);
      		dg = dg->next;
      		numberOfGraphs++;	//increment reading graph counter
 	    }
