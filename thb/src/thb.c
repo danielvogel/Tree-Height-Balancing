@@ -171,14 +171,16 @@ bool inUEVar(Node *var) {
 }
 
 void rebuild(NameQueue *q, Operation *op) {
-	printf("Start rebuilding tree\n");
-	printf("---------------------\n");
+	if (DEBUG_OUTPUT) printf("Start rebuilding tree with queue state: ");
+	if (DEBUG_OUTPUT) printQueue(q);
 
 	Node *nl, *nr, *nt;
 	ListItem *draftTree = new_list();
 	
 	nt = newNode("");
 	while(q->next != NULL && q->next->next != NULL) {
+	if (DEBUG_OUTPUT) printf("Current queue state: ");
+	if (DEBUG_OUTPUT) printQueue(q);
 
 		nl = nodeByName(forest, q->next->name);
 		nr = nodeByName(forest, q->next->next->name);

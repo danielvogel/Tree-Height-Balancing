@@ -111,13 +111,18 @@ void quickSort(NameQueue * head)
 }
 
 void printQueue(NameQueue *q) {
-	Node *n = nodeByName(forest,q->name);
+	if (q == NULL) {
+		printf("<empty>");
+		return;
+	}
+	
 	char out[1024];
 	char intBuffer[15];
     strcpy(out,"[");
     
     while(q->next != NULL)
     {
+		Node *n = nodeByName(forest,q->name);
     	sprintf(intBuffer, "%d", n->rank);
     
     	strcat(out,"<");
@@ -127,5 +132,6 @@ void printQueue(NameQueue *q) {
     	strcat(out,">");
         q = q->next;
     }
-    strcat(out,"]");
+    strcat(out,"]\n");
+    printf("%s",out);
 }
