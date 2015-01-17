@@ -2,6 +2,7 @@
 #define	CODETREE_H
 
 #include "constants.h"
+#include "thb_test.h"
 
 typedef struct operation{
     char *sign;
@@ -23,7 +24,8 @@ typedef struct node{
 typedef struct list_item {
     struct list_item *left;
     struct list_item *right;
-    Node *data;
+	Node *data;
+	Tree *treeData;
 } ListItem;
 
 
@@ -36,7 +38,11 @@ Node *newNodeWithChildren(char *data, Operation *op, Node *left, Node *right);
 ListItem * new_list();
 ListItem * insert_right(struct list_item *list, Node* data);
 ListItem * delete(struct list_item *list);
+ListItem *appendTreeToList(ListItem *list, Tree *treeData);
 
 Node *nodeByName(ListItem* forest, char * name);
+
+Tree *treeFromNodes(Node *parent, Node *left, Node *right);
+
 
 #endif	/* CODETREE_H */

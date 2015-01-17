@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "thb_test.h"
+
 NameQueue * roots(ListItem *forest){
     NameQueue *queue = new_queue();
 
@@ -175,6 +177,9 @@ void rebuild(NameQueue *q, Operation *op) {
 	printf("---------------------\n");
 
 	Node *nl, *nr, *nt;
+	ListItem *draftTree = new_list();
+	
+	nt = newNode("");
 	while(q->next != NULL && q->next->next != NULL) {
 
 		nl = nodeByName(forest, q->next->name);
@@ -188,8 +193,10 @@ void rebuild(NameQueue *q, Operation *op) {
 			nt = fold(op, nl, nr);
 			getVariableName(nt);
 			if (q->next == NULL) {
-				printf("root: %s --> [ %s %s %s ]\n", nt->name, nl->name, op->sign, nr->name);
+				if (DEBUG_OUTPUT) printf("root: %s --> [ %s %s %s ]\n", nt->name, nl->name, op->sign, nr->name);
 				nt->rank = 0;
+				Tree *treeNode = treeFromNodes(nt, nl, nr);
+				draftTree = appendTreeToList(draftTree, treeNode);
 			} else {
 				if (DEBUG_OUTPUT)
 					printf("Enqueueing new node %s\n", nt->name);
@@ -198,15 +205,21 @@ void rebuild(NameQueue *q, Operation *op) {
 			}
 		} else {
 			if (q->next == NULL) {
+				nt->name = "root";
 				nt->isRoot = TRUE;
 			} else {
 				getVariableName(nt);
 			}
-			printf("%s <-- %s %s %s\n", nt->name, nl->name, op->sign, nr->name);
-			nr->rank = nl->rank + nr->rank;
+			
+			nt->rank = nl->rank + nr->rank;
+			
 			if (q->next != NULL) {
 				enqueue(q,nt->name,nr->rank);
 			}
+			
+			printf("%s <-- %s %s %s\n", nt->name, nl->name, op->sign, nr->name);
+			Tree *treeNode = treeFromNodes(nt, nl, nr);
+			draftTree = appendTreeToList(draftTree, treeNode);
 		}		
 	}	
 }
@@ -239,7 +252,7 @@ Node *fold(Operation *op, Node *left, Node *right) {
 }
 
 void getVariableName(Node *node) {
-	node->name = malloc(sizeof (char *) * 16);;
+	node->name = malloc(sizeof (char *) * 16);
 	sprintf(node->name, "tt%d", varTempCounter++);
 	if (DEBUG_OUTPUT)
 		printf("Generated new variable name: %s\n", node->name);
