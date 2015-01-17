@@ -142,7 +142,7 @@ ListItem* getCodeTrees(graph* dg){
             } else if(!strcmp(current->operation , "/")){
                 new->op = div;
             } else {
-                printf("%s not supported operation\n", current->operation );
+                printf("'%s': not supported operation\n", current->operation );
                 exit(1);
             }
         }
