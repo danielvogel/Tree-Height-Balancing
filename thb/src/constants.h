@@ -3,7 +3,7 @@
 
 #define TRUE 1
 #define FALSE 0
-#define DEBUG_OUTPUT FALSE
+#define DEBUG_OUTPUT TRUE
 
 typedef int bool;
 

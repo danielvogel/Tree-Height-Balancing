@@ -4,6 +4,7 @@
 #include "graph.h"
 #include "codetree.h"
 #include "dependency_graph.h"
+#include "globals.h"
 
 
 ListItem* initCode();
@@ -75,6 +76,8 @@ int main(int argc, char** argv) {
     
     do{
         if(current->g == NULL)break;
+        
+        resultTrees = new_list();
         
         printGraph(current->g);
         

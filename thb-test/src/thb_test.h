@@ -8,10 +8,11 @@
 
 /* A binary tree node has data, pointer to left child
    and a pointer to right child */
-typedef struct node
+typedef struct treeNode
 {
-    struct node* left;
-    struct node* right;
+    struct treeNode* left;
+    struct treeNode* right;
+    struct node *data;
 }Tree;
 /*
  * @brief	The function returns true if root is balanced else false

@@ -42,11 +42,13 @@ Node *newNodeWithChildren(char *data, Operation *op, Node *left, Node *right){
 
 /* Functions for lists */
 /* source: http://perlgeek.de/de/artikel/doppelt-verkettete-listen */
-ListItem * new_list(){
-    ListItem *new = (ListItem*) malloc(sizeof(ListItem));
+ListItem * new_list() {
+    Tree     *tree = (Tree*) malloc(sizeof(Tree));
+    ListItem *new  = (ListItem*) malloc(sizeof(ListItem));
     new->data  = NULL;
     new->right = NULL;
     new->left  = NULL;
+    new->treeData = tree;
     return new;
 }
 
@@ -89,3 +91,27 @@ Node * nodeByName(ListItem* forest, char * name){
 }
 
 
+Tree *treeFromNodes(Node *parent, Node *left, Node *right) 
+{
+	Tree *tp = (Tree*) malloc(sizeof(Tree));
+	tp->data = parent;
+	
+	Tree *tl = (Tree*) malloc(sizeof(Tree));
+	tl->data = left;
+	
+	Tree *tr = (Tree*) malloc(sizeof(Tree));
+	tr->data = parent;
+	
+	tp->left  = tl;
+	tp->right = tr;
+	
+	return tp;
+}
+
+ListItem *appendTreeToList(ListItem *list, Tree *treeData) {
+	list->treeData = treeData;
+	list->right = new_list();
+	list->right->left = list;
+	
+	return list->right;
+}
