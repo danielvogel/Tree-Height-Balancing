@@ -119,7 +119,7 @@ int sizeOfUEVar()
 	int i = 0;
 	UEVarQueue *element = UEVar;
 
-	while (element != NULL)
+	while (element->next != NULL)
 	{
 		i++;
 		element = element->next;
@@ -150,7 +150,7 @@ bool inUEVar(Node *var) {
 
 	printf("Size of UEVar is %d.\n", sizeOfUEVar());
 
-	while (result != TRUE && element != NULL)
+	while (result != TRUE && element->next != NULL)
 	{
 		printf("Element of UEVar is \"%s\".\n", element->name);
 		if (strcmp(var->name, element->name) == 0)
