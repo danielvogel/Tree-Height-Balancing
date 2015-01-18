@@ -1,6 +1,8 @@
 #ifndef CODETREE_H
 #define	CODETREE_H
 
+#include <stdio.h>
+
 #include "constants.h"
 
 /* A binary tree node has data, pointer to left child

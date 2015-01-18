@@ -135,7 +135,14 @@ void printTree(Tree *t, int level) {
 	for (;i<level;i++)
 		printf("\t");
 		
-	printf("%s (%d)\n",t->data->name, t->data->rank);
+	printf("%s (%d)",t->data->name, t->data->rank);
+	if (t->data->op != NULL)
+		printf(" %s\n",t->data->op->sign);
+	else
+		printf("\n");
+		
+	
+		
 	
 	if (t->left->data->name != NULL)
 		printTree(t->left,level+1);
@@ -149,30 +156,23 @@ Tree *getTreeFromList(ListItem *l) {
 		return NULL;
     }
     
-	//printf("root right %s\n", l->treeData->right->data->name);
 	Tree *root = l->treeData;
 	ListItem *tmp = l->right;
 
 	while (tmp != NULL) {
-		//printf("comparing : %s and %s\n", l->treeData->left->data->name, tmp->treeData->data->name);
 		if(!strcmp(root->left->data->name, tmp->treeData->data->name)) {
-			//printf("MATCH\n");
 			root->left = tmp->treeData;
 			break;
 		}
-		//printf("NO MATCH\n");
 		tmp = tmp->right;
 	}
 	
 	tmp = l->right;
 	while (tmp != NULL) {
-		//printf("comparing : %s and %s\n", l->treeData->right->data->name, tmp->treeData->data->name);
 		if(!strcmp(root->right->data->name, tmp->treeData->data->name)) {
-			//printf("MATCH\n");
 			root->right = tmp->treeData;
 			break;
 		}
-		//printf("NO MATCH\n");
 		tmp = tmp->right;
 	}
 	return root;

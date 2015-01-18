@@ -187,6 +187,7 @@ void rebuild(NameQueue *q, Operation *op) {
 		quickSort(q);
 		Node *nl, *nr, *nt;
 		nt = newNode("");
+		nt->op = op;
 		if (DEBUG_OUTPUT) printf("\tCurrent queue state: ");
 		if (DEBUG_OUTPUT) printQueue(q);
 
