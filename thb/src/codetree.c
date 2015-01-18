@@ -43,12 +43,11 @@ Node *newNodeWithChildren(char *data, Operation *op, Node *left, Node *right){
 /* Functions for lists */
 /* source: http://perlgeek.de/de/artikel/doppelt-verkettete-listen */
 ListItem * new_list() {
-    Tree     *tree = (Tree*) malloc(sizeof(Tree));
     ListItem *new  = (ListItem*) malloc(sizeof(ListItem));
     new->data  = NULL;
     new->right = NULL;
     new->left  = NULL;
-    new->treeData = tree;
+    new->treeData = NULL;
     return new;
 }
 
