@@ -10,13 +10,13 @@
 ListItem* initCode();
 void printRoots(NameQueue * Roots);
 ListItem* getCodeTrees(graph* dg);
-
+void isTreeBalanced(ListItem *l) ;
 
 
 int main(int argc, char** argv) {
 	int dgCounter = 1;
 	varTempCounter = 1;
-	
+	int height = 0;
     //forest = initCode();
     
     //graph* g = GraphCreate();
@@ -105,12 +105,26 @@ int main(int argc, char** argv) {
         }
     	printf("THE RESULT OF TREE HEIGHT BALANCING:\n");
     	printTreeDataList(resultTrees->right);
-    	
+    	printf("Is the tree height-balanced?\n");
+        isTreeBalanced(resultTrees->right);
+       
+
     } while ((current = current->next) != NULL);
     
     return (EXIT_SUCCESS);
 }
 
+
+void isTreeBalanced(ListItem *l) 
+{
+    int height = 0;
+	while (l != NULL) {
+		Tree *t = l->treeData;
+		//printTree(t,0);
+		isBalanced(t,&height);
+                l = l->right;	
+	}
+}
 void printRoots(NameQueue * Roots){
 
     NameQueue * current = Roots;
