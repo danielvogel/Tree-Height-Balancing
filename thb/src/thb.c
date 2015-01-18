@@ -232,8 +232,7 @@ void rebuild(NameQueue *q, Operation *op) {
 	}
 	Tree *rebuildingResult = getTreeFromList(draftTree->right);
 	if (rebuildingResult != NULL)
-		insert_right_tree(resultTrees,rebuildingResult);
-	
+		insert_right_tree(resultTrees,rebuildingResult);	
 }
 
 Node *fold(Operation *op, Node *left, Node *right) {
