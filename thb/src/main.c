@@ -5,7 +5,7 @@
 #include "codetree.h"
 #include "dependency_graph.h"
 #include "globals.h"
-
+#include "thb_test.h"
 
 ListItem* initCode();
 void printRoots(NameQueue * Roots);
@@ -16,7 +16,6 @@ void isTreeBalanced(ListItem *l) ;
 int main(int argc, char** argv) {
 	int dgCounter = 1;
 	varTempCounter = 1;
-	int height = 0;
 
     depGraph *dg;
 
