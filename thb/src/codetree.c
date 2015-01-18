@@ -150,22 +150,30 @@ Tree *getTreeFromList(ListItem *l) {
 		return NULL;
     }
     
+	//printf("root right %s\n", l->treeData->right->data->name);
 	Tree *root = l->treeData;
 	ListItem *tmp = l->right;
 
 	while (tmp != NULL) {
-		if(strcmp(root->left->data->name, tmp->treeData->data->name)) {
+		//printf("comparing : %s and %s\n", l->treeData->left->data->name, tmp->treeData->data->name);
+		if(!strcmp(root->left->data->name, tmp->treeData->data->name)) {
+			//printf("MATCH\n");
 			root->left = tmp->treeData;
 			break;
 		}
+		//printf("NO MATCH\n");
 		tmp = tmp->right;
 	}
+	
 	tmp = l->right;
 	while (tmp != NULL) {
-		if(strcmp(root->right->data->name, tmp->treeData->data->name)) {
+		//printf("comparing : %s and %s\n", l->treeData->right->data->name, tmp->treeData->data->name);
+		if(!strcmp(root->right->data->name, tmp->treeData->data->name)) {
+			//printf("MATCH\n");
 			root->right = tmp->treeData;
 			break;
 		}
+		//printf("NO MATCH\n");
 		tmp = tmp->right;
 	}
 	return root;
