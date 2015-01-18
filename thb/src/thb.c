@@ -251,7 +251,7 @@ Node *fold(Operation *op, Node *left, Node *right) {
     sprintf(result->name, "%d", intRes);
     
  	if (DEBUG_OUTPUT)
- 		printf("Successfully folded nodes '%s' and '%s' with operation '%s' to value '%s'.\n", left->name, right->name, op->sign, result->name);   
+ 		printf("\tSuccessfully folded nodes '%s' and '%s' with operation '%s' to value '%s'.\n", left->name, right->name, op->sign, result->name);   
 	return result;
 }
 
