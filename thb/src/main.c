@@ -97,8 +97,8 @@ int main(int argc, char** argv) {
         
         printRoots(Roots);
 
-        while (Roots->next != NULL && (nodeByName(forest, Roots->next->name) != NULL)) {
-            node = nodeByName(forest, Roots->next->name);
+        while (Roots != NULL && (nodeByName(forest, Roots->name) != NULL)) {
+            node = nodeByName(forest, Roots->name);
             if (DEBUG_OUTPUT) printf("Start balancing node: %s\n", node->name);
             balance(node);
             Roots = Roots->next;
