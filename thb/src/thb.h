@@ -27,6 +27,6 @@ int inUEVar(Node *var);
 void rebuild(NameQueue *q, Operation *op);
 Node *fold(Operation *op, Node *left, Node *right);
 void getVariableName(Node *node);
-Tree *getTreeFromList();
+
 
 #endif	/* THB_H */
