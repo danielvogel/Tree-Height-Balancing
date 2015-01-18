@@ -143,3 +143,30 @@ void printTree(Tree *t, int level) {
 	if (t->right->data->name != NULL)
 		printTree(t->right,level+1);
 }
+
+Tree *getTreeFromList(ListItem *l) {
+	if(strcmp("root", l->treeData->data->name)){
+		printf("Cannot build tree, first item is not root!\n");
+		return NULL;
+    }
+    
+	Tree *root = l->treeData;
+	ListItem *tmp = l->right;
+
+	while (tmp != NULL) {
+		if(strcmp(root->left->data->name, tmp->treeData->data->name)) {
+			root->left = tmp->treeData;
+			break;
+		}
+		tmp = tmp->right;
+	}
+	tmp = l->right;
+	while (tmp != NULL) {
+		if(strcmp(root->right->data->name, tmp->treeData->data->name)) {
+			root->right = tmp->treeData;
+			break;
+		}
+		tmp = tmp->right;
+	}
+	return root;
+}

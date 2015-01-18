@@ -148,11 +148,11 @@ bool inUEVar(Node *var) {
 	bool result = FALSE;
 	UEVarQueue *element = UEVar;
 
-	printf("Size of UEVar is %d.\n", sizeOfUEVar());
+	if (DEBUG_OUTPUT) printf("Size of UEVar is %d.\n", sizeOfUEVar());
 
 	while (result != TRUE && element->next != NULL)
 	{
-		printf("Element of UEVar is \"%s\".\n", element->name);
+		if (DEBUG_OUTPUT) printf("Element of UEVar is \"%s\".\n", element->name);
 		if (strcmp(var->name, element->name) == 0)
 		{
 			result = TRUE;
@@ -221,8 +221,11 @@ void rebuild(NameQueue *q, Operation *op) {
 			Tree *treeNode = treeFromNodes(nt, nl, nr);
 			insert_right_tree(draftTree, treeNode);
 		}
-	}	
-	printTreeDataList(draftTree->right);
+	}
+	Tree *rebuildingResult = getTreeFromList(draftTree->right);
+	if (rebuildingResult != NULL)
+		insert_right_tree(resultTrees,rebuildingResult);
+	
 }
 
 Node *fold(Operation *op, Node *left, Node *right) {

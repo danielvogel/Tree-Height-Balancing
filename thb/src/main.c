@@ -79,12 +79,9 @@ int main(int argc, char** argv) {
     do{
         if(current->g == NULL)break;
         
-        if (DEBUG_OUTPUT) {
-			printf("##########################################\n");
-			printf("# STAR PROCESSING DEPENDENCY GRAPH no.%d #\n",dgCounter++);
-			printf("##########################################\n");
-	
-		}
+        printf("##########################################\n");
+		printf("# STAR PROCESSING DEPENDENCY GRAPH no.%d #\n",dgCounter++);
+		printf("##########################################\n");
         
         resultTrees = new_list();
         
@@ -102,11 +99,13 @@ int main(int argc, char** argv) {
 
         while (Roots->next != NULL && (nodeByName(forest, Roots->next->name) != NULL)) {
             node = nodeByName(forest, Roots->next->name);
-            if (DEBUG_OUTPUT)
-                    printf("Start balancing node: %s\n", node->name);
+            if (DEBUG_OUTPUT) printf("Start balancing node: %s\n", node->name);
             balance(node);
             Roots = Roots->next;
         }
+    	printf("THE RESULT OF TREE HEIGHT BALANCING:\n");
+    	printTreeDataList(resultTrees->right);
+    	
     } while ((current = current->next) != NULL);
     
     return (EXIT_SUCCESS);

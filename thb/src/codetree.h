@@ -33,6 +33,7 @@ typedef struct list_item {
 Operation *newOp(char *sign, int com, int ass, int precedence);
 Node *newNode(char *data);
 Node *newNodeWithChildren(char *data, Operation *op, Node *left, Node *right);
+Node *nodeByName(ListItem* forest, char * name);
 
 /* functions for lists */
 ListItem * new_list();
@@ -40,11 +41,10 @@ ListItem * insert_right(struct list_item *list, Node* data);
 ListItem * insert_right_tree(struct list_item *list, Tree* data);
 ListItem * delete(struct list_item *list);
 
-Node *nodeByName(ListItem* forest, char * name);
-
+/* functions for trees */
 Tree *treeFromNodes(Node *parent, Node *left, Node *right);
-
 void printTreeDataList(ListItem *l);
 void printTree(Tree *t, int level);
+Tree *getTreeFromList(ListItem *list);
 
 #endif	/* CODETREE_H */
