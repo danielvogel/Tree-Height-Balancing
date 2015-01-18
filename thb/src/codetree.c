@@ -87,6 +87,7 @@ Node * nodeByName(ListItem* forest, char * name){
         }
     } while(NULL != (current = current->right));
     
+    
     return NULL;
 }
 

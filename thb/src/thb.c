@@ -174,37 +174,37 @@ void rebuild(NameQueue *q, Operation *op) {
 	if (DEBUG_OUTPUT) printf("Start rebuilding tree with queue state: ");
 	if (DEBUG_OUTPUT) printQueue(q);
 
-	Node *nl, *nr, *nt;
+	
 	ListItem *draftTree = new_list();
 	
-	nt = newNode("");
-	while(q->next != NULL && q->next->next != NULL) {
-	if (DEBUG_OUTPUT) printf("Current queue state: ");
-	if (DEBUG_OUTPUT) printQueue(q);
+	while(q != NULL && q->next != NULL) {
+		Node *nl, *nr, *nt;
+		nt = newNode("");
+		if (DEBUG_OUTPUT) printf("\tCurrent queue state: ");
+		if (DEBUG_OUTPUT) printQueue(q);
 
-		nl = nodeByName(forest, q->next->name);
-		nr = nodeByName(forest, q->next->next->name);
+		nl = nodeByName(forest, q->name);
+		nr = nodeByName(forest, q->next->name);
 		q  = q->next->next;
 		
-		if (DEBUG_OUTPUT)
-			printf("Examining nodes '%s' and '%s' for rebuild.\n", nl->name, nr->name);
+		if (DEBUG_OUTPUT) printf("\tExamining nodes '%s' and '%s' for rebuild.\n", nl->name, nr->name);
 		
 		if (nl->isConstant && nr->isConstant) {
 			nt = fold(op, nl, nr);
 			getVariableName(nt);
 			if (q->next == NULL) {
-				if (DEBUG_OUTPUT) printf("root: %s --> [ %s %s %s ]\n", nt->name, nl->name, op->sign, nr->name);
+				if (DEBUG_OUTPUT) printf("\troot: %s --> [ %s %s %s ]\n", nt->name, nl->name, op->sign, nr->name);
 				nt->rank = 0;
 				Tree *treeNode = treeFromNodes(nt, nl, nr);
 				draftTree = appendTreeToList(draftTree, treeNode);
 			} else {
-				if (DEBUG_OUTPUT)
-					printf("Enqueueing new node %s\n", nt->name);
+				if (DEBUG_OUTPUT) printf("\tEnqueueing new node %s\n", nt->name);
+				insert_right(forest,nt);
 				enqueue(q,nt->name,0);
 				nt->rank = 0;
 			}
 		} else {
-			if (q->next == NULL) {
+			if (q == NULL) {
 				nt->name = "root";
 				nt->isRoot = TRUE;
 			} else {
@@ -213,14 +213,15 @@ void rebuild(NameQueue *q, Operation *op) {
 			
 			nt->rank = nl->rank + nr->rank;
 			
-			if (q->next != NULL) {
-				enqueue(q,nt->name,nr->rank);
+			if (q != NULL) {
+				enqueue(q,nt->name,nt->rank);
+				insert_right(forest,nt);
 			}
 			
-			printf("%s <-- %s %s %s\n", nt->name, nl->name, op->sign, nr->name);
+			if (DEBUG_OUTPUT) printf("\t%s <-- %s %s %s\n", nt->name, nl->name, op->sign, nr->name);
 			Tree *treeNode = treeFromNodes(nt, nl, nr);
 			draftTree = appendTreeToList(draftTree, treeNode);
-		}		
+		}
 	}	
 }
 
@@ -255,6 +256,6 @@ void getVariableName(Node *node) {
 	node->name = malloc(sizeof (char *) * 16);
 	sprintf(node->name, "tt%d", varTempCounter++);
 	if (DEBUG_OUTPUT)
-		printf("Generated new variable name: %s\n", node->name);
+		printf("\tGenerated new variable name: %s\n", node->name);
 }
 
