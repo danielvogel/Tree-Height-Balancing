@@ -14,7 +14,9 @@ ListItem* getCodeTrees(graph* dg);
 
 
 int main(int argc, char** argv) {
+	int dgCounter = 1;
 	varTempCounter = 1;
+	
     //forest = initCode();
     
     //graph* g = GraphCreate();
@@ -77,7 +79,14 @@ int main(int argc, char** argv) {
     do{
         if(current->g == NULL)break;
         
-       // resultTrees = new_list();
+        if (DEBUG_OUTPUT) {
+			printf("##########################################\n");
+			printf("# STAR PROCESSING DEPENDENCY GRAPH no.%d #\n",dgCounter++);
+			printf("##########################################\n");
+	
+		}
+        
+        resultTrees = new_list();
         
         printGraph(current->g);
         

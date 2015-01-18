@@ -37,12 +37,14 @@ Node *newNodeWithChildren(char *data, Operation *op, Node *left, Node *right);
 /* functions for lists */
 ListItem * new_list();
 ListItem * insert_right(struct list_item *list, Node* data);
+ListItem * insert_right_tree(struct list_item *list, Tree* data);
 ListItem * delete(struct list_item *list);
-ListItem *appendTreeToList(ListItem *list, Tree *treeData);
 
 Node *nodeByName(ListItem* forest, char * name);
 
 Tree *treeFromNodes(Node *parent, Node *left, Node *right);
 
+void printTreeDataList(ListItem *l);
+void printTree(Tree *t, int level);
 
 #endif	/* CODETREE_H */

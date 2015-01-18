@@ -66,6 +66,20 @@ ListItem * insert_right(ListItem *list, Node* data){
     return new;
 }
 
+ListItem * insert_right_tree(struct list_item *list, Tree* data) {
+	ListItem *new = (ListItem *) malloc(sizeof(ListItem));
+    new->treeData        = data;
+    new->left        = list;
+    new->right       = list->right;
+    list->right      = new;
+    
+    if(new->right != NULL){
+        new->right->left = new;
+    }
+
+    return new;
+}
+
 ListItem * delete(ListItem *list){
     
     ListItem *left =  list->left;
@@ -101,7 +115,7 @@ Tree *treeFromNodes(Node *parent, Node *left, Node *right)
 	tl->data = left;
 	
 	Tree *tr = (Tree*) malloc(sizeof(Tree));
-	tr->data = parent;
+	tr->data = right;
 	
 	tp->left  = tl;
 	tp->right = tr;
@@ -109,10 +123,23 @@ Tree *treeFromNodes(Node *parent, Node *left, Node *right)
 	return tp;
 }
 
-ListItem *appendTreeToList(ListItem *list, Tree *treeData) {
-	list->treeData = treeData;
-	list->right = new_list();
-	list->right->left = list;
+void printTreeDataList(ListItem *l) {
+	while (l != NULL) {
+		Tree *t = l->treeData;
+		printTree(t,0);
+		l = l->right;	
+	}
+}
+
+void printTree(Tree *t, int level) {
+	int i=0;
+	for (;i<level;i++)
+		printf("\t");
+		
+	printf("%s (%d)\n",t->data->name, t->data->rank);
 	
-	return list->right;
+	if (t->left->data->name != NULL)
+		printTree(t->left,level+1);
+	if (t->right->data->name != NULL)
+		printTree(t->right,level+1);
 }

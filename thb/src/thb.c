@@ -174,7 +174,6 @@ void rebuild(NameQueue *q, Operation *op) {
 	if (DEBUG_OUTPUT) printf("Start rebuilding tree with queue state: ");
 	if (DEBUG_OUTPUT) printQueue(q);
 
-	
 	ListItem *draftTree = new_list();
 	
 	while(q != NULL && q->next != NULL) {
@@ -196,7 +195,7 @@ void rebuild(NameQueue *q, Operation *op) {
 				if (DEBUG_OUTPUT) printf("\troot: %s --> [ %s %s %s ]\n", nt->name, nl->name, op->sign, nr->name);
 				nt->rank = 0;
 				Tree *treeNode = treeFromNodes(nt, nl, nr);
-				draftTree = appendTreeToList(draftTree, treeNode);
+				insert_right_tree(draftTree, treeNode);
 			} else {
 				if (DEBUG_OUTPUT) printf("\tEnqueueing new node %s\n", nt->name);
 				insert_right(forest,nt);
@@ -220,9 +219,10 @@ void rebuild(NameQueue *q, Operation *op) {
 			
 			if (DEBUG_OUTPUT) printf("\t%s <-- %s %s %s\n", nt->name, nl->name, op->sign, nr->name);
 			Tree *treeNode = treeFromNodes(nt, nl, nr);
-			draftTree = appendTreeToList(draftTree, treeNode);
+			insert_right_tree(draftTree, treeNode);
 		}
 	}	
+	printTreeDataList(draftTree->right);
 }
 
 Node *fold(Operation *op, Node *left, Node *right) {
