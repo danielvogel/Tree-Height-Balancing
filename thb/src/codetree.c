@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "codetree.h"
-
+#include <stdio.h>
 
 /* functions for tree nodes */
 
