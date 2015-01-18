@@ -177,6 +177,7 @@ void rebuild(NameQueue *q, Operation *op) {
 	ListItem *draftTree = new_list();
 	
 	while(q != NULL && q->next != NULL) {
+		quickSort(q);
 		Node *nl, *nr, *nt;
 		nt = newNode("");
 		if (DEBUG_OUTPUT) printf("\tCurrent queue state: ");
