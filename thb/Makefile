@@ -5,8 +5,8 @@
 #CFLAGS=
 #LDFLAGS=
 CC=gcc
-CFLAGS=-c -Wall -ggdb -I/usr/local/include -I ../thb-test/src
-SOURCES= src/main.c src/thb.c src/codetree.c src/namequeue.c src/graph.c src/dependency_graph.c ../thb-test/src/thb_test.c
+CFLAGS=-c -Wall -ggdb -I/usr/local/include
+SOURCES= src/main.c src/thb.c src/codetree.c src/namequeue.c src/graph.c src/dependency_graph.c src/thb_test.c
 DISTDIR= bin/
 ODIR= obj
 SDIR= src

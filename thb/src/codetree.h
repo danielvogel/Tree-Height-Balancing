@@ -2,7 +2,15 @@
 #define	CODETREE_H
 
 #include "constants.h"
-#include "thb_test.h"
+
+/* A binary tree node has data, pointer to left child
+   and a pointer to right child */
+typedef struct treeNode
+{
+    struct treeNode* left;
+    struct treeNode* right;
+    struct node *data;
+}Tree;
 
 typedef struct operation{
     char *sign;
