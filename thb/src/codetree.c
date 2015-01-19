@@ -9,7 +9,7 @@ Operation *newOp(char *sign, int com, int ass, int precedence){
     Operation* op = (Operation*) malloc(sizeof(Operation));
     op->sign = sign;
     op->isAssociative = ass;
-    op->isCommunitative = com;
+    op->isCommutative = com;
     op->precedence = precedence;
     
     return op;

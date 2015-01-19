@@ -41,6 +41,12 @@ int main(int argc, char** argv) {
 
         NameQueue *Roots = roots(forest);
         Node *node;
+       
+        if(Roots->name == NULL){
+            
+            printf("Result Phase 1:\nNo root found!\n");
+            continue;
+        } 
         
         printRoots(Roots);
 
@@ -50,12 +56,12 @@ int main(int argc, char** argv) {
             balance(node);
             Roots = Roots->next;
         }
-    	printf("THE RESULT OF TREE HEIGHT BALANCING:\n");
-    	printTreeDataList(resultTrees->right);
-    	printf("Is the tree height-balanced?\n");
+        printf("THE RESULT OF TREE HEIGHT BALANCING:\n");
+        printTreeDataList(resultTrees->right);
+        printf("Is the tree height-balanced?\n");
         isTreeBalanced(resultTrees->right);
-       
 
+        
     } while ((current = current->next) != NULL);
     
     return (EXIT_SUCCESS);

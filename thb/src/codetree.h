@@ -16,7 +16,7 @@ typedef struct treeNode
 
 typedef struct operation{
     char *sign;
-    bool isCommunitative;
+    bool isCommutative;
     bool isAssociative;
     int precedence;
 } Operation;

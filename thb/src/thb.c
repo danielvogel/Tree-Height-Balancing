@@ -14,7 +14,7 @@ NameQueue * roots(ListItem *forest){
         current->data->rank = -1;
         
         if(current->data->op && current->data->op->isAssociative 
-                && current->data->op->isCommunitative){
+                && current->data->op->isCommutative){
         
             Uses * use = uses(forest, current->data->name);
             int isOpForeign = 1;          
