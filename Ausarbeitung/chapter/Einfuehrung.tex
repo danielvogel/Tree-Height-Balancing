@@ -15,7 +15,7 @@ Ein Abhängigkeitsgraph (dependency graph) stellt den Informationsfluss zwischen
 
 Der Algorithmus verlangt einen Abhängigkeitsgraphen, der in der ersten Phase bearbeitet wird. Zur Erstellung eines Abhängigkeitsgraphen bedarf es den Vorstufen des Compilers. Um es kurz zu halten: Ein Scanner muss die Tokens mit Hilfe von regulären Ausdrücken einlesen und ein Parser diese in einen Parse-Baum wandeln. Aufgrund zeitlicher Begrenzung und der durch den Algorithmus gegebenen Komplexität, wird ein Abhängigkeitsgraph manuel erstellt. Dieser Ablauf wird im folgenden näher erklärt.
 
-\subsection{Graph - Linked Implementation} 
+\subsection{Graph - Linked Implementation}\label{kap:graph} 
 Ein Graph ist eine Datenstruktur, in der Informationen gespeichert werden können. Im Gegensatz zu Bäumen, die eine hierarchische Struktur besitzen, sind Graphen flexibler. Die Konsequenz daraus ist, dass Graphen auch Schleifen haben können und ein Knoten in einem Graphen nicht unbedingt erreichbar sein muss (siehe Abbildung \ref{fig:Graph}).
 \begin{figure}[h]
 	\centering
@@ -78,7 +78,6 @@ vorangehende \textit{uevar:} leitet eine Liste, die ebenfalls durch Kommas getre
 
 \section{Nutzen und Erwartungen}
 \label{Nutzen}
-
 Lineare Baumstrukturen entstehen oft durch lineare Blockabhängigkeiten. Diese Abhängigkeiten sind jedoch oft nicht zwingend linear, sonder werden der Einfachheit halber vom Compiler so dargestellt. Beispiele hierfür finden sich oft in verschachtelten Strukturen von algebraischen Relationen. \\
 Die folgende Rechnung \ref{eq:beispiel-addition} wird oft mit einem rechts- oder links-assoziativen Abhängigkeitsgraph abgebildet. Dies führt dazu, dass in Mehrkernsystem die einzelnen Operationen nicht parallel durchgeführt werden können.
 
@@ -86,7 +85,7 @@ Die folgende Rechnung \ref{eq:beispiel-addition} wird oft mit einem rechts- oder
 a + b + c + d + e + f + g + h
 \end{equation}
 
-In einer links-assoziativen Baumstruktur (siehe Abbildung \ref{fig:links-assoziativer-baum}) ist ein linearer Programmfluss vorgegeben. Jeder Schritt baut hierbei auf die vorherige Operation auf. In Tabelle \ref{tab:links-assoziativer-baum} sind die Befehle aufgelistet, welche aus dem links-assoziativen Baum in Abbildung \ref{fig:links-assoziativer-baum} folgen. Die Befehle sollen hierbei für einem 2-Kern-System optimiert werden. Die Bezeichner \textit{t1} bis \textit{t7} stehen dabei für die einzelnen Teilbäume, beziehungsweise ihre Zwischenergebnisse. Wie zu sehen werden die Befehle nur auf einen Kern ausgeführt. Der andere Kern kann nicht agieren, da ihm immer eine Abhängigkeit zum Folgebefehl fehlt.\\
+In einer links-assoziativen Baumstruktur (siehe Abbildung \ref{fig:links-assoziativer-baum}\cite{HeBIS-309344573}) ist ein linearer Programmfluss vorgegeben. Jeder Schritt baut hierbei auf die vorherige Operation auf. In Tabelle \ref{tab:links-assoziativer-baum}\cite{HeBIS-309344573} sind die Befehle aufgelistet, welche aus dem links-assoziativen Baum in Abbildung \ref{fig:links-assoziativer-baum} folgen. Die Befehle sollen hierbei für einem 2-Kern-System optimiert werden. Die Bezeichner \textit{t1} bis \textit{t7} stehen dabei für die einzelnen Teilbäume, beziehungsweise ihre Zwischenergebnisse. Wie zu sehen werden die Befehle nur auf einen Kern ausgeführt. Der andere Kern kann nicht agieren, da ihm immer eine Abhängigkeit zum Folgebefehl fehlt.\\
 
 \begin{figure}
 	\begin{center}
@@ -121,7 +120,7 @@ Außerdem soll das Ergebnis nicht über mehr Schritten bestehen, als die unbalan
 
 
 \subsection{Height-Balanced Tree}
-Die Beschreibung \textit{Height-Balanced} bezeichnet einen Binärbaum, dessen rechter und linker Unterbaum balanciert sind. Balanciert bedeutet in diesem Sinne, dass die Tiefen der Teilbäume nah beieinander liegen (s. Abbildung \ref{fig:vgl-hbt}).
+Die Beschreibung \textit{Height-Balanced} bezeichnet einen Binärbaum, dessen rechter und linker Unterbaum balanciert sind. Balanciert bedeutet in diesem Sinne, dass die Tiefen der Teilbäume nah beieinander liegen (s. Abbildung \ref{fig:vgl-hbt}\cite{geeks}).\cite{hbt}
 Um einen binären Baum als Height-Balanced zu zukennen, wird anhand von drei Punken entschieden:
 
 \begin{itemize} 
@@ -140,7 +139,7 @@ Um einen binären Baum als Height-Balanced zu zukennen, wird anhand von drei Pun
 
 
 Diese Definition hilft im Tree-Heigth Balancing, resultierende Bäume zu bewerten. Ist ein Baum nach anwendung des Tree-Height Balancing in Form eines Height-Balanced Trees, ist die Optimierung des Verfahrens bestmöglich durchgeführt worden.\\
-Bezogen auf den links-assoziativen Baum aus Abbildung \ref{fig:links-assoziativer-baum} wäre ein Height-Balanced Äquivalent ein Baum, indem das Addieren der Platzhalter (definiert durch a bis h) unabhängig von einander in Zwischenergebinisse passiert (s. Abbildung \ref{fig:balancierter-baum}).\\
+Bezogen auf den links-assoziativen Baum aus Abbildung \ref{fig:links-assoziativer-baum}\cite{HeBIS-309344573} wäre ein Height-Balanced Äquivalent ein Baum, indem das Addieren der Platzhalter (definiert durch a bis h) unabhängig von einander in Zwischenergebinisse passiert (s. Abbildung \ref{fig:balancierter-baum}\cite{HeBIS-309344573}).\\
 
 \begin{figure}
 	\begin{center}
