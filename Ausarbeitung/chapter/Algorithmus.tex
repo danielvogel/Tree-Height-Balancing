@@ -4,11 +4,11 @@
 
 \section{Finden von Baumkandidaten}
 Die erste Phase des Tree-Height Balancing besteht aus der Suche nach Teilbäumen, welche unter bestimmten Voraussetzungen sich als Wurzeln für die darauf folgende zweite Phase eignet.\\
-Ausgangspunkt für diese Phase ist eine Sammlung aller Bäume, welche innerhalb des Tree-Heigt Balancing bearteitet werden sollen. Die in unserer Implementierung verwendete Graphstruktur (s. Kapitel \ref{kap:graph}) eignet sich gut für das Iterieren durch alle bekannten Bäume und Unterbäume.\\
-Grundvorraussetzungen an die Wurzel-Kandidaten sind das Assoziativ- und Kommunativgesetz. Die Operation in dem Teilbaum müssen kommunativ und assotiativ sein. Dies führt dazu, dass die Reihenfolge, in der die Operanden stehen, keinen Einfluss auf das Ergebnis der Operation haben. Beispiele für zulässige Operationen sind die Multiplikation und Addition.\\
-Als zweites Auswahlkriterium spielt die Anzahl an Verwendungen der Teilbäume eine Rolle. Sofern ein Baum merfach verwendet wird, und es die mathematischen Vorraussetzungen besitzt, wird es als Wurzel markiert. Bäume, die an mehreren Stellen markiert werden, sind häufig das obere Ende einer Rechnung und kommen deswegen in Frage.\\
+Ausgangspunkt für diese Phase ist eine Sammlung aller Bäume, welche innerhalb des Tree-Heigt Balancing bearbeitet werden sollen. Die in unserer Implementierung verwendete Graphenstruktur (s. Kapitel \ref{kap:graph}) eignet sich gut für das Iterieren durch alle bekannten Bäume und Unterbäume.\\
+Grundvoraussetzungen an die Wurzel-Kandidaten sind das Assoziativ- und Kommutativgesetz. Die Operation in dem Teilbaum müssen kommutativ und assoziativ sein. Dies führt dazu, dass die Reihenfolge, in der die Operanden stehen, keinen Einfluss auf das Ergebnis der Operation haben. Beispiele für zulässige Operationen sind die Multiplikation und Addition.\\
+Als zweites Auswahlkriterium spielt die Anzahl an Verwendungen der Teilbäume eine Rolle. Sofern ein Baum mehrfach verwendet wird, und es die mathematischen Voraussetzungen besitzt, wird es als Wurzel markiert. Bäume, die an mehreren Stellen markiert werden, sind häufig das obere Ende einer Rechnung und kommen deswegen in Frage.\\
 Sofern der Baum einmal verwendet wird, der verwendende Baum jedoch eine andere Operation repräsentiert, wird er ebenfalls als Wurzel markiert. Auch in diesem Fall kann man vom oberen Ende einer Operation ausgehen.\\
-Alle resultierenden Wurzeln werden in eine Warteschlange eingerreiht, aufsteigend sortiert nach der Priorität der Operation (z.B.: Additionen niedriger priorisiert als Mutiplikation).\\
+Alle resultierenden Wurzeln werden in eine Warteschlange eingereiht, aufsteigend sortiert nach der Priorität der Operation (z.B.: Additionen niedriger priorisiert als Multiplikation).\\
 
 \begin{lstlisting}[caption=Phase 1: Roots, label=list:roots]
 NameQueue * roots(ListItem *forest){
@@ -40,6 +40,73 @@ NameQueue * roots(ListItem *forest){
 }
 \end{lstlisting}
 
-Zu jedem Teilbaum wird innerhalb der ersten Phase der Rank auf -1 initialisiert. Dies wird in Phase 2 als zusätzliches Entscheidungskritierium für die  Unterscheidung zwischen Baum-Typen und deren Tiefe verwendet.
+Zu jedem Teilbaum wird innerhalb der ersten Phase der Rank auf -1 initialisiert. Dies wird in Phase 2 als zusätzliches Entscheidungskriterium für die  Unterscheidung zwischen Baum-Typen und deren Tiefe verwendet.
 
 \section{Blockwiederherstellung in balancierter Form}
+Zur Wiederherstellung der Blöcke werden drei Funktionen benutzt. In diesen wird der Dependency-Graph weiter analysiert und in balancierter Form neu zusammengesetzt.
+
+\subsection{balance()}
+Diese Funktion wird auf jeden Knoten ausgeführt, der als \textit{Root} markiert ist. Hierbei wird der Rang des Knotens festgelegt und anschließend werden die untergeordneten Knoten neu geordnet.\\
+
+\begin{lstlisting}[caption=Funktion balance(), label=list:Funktion balace()]
+void balance(Node *root) {
+	if (root->rank >= 0)
+	{
+		return; // have already processed this tree
+	}
+
+	NameQueue *q = new_queue(); // First, flatten the tree
+	root->rank = flatten(root->left, q) + flatten(root->right, q);
+
+	rebuild(q, root->op); // Then, rebuild a balanced tree
+}
+\end{lstlisting}
+
+Zu Anfang der Funktion wird überprüft ob der aktuelle Knoten schon bearbeitet wurde. Dies kann anhand seines Rangs festgestellt werden. Initial hat ein Knoten den Rang -1. Sobald er bearbeitet wurde, wird hier ein Rang von mindestens 0 gesetzt. Wurde der Knoten noch nicht bearbeitet, wird eine neue \textit{Priority-Queue} erstellt. Diese wird an die direkt im Anschluss jeweils für den rechten und linken Teilbaum aufgerufene Funktion \textit{flatten()} durchgereicht. In ihr wird der Name und der Rang der untergeordneten Knoten, welche nicht als \textit{Root} markiert sind, gespeichert. Der Rückgabewert der Funktion flatten() liefert den Rang. Der Rang eines als \textit{Root} markierten Knotens ist die Addition der Ränge des linken und rechten Teilbaums. Steht der Rang fest, wird der Knoten durch den Aufruf von \textit{rebuild()} neu geordnet.
+
+\subsection{flatten()}
+Diese Funktion dient dem rekursiven durchlaufen eines Knotens und seiner Teilbäume. Initial wird sie durch die Funktion \textit{balance()} aufgerufen.\\
+
+\begin{lstlisting}[caption=Funktion flatten(), label=list:Funktion flatten()]
+int flatten(Node *var, NameQueue *q) // Flatten computes a rank for var & builds the queue
+{
+	if (var->isConstant == TRUE) // Cannot recur further
+	{
+		var->rank = 0;
+		enqueue(q, var->name, var->rank);
+	} else {
+		if (inUEVar(var) == TRUE) // Cannot recur past top of block
+		{
+		var->rank = 1;
+		enqueue(q, var->name, var->rank);
+		} else {
+			if (var->isRoot == TRUE)
+			{
+				balance(var); // Recur to find its rank
+				enqueue(q, var->name, var->rank);
+			} else { // var is Tj in jth op in block
+				flatten(var->left, q); // Recur on left operand
+				flatten(var->right, q); // Recur on right operand
+			}
+		}
+	}
+
+	return var->rank;
+}
+\end{lstlisting}
+
+Diese Funktion unterscheidet in vier verschiedene Fälle:
+\begin{enumerate}
+	\item Beim Knoten handelt es sich um eine Konstante:\\
+	Der Rang wird auf 0 gesetzt und der Knoten wird der \textit{Priority-Queue} hinzugefügt.
+	\item Der Knoten ist in UEVar vorhanden:\\
+	In UEvar sind alle Elemente gespeichert die von einem übergeordneten Knoten kommen. Ist dies der Fall wird der Rang auf 1 gesetzt und der Knoten wird der \textit{Priority-Queue} hinzugefügt.
+	\item Der Knoten ist als \textit{Root} markiert:\\
+	In diesem Fall wird die Funktion \textit{balance()} mit dem aktuellen Knoten als Parameter aufgerufen. Hierdurch wird eine neue \textit{Priority-Queue} angelegt und die untergeordneten Knoten werden weiter optimiert. Anschließend wird auch dieser Knoten der bereits vorhandenen \textit{Priority-Queue} hinzugefügt.
+	\item Alle anderen Fälle:\\
+	Für den jeweils linken und rechten Teilbaum wird die Funktion \textit{flatten()} aufgerufen um rekursiv bis an das Ende des Baums zu gelangen.
+\end{enumerate}
+
+Wurden alle Knoten so durchlaufen kann mit Hilfe der Funktion \textit{rebuild()} der optimierte Baum aufgebaut werden.
+
+\subsection{rebuild()}
