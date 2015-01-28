@@ -3,11 +3,11 @@
 
 
 \section{Finden von Baumkandidaten}
-Die erste Phase des Tree-Height Balancing besteht aus der Suche nach Teilbäumen, welche unter bestimmten Voraussetzungen sich als Wurzeln für die darauf folgende zweite Phase eignet.\\
-Ausgangspunkt für diese Phase ist eine Sammlung aller Bäume, welche innerhalb des Tree-Heigt Balancing bearbeitet werden sollen. Die in unserer Implementierung verwendete Graphenstruktur (s. Kapitel \ref{kap:graph}) eignet sich gut für das Iterieren durch alle bekannten Bäume und Unterbäume.\\
-Grundvoraussetzungen an die Wurzel-Kandidaten sind das Assoziativ- und Kommutativgesetz. Die Operation in dem Teilbaum müssen kommutativ und assoziativ sein. Dies führt dazu, dass die Reihenfolge, in der die Operanden stehen, keinen Einfluss auf das Ergebnis der Operation haben. Beispiele für zulässige Operationen sind die Multiplikation und Addition.\\
+Die erste Phase des THB besteht hauptsächlich aus der Suche nach Teilbäumen, welche unter bestimmten Voraussetzungen sich als Wurzeln für die darauf folgende zweite Phase eignet.\\
+Ausgangspunkt für diese Phase ist eine Sammlung aller Bäume, welche innerhalb des THB bearbeitet werden sollen. Die in unserer Implementierung verwendete Graphenstruktur (s. Kapitel \ref{kap:graph}) eignet sich gut für das Iterieren durch alle bekannten Bäume und Unterbäume.\\
+Grundvoraussetzungen an die Wurzel-Kandidaten sind das Assoziativ- und Kommutativgesetz. Die Operation in dem Teilbaum müssen kommutativ und assoziativ sein, sodass die Reihenfolge, in der die Operanden stehen, keinen Einfluss auf das Ergebnis haben. Beispiele für zulässige Operationen sind die Multiplikation und Addition.\\
 Als zweites Auswahlkriterium spielt die Anzahl an Verwendungen der Teilbäume eine Rolle. Sofern ein Baum mehrfach verwendet wird, und es die mathematischen Voraussetzungen besitzt, wird es als Wurzel markiert. Bäume, die an mehreren Stellen markiert werden, sind häufig das obere Ende einer Rechnung und kommen deswegen in Frage.\\
-Sofern der Baum einmal verwendet wird, der verwendende Baum jedoch eine andere Operation repräsentiert, wird er ebenfalls als Wurzel markiert. Auch in diesem Fall kann man vom oberen Ende einer Operation ausgehen.\\
+Sofern der Baum einmal verwendet wird, der übergeordnete Baum jedoch eine andere Operation repräsentiert, wird er ebenfalls als Wurzel markiert. Auch in diesem Fall kann man vom oberen Ende einer Operation ausgehen.\\
 Alle resultierenden Wurzeln werden in eine Warteschlange eingereiht, aufsteigend sortiert nach der Priorität der Operation (z.B.: Additionen niedriger priorisiert als Multiplikation).\\
 
 \begin{lstlisting}[caption=Phase 1: Roots, label=list:roots]

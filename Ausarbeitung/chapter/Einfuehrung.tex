@@ -96,13 +96,13 @@ vorangehende \textit{uevar:} leitet eine Liste, die ebenfalls durch Kommas getre
 \section{Nutzen und Erwartungen}
 \label{Nutzen}
 Lineare Baumstrukturen entstehen oft durch lineare Blockabhängigkeiten. Diese Abhängigkeiten sind jedoch oft nicht zwingend linear, sonder werden der Einfachheit halber vom Compiler so dargestellt. Beispiele hierfür finden sich oft in verschachtelten Strukturen von algebraischen Relationen. \\
-Die folgende Rechnung \ref{eq:beispiel-addition} wird oft mit einem rechts- oder links-assoziativen Abhängigkeitsgraph abgebildet. Dies führt dazu, dass in Mehrkernsystem die einzelnen Operationen nicht parallel durchgeführt werden können.
+Die folgende Rechnung \ref{eq:beispiel-addition} wird oft mit einem rechts- oder links-assoziativen DG abgebildet. Dies führt dazu, dass in Mehrkernsystem die einzelnen Operationen nicht parallel durchgeführt werden können.
 
 \begin{equation} \label{eq:beispiel-addition}
 a + b + c + d + e + f + g + h
 \end{equation}
 
-In einer links-assoziativen Baumstruktur (siehe Abbildung \ref{fig:links-assoziativer-baum}\cite{HeBIS-309344573}) ist ein linearer Programmfluss vorgegeben. Jeder Schritt baut hierbei auf die vorherige Operation auf. In Tabelle \ref{tab:links-assoziativer-baum}\cite{HeBIS-309344573} sind die Befehle aufgelistet, welche aus dem links-assoziativen Baum in Abbildung \ref{fig:links-assoziativer-baum} folgen. Die Befehle sollen hierbei für einem 2-Kern-System optimiert werden. Die Bezeichner \textit{t1} bis \textit{t7} stehen dabei für die einzelnen Teilbäume, beziehungsweise ihre Zwischenergebnisse. Wie zu sehen werden die Befehle nur auf einen Kern ausgeführt. Der andere Kern kann nicht agieren, da ihm immer eine Abhängigkeit zum Folgebefehl fehlt.\\
+In einer links-assoziativen Baumstruktur (siehe Abbildung \ref{fig:links-assoziativer-baum}\cite{HeBIS-309344573}) ist ein linearer Programmfluss vorgegeben. Jeder Schritt baut hierbei auf die vorherige Operation auf. In Tabelle \ref{tab:links-assoziativer-baum}\cite{HeBIS-309344573} sind die Befehle aufgelistet, welche aus dem links-assoziativen Baum in Abbildung \ref{fig:links-assoziativer-baum} folgen. Die Befehle sollen hierbei für einem 2-Kern-System optimiert werden. Die Bezeichner \textit{t1} bis \textit{t7} stehen dabei für die einzelnen Teilbäume, beziehungsweise die Zwischenergebnisse der Rechnung \ref{eq:beispiel-addition}. Wie zu sehen werden die Befehle nur auf einen Kern ausgeführt. Der andere Kern kann nicht agieren, da ihm immer eine Abhängigkeit zum Folgebefehl fehlt.\\
 
 \begin{figure}
 	\begin{center}
@@ -132,13 +132,13 @@ In einer links-assoziativen Baumstruktur (siehe Abbildung \ref{fig:links-assozia
 
 
 Wünschenswert wäre an dieser Stelle jedoch ein Befehlssatz, welcher auf Mehrkernsystemen (zum Teil) parallel ausgeführt werden kann. Dadurch könnten Prozessortakte und somit die Laufzeit des kompilierten Programmes eingespart werden.\\
-Das Verfahren des Tree-Height-Balancing soll hierbei angewendet werden, um die links- oder rechts-assoziativen Bäume auszubalancieren. Sofern die Kinder eines Baumes nicht untereinander Abhängigkeiten aufweisen, können diese parallel vom Prozessor bearbeitet werden. Die führt zur Ausführung vom mehreren Befehlen innerhalb eines Taktes in Mehrkernsystemen.\\
-Außerdem soll das Ergebnis nicht über mehr Schritten bestehen, als die unbalancierte Form. Sollte der optimierte Code auf einem Einkernsystem verwendet werden, darf es nicht mehr Zeit kosten, als der unoptimierte Code.
+Das Verfahren des THB soll hierbei angewendet werden, um die links- oder rechts-assoziativen Bäume auszubalancieren. Sofern die Kinder eines Baumes nicht untereinander Abhängigkeiten aufweisen, können diese parallel vom Prozessor bearbeitet werden. Dies führt zur Ausführung vom mehreren Befehlen innerhalb eines Taktes in Mehrkernsystemen.\\
+Außerdem soll das Ergebnis des THB nicht über mehr Schritten bestehen, als die unbalancierte Form. Sollte der optimierte Code auf einem Einkernsystem verwendet werden, darf es nicht mehr Zeit kosten, als der unoptimierte Code.
 
 
 \subsection{Height-Balanced Tree}
-Die Beschreibung \textit{Height-Balanced} bezeichnet einen Binärbaum, dessen rechter und linker Unterbaum balanciert sind. Balanciert bedeutet in diesem Sinne, dass die Tiefen der Teilbäume nah beieinander liegen (s. Abbildung \ref{fig:vgl-hbt}\cite{geeks}).\cite{hbt}
-Um einen binären Baum als Height-Balanced zu zukennen, wird anhand von drei Punken entschieden:
+Die Beschreibung \textit{\ac{HBT}} bezeichnet einen Binärbaum, dessen rechter und linker Unterbaum balanciert sind. Balanciert bedeutet in diesem Sinne, dass die Tiefen der Teilbäume nah bei einander liegen (s. Abbildung \ref{fig:vgl-hbt}\cite{geeks}).\cite{hbt}
+Um einen binären Baum als Height-Balanced zu erkennen, wird anhand von drei Punken entschieden:
 
 \begin{itemize} 
 	\item Ein Baum ohne Unterbäume ist balanciert.
@@ -155,7 +155,7 @@ Um einen binären Baum als Height-Balanced zu zukennen, wird anhand von drei Pun
 \end{figure}
 
 
-Diese Definition hilft im Tree-Heigth Balancing, resultierende Bäume zu bewerten. Ist ein Baum nach anwendung des Tree-Height Balancing in Form eines Height-Balanced Trees, ist die Optimierung des Verfahrens bestmöglich durchgeführt worden.\\
+Diese Definition hilft im THB, resultierende Bäume zu bewerten. Ist ein Baum nach Anwendung des THB in Form eines HBT, ist die Optimierung des Verfahrens bestmöglich durchgeführt worden.\\
 Bezogen auf den links-assoziativen Baum aus Abbildung \ref{fig:links-assoziativer-baum}\cite{HeBIS-309344573} wäre ein Height-Balanced Äquivalent ein Baum, indem das Addieren der Platzhalter (definiert durch a bis h) unabhängig von einander in Zwischenergebinisse passiert (s. Abbildung \ref{fig:balancierter-baum}\cite{HeBIS-309344573}).\\
 
 \begin{figure}
@@ -166,7 +166,7 @@ Bezogen auf den links-assoziativen Baum aus Abbildung \ref{fig:links-assoziative
 	\label{fig:balancierter-baum}
 \end{figure}
 
-Der Befehlssatz zu diesem Baum ist in Tabelle \ref{tab:balancierter-baum} zu sehen. Erkenntlich ist, dass mehrere Befehle gleichzeitig verarbeitet werden können, ohne dass diese aufeinander aufbauen bzw. warten müssen (z.B. \textit{t1} und \textit{t2}). Außerdem ist zu erkennen, dass im Vergleich zu Tabelle \ref{tab:links-assoziativer-baum} die Anzahl an Befehlen gleich geblieben ist. In einem Einkernsystem wäre the gebrauchte Zeitfür diese Rechnung demnach gleich.\\
+Der Befehlssatz zu diesem Baum ist in Tabelle \ref{tab:balancierter-baum} zu sehen. Erkenntlich ist, dass mehrere Befehle gleichzeitig verarbeitet werden können, ohne dass diese aufeinander aufbauen bzw. warten müssen (z.B. \textit{t1} und \textit{t2}). Außerdem ist zu erkennen, dass im Vergleich zu Tabelle \ref{tab:links-assoziativer-baum} die Anzahl an Befehlen gleich geblieben ist. In einem Einkernsystem wäre die gebrauchte Zeit für diese Rechnung demnach gleich.\\
 
 \begin{table}
 	\begin{center}
