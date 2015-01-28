@@ -45,7 +45,7 @@ Zu jedem Teilbaum wird innerhalb der ersten Phase der Rank auf -1 initialisiert.
 \section{Blockwiederherstellung in balancierter Form}
 Zur Wiederherstellung der Blöcke werden drei Funktionen benutzt. In diesen wird der Dependency-Graph weiter analysiert und in balancierter Form neu zusammengesetzt.
 
-\subsection{balance()}
+\subsection{Ausbalancieren}
 Diese Funktion wird auf jeden Knoten ausgeführt, der als \textit{Root} markiert ist. Hierbei wird der Rang des Knotens festgelegt und anschließend werden die untergeordneten Knoten neu geordnet.\\
 
 \begin{lstlisting}[caption=Funktion balance(), label=list:Funktion balace()]
@@ -64,7 +64,7 @@ void balance(Node *root) {
 
 Zu Anfang der Funktion wird überprüft ob der aktuelle Knoten schon bearbeitet wurde. Dies kann anhand seines Rangs festgestellt werden. Initial hat ein Knoten den Rang -1. Sobald er bearbeitet wurde, wird hier ein Rang von mindestens 0 gesetzt. Wurde der Knoten noch nicht bearbeitet, wird eine neue \textit{Priority-Queue} erstellt. Diese wird an die direkt im Anschluss jeweils für den rechten und linken Teilbaum aufgerufene Funktion \textit{flatten()} durchgereicht. In ihr wird der Name und der Rang der untergeordneten Knoten, welche nicht als \textit{Root} markiert sind, gespeichert. Der Rückgabewert der Funktion flatten() liefert den Rang. Der Rang eines als \textit{Root} markierten Knotens ist die Addition der Ränge des linken und rechten Teilbaums. Steht der Rang fest, wird der Knoten durch den Aufruf von \textit{rebuild()} neu geordnet.
 
-\subsection{flatten()}
+\subsection{Glätten}
 Diese Funktion dient dem rekursiven durchlaufen eines Knotens und seiner Teilbäume. Initial wird sie durch die Funktion \textit{balance()} aufgerufen.\\
 
 \begin{lstlisting}[caption=Funktion flatten(), label=list:Funktion flatten()]
@@ -109,4 +109,18 @@ Diese Funktion unterscheidet in vier verschiedene Fälle:
 
 Wurden alle Knoten so durchlaufen kann mit Hilfe der Funktion \textit{rebuild()} der optimierte Baum aufgebaut werden.
 
-\subsection{rebuild()}
+\subsection{Baumwiederherstellung}
+
+Bei der letzten Phase des \ac{THB}-Algorithmus handelt es sich um das Wiederherstellen der Bäume aus den vorherigen Verarbeitungsschritten.
+
+Hierbei muss die verarbeitende Methode\footnote{Die Methode \textit{void rebuild(NameQueue *q, Operation *op)} ist im Code-Anhang unter \textit{thb/src/thb.c} zu finden.} folgende Schritte vollführen:
+
+Als Parameter erhält die Methode eine Liste mit Namen sowie den zugehörigen Operator - wie eingangs erwähnt, muss dieser für den kompletten Teilbaum gleich sein. Es werden nun die beiden obersten Elemente aus der Liste entnommen (diese sind nach Rang sortiert, also werden immer die Elemente mit dem niedrigsten Rang entnommen) und mit diesen ein neuer Knoten erstellt.
+
+Handelt es sich bei beiden Elementen um Variablen, werden die Knoten mit dem zugehörigen Operator gefaltet und entweder als Wurzel gesetzt (wenn die Liste leer ist) oder als neuer Knoten wieder in die Liste eingereiht.
+
+Ist wenigstens einer der beiden Knoten keine Variable, wird zunächst erneut der Status der Liste abgefragt. Ist diese leer, ist der Algorithmus beim Wurzelknoten angekommen und der Baum, der nun an diesem Knoten hängt, kann in die Liste der Ergebnisbäume eingetragen werden.
+
+Ist die Liste nicht leer, wird eine neue temporäre Variable für den neuen Knoten erstellt und dieser in die Liste eingereiht. Der Rang ergibt sich hierbei in jedem Fall aus der Summe der Ränge der beiden Kindknoten, die eingangs aus der Liste extrahiert wurden.
+
+Der hier verwendete Algorithmus geht so vor, dass die innerhalb der Schleife entstehenden Teilbäume zunächst in eine Liste eingetragen werden, aus der im Anschluss mittels der Methode \textit{Tree *getTreeFromList(ListItem *list)} der fertige Baum generiert wird. Die aus jedem Aufruf der \textit{rebuild}-Methode entstandenen Bäume werden in der globalen Variable \textit{resultTrees} gespeichert.
