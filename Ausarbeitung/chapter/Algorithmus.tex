@@ -1,9 +1,8 @@
 \chapter{Algorithmus}
-
-
+Der Algorithmus kann in zwei Phasen unterschieden werden.
 
 \section{Finden von Baumkandidaten}
-Die erste Phase des THB besteht hauptsächlich aus der Suche nach Teilbäumen, welche unter bestimmten Voraussetzungen sich als Wurzeln für die darauf folgende zweite Phase eignet.\\
+Die erste Phase des \ac{THB} besteht hauptsächlich aus der Suche nach Teilbäumen, welche unter bestimmten Voraussetzungen sich als Wurzeln für die darauf folgende zweite Phase eignet.\\
 Ausgangspunkt für diese Phase ist eine Sammlung aller Bäume, welche innerhalb des THB bearbeitet werden sollen. Die in unserer Implementierung verwendete Graphenstruktur (s. Kapitel \ref{kap:graph}) eignet sich gut für das Iterieren durch alle bekannten Bäume und Unterbäume.\\
 Grundvoraussetzungen an die Wurzel-Kandidaten sind das Assoziativ- und Kommutativgesetz. Die Operation in dem Teilbaum müssen kommutativ und assoziativ sein, sodass die Reihenfolge, in der die Operanden stehen, keinen Einfluss auf das Ergebnis haben. Beispiele für zulässige Operationen sind die Multiplikation und Addition.\\
 Als zweites Auswahlkriterium spielt die Anzahl an Verwendungen der Teilbäume eine Rolle. Sofern ein Baum mehrfach verwendet wird, und es die mathematischen Voraussetzungen besitzt, wird es als Wurzel markiert. Bäume, die an mehreren Stellen markiert werden, sind häufig das obere Ende einer Rechnung und kommen deswegen in Frage.\\
@@ -43,7 +42,7 @@ NameQueue * roots(ListItem *forest){
 Zu jedem Teilbaum wird innerhalb der ersten Phase der Rank auf -1 initialisiert. Dies wird in Phase 2 als zusätzliches Entscheidungskriterium für die  Unterscheidung zwischen Baum-Typen und deren Tiefe verwendet.
 
 \section{Blockwiederherstellung in balancierter Form}
-Zur Wiederherstellung der Blöcke werden drei Funktionen benutzt. In diesen wird der Dependency-Graph weiter analysiert und in balancierter Form neu zusammengesetzt.
+Zur Wiederherstellung der Blöcke werden drei Funktionen benutzt. In diesen wird der \ac{DG} weiter analysiert und in balancierter Form neu zusammengesetzt.
 
 \subsection{Ausbalancieren}
 Diese Funktion wird auf jeden Knoten ausgeführt, der als \textit{Root} markiert ist. Hierbei wird der Rang des Knotens festgelegt und anschließend werden die untergeordneten Knoten neu geordnet.\\
