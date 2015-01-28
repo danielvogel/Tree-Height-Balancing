@@ -83,6 +83,7 @@ pdfkeywords={Compilerbau, Tree, Height, Balancing}
 }
 
 % Eigene Befehle
+\renewcommand{\baselinestretch}{1.50}\normalsize
 \newcommand{\acfoot}[1]{\acs{#1}\footnote{\acl{#1}}}
 
 \author{Sören Gutzeit, Daniel Vogel, Artjom Siebert, Patrick Koteras}
@@ -92,7 +93,7 @@ pdfkeywords={Compilerbau, Tree, Height, Balancing}
 \begin{document}
 \begin{titlepage}
 	\begin{center}
-		\includegraphics[width=1.0\textwidth]{images/logo}\\
+		\includegraphics[width=0.5\textwidth]{images/logo.png}\\
 		\vspace{3cm}
 		\begin{Huge}
 			 Tree-Height Balacing
@@ -111,9 +112,11 @@ pdfkeywords={Compilerbau, Tree, Height, Balancing}
 \newpage
 
 % Inhaltsverzeichnis
+\renewcommand{\baselinestretch}{1.30}\normalsize
 \pagenumbering{Roman}
 \setcounter{page}{1}
 \tableofcontents
+\renewcommand{\baselinestretch}{1.50}\normalsize
 
 % Sichern der aktuellen Seitenzahl des Vorspanns
 \newcounter{last_roman}
@@ -121,7 +124,6 @@ pdfkeywords={Compilerbau, Tree, Height, Balancing}
 \newpage
 
 %Seiten
-\renewcommand{\baselinestretch}{1.50}\normalsize
 \pagenumbering{arabic}
 \input{chapter/Einfuehrung}
 \input{chapter/Algorithmus}

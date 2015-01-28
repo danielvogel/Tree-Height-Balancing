@@ -1,21 +1,29 @@
 \chapter{Einführung}
-
+\label{Einfuehrung}
 Diese Ausarbeitung widmet sich dem \enquote{\ac{THB}} - also dem ausbalancieren von Bäumen bezüglich ihrer Höhe - als eine Form der durch Compiler durchgeführte Codeoptimierungen.
 
 Hierbei wird zunächst eine Einordnung und Definition des \ac{THB} gegeben. Darauf aufbauend wird der in \cite{HeBIS-309344573} vorgeschlagene Algorithmus erläutert und aufgearbeitet. Auf Grundlage dieses Algorithmus wird ein Programm entwickelt, welches aus einem als Textdatei eingelesenen \ac{DG} Teilbäume extrahiert und auf diese \ac{THB} anwendet. Die konkrete Implementierung des Algorithmus wird zum Teil parallel erläutert - die komplette Implementierung (inklusive des Testprogramms) kann dem Anhang entnommen werden.
 
 Anschließend wird mit Hilfe eines zusätzlich entwickelten Testprogramms die Qualität des \ac{THB}-Programms bewertet, bevor ein abschließendes Fazit gegeben wird.
 
+\section{Einordnung in die Optimierungsverfahren}
+
+Die Optimierungsverfahren, die ein Compiler anwendet, lassen sich primär danach kategorisieren, welchen Scope\footnote{dt.: Fokus, der Bereich des Programmcodes, welcher bei der Verarbeitung betrachtet wird.} sie auf den Code setzen. Dieser Scope reicht vom einzelnen Statement, bis zum kompletten Programmcode.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[scale=0.5]{images/Einordnung.png}
+	\caption{Übersicht über Optimierungsverfahren.}
+	\label{fig:Einordnung}
+\end{figure}
+
+Die in Abbildung \ref{Einfuehrung} zu sehenden Optimierungsverfahren lassen sich nun nach dem Scope kategorisieren. So arbeiten die \textit{Peephole Optimizations} und die \textit{Local Optimizations} auf den Basisblöcken. \textit{Regional Optimizations} und \textit{Loop Optimizations} setzen den Scope übergreifend auf mehrere Basisblöcke, wobei \textit{Global Optimizations} auf komplette Methoden angewendet werden. \textit{Interprocedural Optimizations} arbeiten gleichzeitig über mehrere Methoden und die \textit{Machine Code Optimizations} wird auf den fertigen Maschinencode angewendet.
+
+Da \ac{THB} den Scope auf die Basisblöcke setzt, ist diese Technik - in Abbildung \ref{Einfuehrung} rot markiert - den lokalen Optimierungen zuzuordnen.
+
+Ein Charakteristikum von Basisblöcken ist, dass es nur einen Einstiegspunkt sowie einen Ausstiegspunkt aus ebendiesen gibt. Daraus folgt, dass es innerhalb der Basisblöcke keinen Control-Flow gibt, wie es bei Methoden, Schleifen oder dem Programm in der Regel vorkommt - da die Basisblöcke die Knoten eines \ac{CFG} sind \cite{Allen:1970:CFA:390013.808479}. Hieraus lässt sich folgern, dass die Analyse, die bei der Optimierung vorgenommen werden muss, im Gegensatz zu anderen Verfahren relativ gering ist und ein großes Optimierungspotential besteht \cite{HeBIS-309344573}.
 
 
-\label{Einfuehrung}
-
-
-
-
-
-
-\newpage
 \section{Dependency Graph als Einstiegspunkt}
 \begin{quotation}
 	"'Compilers also use graphs to encode the flow of values from the point where a value is created, a definition, to any point where it is used, a use. A data-dependency graph embodies this relationship." \cite{HeBIS-309344573}
