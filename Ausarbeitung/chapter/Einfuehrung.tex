@@ -2,7 +2,7 @@
 \label{Einfuehrung}
 Diese Ausarbeitung widmet sich dem \enquote{\ac{THB}} - also dem ausbalancieren von Bäumen bezüglich ihrer Höhe - als eine Form der durch Compiler durchgeführte Codeoptimierungen.
 
-Hierbei wird zunächst eine Einordnung und Definition des \ac{THB} gegeben. Darauf aufbauend wird der in \cite{HeBIS-309344573} vorgeschlagene Algorithmus erläutert und aufgearbeitet. Auf Grundlage dieses Algorithmus wird ein Programm entwickelt, welches aus einem als Textdatei eingelesenen \ac{DG} Teilbäume extrahiert und auf diese \ac{THB} anwendet. Die konkrete Implementierung des Algorithmus wird zum Teil parallel erläutert - die komplette Implementierung (inklusive des Testprogramms) kann dem Anhang entnommen werden.
+Hierbei wird zunächst eine Einordnung und Definition des \ac{THB} gegeben. Darauf aufbauend wird der in \cite{HeBIS-309344573} vorgeschlagene Algorithmus erläutert und aufgearbeitet. Auf Grundlage dieses Algorithmus wird ein Programm entwickelt, welches aus einem als Textdatei eingelesenen \ac{DG} Teilbäume extrahiert und auf diese \ac{THB} anwendet. Die konkrete Implementierung des Algorithmus wird teilweise parallel erläutert - die komplette Implementierung (inklusive des Testprogramms) kann dem Anhang entnommen werden.
 
 Abschließend wird ein Fazit gegeben.
 
@@ -18,7 +18,7 @@ Die Optimierungsverfahren, die ein Compiler anwendet, lassen sich primär danach
 	\label{fig:Einordnung}
 \end{figure}
 
-Die in Abbildung \ref{Einfuehrung} zu sehenden Optimierungsverfahren lassen sich nun nach dem Scope kategorisieren. So arbeiten die \textit{Peephole Optimizations} und die \textit{Local Optimizations} auf den Basisblöcken. \textit{Regional Optimizations} und \textit{Loop Optimizations} setzen den Scope übergreifend auf mehrere Basisblöcke, wobei \textit{Global Optimizations} auf komplette Methoden angewendet werden. \textit{Interprocedural Optimizations} arbeiten gleichzeitig über mehrere Methoden und die \textit{Machine Code Optimizations} wird auf den fertigen Maschinencode angewendet.
+Die in Abbildung \ref{Einfuehrung} zu sehenden Optimierungsverfahren lassen sich nun nach dem Scope kategorisieren. So arbeiten die \textit{Peephole Optimizations} und die \textit{Local Optimizations} auf den Basisblöcken. \textit{Regional Optimizations} und \textit{Loop Optimizations} setzen den Scope übergreifend auf mehrere Basisblöcke, wobei \textit{Global Optimizations} auf komplette Methoden angewendet werden. \textit{Interprocedural Optimizations} arbeiten gleichzeitig über mehrere Methoden und die \textit{Machine Code Optimization} wird auf den fertigen Maschinencode angewendet.
 
 Da \ac{THB} den Scope auf die Basisblöcke setzt, ist diese Technik - in Abbildung \ref{Einfuehrung} rot markiert - den lokalen Optimierungen zuzuordnen.
 
@@ -29,7 +29,7 @@ Ein Charakteristikum von Basisblöcken ist, dass es nur einen Einstiegspunkt sow
 
 \section{Nutzen und Erwartungen}
 \label{Nutzen}
-Lineare Baumstrukturen entstehen oft durch lineare Blockabhängigkeiten. Diese Abhäng-igkeiten sind jedoch oft nicht zwingend linear. Beispiele hierfür finden sich beispielsweise in verschachtelten Strukturen von algebraischen Relationen.
+Lineare Baumstrukturen entstehen in der Regel durch lineare Blockabhängigkeiten, auch wenn diese jedoch meist nicht zwingend linear sein müssten. Beispiele hierfür finden sich beispielsweise in verschachtelten Strukturen algebraischer Relationen.
 
 Die Rechnung \ref{eq:beispiel-addition} wird oft mit einem rechts- oder links-assoziativen DG abgebildet. Dies führt dazu, dass in Mehrkernsystem die einzelnen Operationen nicht parallel durchgeführt werden können.
 
@@ -37,7 +37,7 @@ Die Rechnung \ref{eq:beispiel-addition} wird oft mit einem rechts- oder links-as
 a + b + c + d + e + f + g + h
 \end{equation}
 
-In einer links-assoziativen Baumstruktur (siehe Abbildung \ref{fig:links-assoziativer-baum} \cite{HeBIS-309344573}) ist ein linearer Programmfluss vorgegeben. Jeder Schritt baut hierbei auf die vorherige Operation auf. In Tabelle \ref{tab:links-assoziativer-baum} \cite{HeBIS-309344573} sind die Befehle aufgelistet, welche aus dem links-assoziativen Baum in Abbildung \ref{fig:links-assoziativer-baum} folgen. Die Befehle sollen hierbei für einem 2-Kern-System optimiert werden. Die Bezeichner \textit{t1} bis \textit{t7} stehen dabei für die einzelnen Teilbäume, beziehungsweise die Zwischenergebnisse der Rechnung \ref{eq:beispiel-addition}. Wie zu sehen werden die Befehle nur auf einen Kern ausgeführt. Der andere Kern kann nicht agieren, da ihm immer eine Abhängigkeit zum Folgebefehl fehlt.
+In einer links-assoziativen Baumstruktur (siehe Abbildung \ref{fig:links-assoziativer-baum} \cite{HeBIS-309344573}) ist ein linearer Programmfluss vorgegeben. Jeder Schritt baut hierbei auf die vorherige Operation auf. In Tabelle \ref{tab:links-assoziativer-baum} sind die Befehle aufgelistet, welche aus dem links-assoziativen Baum in Abbildung \ref{fig:links-assoziativer-baum} folgen. Die Befehle sollen hierbei für einem 2-Kern-System optimiert werden. Die Bezeichner \textit{t1} bis \textit{t7} stehen dabei für die einzelnen Teilbäume, beziehungsweise die Zwischenergebnisse der Rechnung \ref{eq:beispiel-addition}. Wie zu sehen werden die Befehle nur auf einen Kern ausgeführt. Der andere Kern kann nicht agieren, da ihm immer eine Abhängigkeit zum Folgebefehl fehlt.
 
 \begin{figure}
 	\begin{center}
@@ -61,7 +61,7 @@ In einer links-assoziativen Baumstruktur (siehe Abbildung \ref{fig:links-assozia
 			\hline 
 		\end{tabular}
 	\end{center}
-	\caption{Befehle für links-assoziativen Baum}
+	\caption{Befehle für links-assoziativen Baum \cite{HeBIS-309344573}}
 	\label{tab:links-assoziativer-baum}
 \end{table}
 
